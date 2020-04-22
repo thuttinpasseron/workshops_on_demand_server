@@ -1,10 +1,27 @@
-var express = require("express"),
-  serverless = require("serverless-http"),
+var cors = require("cors"),
   router = express.Router(),
-  app = express(),
-  cors = require("cors"),
   dotenv = require("dotenv"),
   sgMail = require("@sendgrid/mail");
+
+import express from "express";
+import bodyParser from "body-parser";
+import compression from "compression";
+import morgan from "morgan";
+import models from "../models";
+import workshopRoutes from "../routes/workshops";
+import customerRoutes from "../routes/customers";
+
+const app = express();
+app.use(cors());
+app.use(compression());
+app.use(morgan("tiny"));
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+    limit: "20mb"
+  })
+);
+app.use(bodyParser.json({ limit: "20mb" }));
 
 dotenv.config();
 
@@ -26,7 +43,7 @@ router.get("/test", (req, res) => {
   });
 });
 
-router.post("/sendmail", (req, res, next) => {
+router.post("/api/sendmail", (req, res, next) => {
   var name = req.body.name;
   var email = req.body.email;
   var company = req.body.company;
@@ -51,8 +68,15 @@ router.post("/sendmail", (req, res, next) => {
   });
 });
 
-module.exports.handler = serverless(app);
+// Model routes
+app.use("/api", workshopRoutes);
 
-app.use(cors());
+app.use("/api", customerRoutes);
+
 app.use(express.json());
-app.use("/.netlify/functions/api", router);
+app.use("", router);
+app.listen(3002, () => {
+  console.log("Example app listening on port 3002!"); // eslint-disable-line no-console
+});
+
+module.exports = app;
