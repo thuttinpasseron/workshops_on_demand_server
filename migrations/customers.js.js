@@ -19,6 +19,7 @@ module.exports = {
         allowNull: false,
         defaultValue: false
       },
+      lastEmailSent: Sequelize.STRING,
       createdAt: Sequelize.DATE,
       updatedAt: Sequelize.DATE
     });

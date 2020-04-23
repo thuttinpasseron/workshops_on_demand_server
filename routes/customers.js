@@ -1,5 +1,7 @@
 import express from "express";
 import models from "../models";
+import sendEmail from "../modules/Email";
+import createEmailBody from "../modules/Email/createEmailBody";
 
 const router = express.Router();
 
@@ -13,25 +15,11 @@ router.get("/customers", (req, res) => {
 });
 
 // Create customer
-router.post("/customer/create", (req, res) => {
-  var name = req.body.name;
-  var email = req.body.email;
-  var company = req.body.company;
-  var notebookList = req.body.notebookList;
-  var startDate = req.body.startDate;
-  var endDate = req.body.endDate;
-
-  var content = ` Name: ${name}\n Email ID: ${email}\n Company: ${company}\n Notebook List: ${notebookList}\n Start Date: ${startDate}\n  End Date: ${endDate}`;
-
-  var mail = {
-    from: fromEmailAddress,
-    to: toEmailAddress, // Change to email address that you want to receive messages on
-    subject: `New notebooks booking request from ${name}`,
-    text: content
-  };
-  console.log("customer req", req.body);
-  models.customer
-    .create({
+router.post("/customer/create", async (req, res) => {
+  try {
+    console.log("customer req", req.body);
+    //var content = ` Name: ${req.body.name}\n Email ID: ${req.body.email}\n Company: ${req.body.company}\n Workshop List: ${req.body.workshopList}\n Start Date: ${req.body.startDate}\n End Date: ${req.body.endDate}\n`;
+    const dataValues = await models.customer.create({
       name: req.body.name,
       email: req.body.email,
       company: req.body.company,
@@ -40,13 +28,30 @@ router.post("/customer/create", (req, res) => {
       endDate: req.body.endDate,
       createdAt: new Date(),
       updatedAt: new Date()
-    })
-    .then(({ req }) => {
-      res.status(200).send({});
-    })
-    .catch(error => {
-      res.status(400).send({ error });
     });
+    await sendEmail({
+      recipient: dataValues.email,
+      subject: "Welcome to HPE Workshops On Demand",
+      content: createEmailBody({
+        heading: "Welcome to HPE Workshops On Demand!",
+        content: `
+      Hi ${dataValues.name},</br>
+      Your request for the following workshop(s) has been received. We will send you the access details soon in a seperate email</br>
+      Workshop List: ${dataValues.workshopList}</br>
+      Start Date: ${dataValues.startDate}</br>
+      End Date: ${dataValues.endDate}
+      </br></br>
+    `
+      })
+    });
+    await dataValues.update({
+      lastEmailSent: "welcome"
+    });
+    //await dataValues.save();
+    res.status(200).send({});
+  } catch (error) {
+    res.status(400).send({ error });
+  }
 });
 
 // Edit customer

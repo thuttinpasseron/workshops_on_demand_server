@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: false
       },
+      lastEmailSent: DataTypes.STRING,
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE
     },
