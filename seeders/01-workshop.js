@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert("Workshops", [
+    return queryInterface.bulkInsert("workshops", [
       {
         name: "RedFish API101",
         description:

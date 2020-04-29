@@ -7,9 +7,9 @@ import express from "express";
 import bodyParser from "body-parser";
 import compression from "compression";
 import morgan from "morgan";
-import models from "../models";
 import workshopRoutes from "../routes/workshops";
 import customerRoutes from "../routes/customers";
+import runCronJobs from "../modules/CheckCustomers";
 
 const app = express();
 app.use(cors());
@@ -77,6 +77,7 @@ app.use(express.json());
 app.use("", router);
 app.listen(3002, () => {
   console.log("Example app listening on port 3002!"); // eslint-disable-line no-console
+  runCronJobs();
 });
 
 module.exports = app;

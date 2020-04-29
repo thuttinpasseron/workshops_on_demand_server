@@ -1,7 +1,7 @@
 import express from "express";
 import models from "../models";
-import sendEmail from "../modules/Email";
-import createEmailBody from "../modules/Email/createEmailBody";
+const Sequelize = require("sequelize");
+const op = Sequelize.Op;
 
 const router = express.Router();
 
@@ -17,38 +17,50 @@ router.get("/customers", (req, res) => {
 // Create customer
 router.post("/customer/create", async (req, res) => {
   try {
-    console.log("customer req", req.body);
-    //var content = ` Name: ${req.body.name}\n Email ID: ${req.body.email}\n Company: ${req.body.company}\n Workshop List: ${req.body.workshopList}\n Start Date: ${req.body.startDate}\n End Date: ${req.body.endDate}\n`;
-    const dataValues = await models.customer.create({
-      name: req.body.name,
-      email: req.body.email,
-      company: req.body.company,
-      workshopList: req.body.workshopList.toString(),
-      startDate: req.body.startDate,
-      endDate: req.body.endDate,
-      createdAt: new Date(),
-      updatedAt: new Date()
+    const student = await models.student.findOne({
+      where: {
+        assigned: {
+          [op.eq]: false
+        }
+      }
     });
-    await sendEmail({
-      recipient: dataValues.email,
-      subject: "Welcome to HPE Workshops On Demand",
-      content: createEmailBody({
-        heading: "Welcome to HPE Workshops On Demand!",
-        content: `
-      Hi ${dataValues.name},</br>
-      Your request for the following workshop(s) has been received. We will send you the access details soon in a seperate email</br>
-      Workshop List: ${dataValues.workshopList}</br>
-      Start Date: ${dataValues.startDate}</br>
-      End Date: ${dataValues.endDate}
-      </br></br>
-    `
-      })
-    });
-    await dataValues.update({
-      lastEmailSent: "welcome"
-    });
-    //await dataValues.save();
-    res.status(200).send({});
+    if (student === null) {
+      console.log("Student Account Not Available!");
+      res.status(400).send({ error });
+    } else {
+      await student.update({
+        assigned: true
+      });
+      console.log(student.id);
+      console.log("customer req", req.body);
+      //var content = ` Name: ${req.body.name}\n Email ID: ${req.body.email}\n Company: ${req.body.company}\n Workshop List: ${req.body.workshopList}\n Start Date: ${req.body.startDate}\n End Date: ${req.body.endDate}\n`;
+      const dataValues = await models.customer.create({
+        ...req.body,
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+      await dataValues.update({
+        studentId: student.id
+      });
+      const workshops = await models.workshop.findAll({
+        //attributes: ['id'],
+        where: {
+          name: req.body.workshopList
+        }
+      });
+      // const workshopIds = [];
+      if (workshops.length > 0) {
+        // workshops.map(workshop => {
+        //   workshopIds.push(workshop.id);
+        // });
+        console.log("inside capacity decrement", workshops.length);
+        await models.workshop.decrement("capacity", {
+          where: { name: req.body.workshopList }
+        });
+        //await dataValues.save();
+        res.status(200).send({});
+      }
+    }
   } catch (error) {
     res.status(400).send({ error });
   }

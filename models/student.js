@@ -1,23 +1,21 @@
 "use strict";
 module.exports = (sequelize, DataTypes) => {
-  const Workshop = sequelize.define(
-    "workshop",
+  const Student = sequelize.define(
+    "student",
     {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
-      name: DataTypes.STRING,
-      description: DataTypes.TEXT,
-      capacity: DataTypes.INTEGER,
-      preRequisite: DataTypes.TEXT,
-      replayAvailable: {
+      url: DataTypes.STRING,
+      username: DataTypes.STRING,
+      password: DataTypes.STRING,
+      assigned: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false
       },
-      videoUrl: DataTypes.TEXT,
       active: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
@@ -28,8 +26,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  Workshop.associate = function(models) {
-    // associations can be defined here
-  };
-  return Workshop;
+
+  // Student.associate = models => {
+  //   Student.belongsTo(models.customer, {
+  //     foreignKey: {
+  //       field: "customerId",
+  //       allowNull: false
+  //     }
+  //   });
+  // };
+  return Student;
 };

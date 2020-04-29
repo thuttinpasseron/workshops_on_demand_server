@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       email: DataTypes.STRING,
       company: DataTypes.STRING,
-      workshopList: DataTypes.TEXT,
+      workshopList: DataTypes.ARRAY(DataTypes.STRING),
       startDate: DataTypes.DATE,
       endDate: DataTypes.DATE,
       active: {
@@ -26,6 +26,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
+  Customer.associate = models => {
+    Customer.belongsTo(models.student, {
+      foreignKey: {
+        field: "studentId"
+        //allowNull: false,
+        // defaultValue: 0
+      }
+    });
+  };
   return Customer;
 };
 /* eslint-enable */

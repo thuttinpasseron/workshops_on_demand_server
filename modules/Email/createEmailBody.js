@@ -1,4 +1,11 @@
-module.exports = ({ heading, content, buttonLabel, buttonUrl }) => `
+module.exports = ({
+  heading,
+  content,
+  buttonLabel,
+  buttonUrl,
+  userName,
+  password
+}) => `
 <html>
 
 <head>
@@ -26,6 +33,12 @@ module.exports = ({ heading, content, buttonLabel, buttonUrl }) => `
       ? `<a href="${buttonUrl}" style="display: inline-block; margin: 48px 0; padding: 18px 48px; background-color: #01A982; color: #FFFFFF; font-size: 20px; font-weight: 700; text-decoration: none;">
         ${buttonLabel}
       </a>`
+      : ""
+  }
+  ${
+    userName && password
+      ? `<p>User Name: ${userName}</p></br>
+      <p>Password: ${password}</p></br>`
       : ""
   }
   </div>
