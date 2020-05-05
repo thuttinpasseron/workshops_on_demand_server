@@ -4,7 +4,8 @@ module.exports = ({
   buttonLabel,
   buttonUrl,
   userName,
-  password
+  password,
+  videoUrl
 }) => `
 <html>
 
@@ -12,10 +13,10 @@ module.exports = ({
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 </head>
 
-<body style="color: #333333; background-color: #F6F6F6; background-image: url('https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fmelaniejones55%2Fde&psig=AOvVaw2Eg4lTQhslwD_4XHz1ngXX&ust=1587607728160000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOiE4vj5-ugCFQAAAAAdAAAAABAE'); font-family: Verdana, Arial, sans-serif; margin: 0;">
+<body style="color: #333333; background-color: #F6F6F6; background-image: url(''); font-family: Verdana, Arial, sans-serif; margin: 0;">
   <div style="max-width: 980px; margin: 0 auto; padding: 12px 24px;">
     <div style="padding: 12px 0;">
-      <img src="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.linkedin.com%2Fin%2Fmelaniejones55%2Fde&psig=AOvVaw2Eg4lTQhslwD_4XHz1ngXX&ust=1587607728160000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCOiE4vj5-ugCFQAAAAAdAAAAABAE" style="display: inline-block; vertical-align: top;">
+      <img src="https://us-central1-grommet-designer.cloudfunctions.net/images/lozzi-hpe-com/developer-logo.png" style="display: inline-block; vertical-align: top;">
       <span style="display: inline-block; margin: 12px; font-size: 20px; font-weight: 700;">
         HPE Workshops On Demand
       </span>
@@ -27,24 +28,55 @@ module.exports = ({
     </h1>
     <p style="font-size: 20px; max-width: 720px; margin: 0 auto;">
       ${content}
-    </p>
+    </p><br>
+
+    ${
+      userName && password
+        ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto;">
+    Use below credentials to start the workshop
+  </p><br>`
+        : ""
+    }
+
+    ${
+      userName
+        ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto;"> <b>User Name: ${userName}</b></p><br>`
+        : ""
+    }
+    ${
+      password
+        ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto;"> <b>Password: ${password}</b></p><br>`
+        : ""
+    }
   ${
     buttonUrl && buttonLabel
       ? `<a href="${buttonUrl}" style="display: inline-block; margin: 48px 0; padding: 18px 48px; background-color: #01A982; color: #FFFFFF; font-size: 20px; font-weight: 700; text-decoration: none;">
         ${buttonLabel}
+      </a>  <br>`
+      : ""
+  }
+
+  ${
+    videoUrl
+      ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto;">
+  Click <b> View workshop replay</b> to watch the workshop video
+</p><br>`
+      : ""
+  }
+
+  ${
+    videoUrl
+      ? `<a href="${videoUrl}" style="display: inline-block; margin: 48px 0; padding: 18px 48px; background-color: #01A982; color: #FFFFFF; font-size: 20px; font-weight: 700; text-decoration: none;">
+        View workshop replay
       </a>`
       : ""
   }
-  ${
-    userName && password
-      ? `<p>User Name: ${userName}</p></br>
-      <p>Password: ${password}</p></br>`
-      : ""
-  }
+  
+  
   </div>
   <div style="max-width: 980px; margin: 0 auto; padding: 12px 24px;">
     <div style="margin: 24px 0; font-size: 14px;">
-      <img src="https://s3-us-west-2.amazonaws.com/onesphere/OneSphereEmailWordmark.svg" style="display: inline-block;">
+      <img src="" style="display: inline-block;">
       <p>If you have any questions, contact us mailto:hpedev@hpe.com</p>
       <p>Copyright ${new Date().getFullYear()} Hewlett Packard Enterprise Development LP.</p>
     </div>
