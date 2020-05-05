@@ -2,6 +2,9 @@ import express from "express";
 import models from "../models";
 const Sequelize = require("sequelize");
 const op = Sequelize.Op;
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const router = express.Router();
 
@@ -17,6 +20,20 @@ router.get("/customers", (req, res) => {
 // Create customer
 router.post("/customer/create", async (req, res) => {
   try {
+    // end customer workshop trail in process.env.WORKSHOP_DURATION hours
+    const getDates = () => {
+      const startDate = new Date();
+      const endDate = new Date();
+      endDate.setHours(endDate.getHours() + process.env.WORKSHOP_DURATION);
+      return { startDate, endDate };
+    };
+
+    // fetch the customer requested workshop from workshops table
+    const workshop = await models.workshop.findOne({
+      where: { name: req.body.workshop }
+    });
+
+    // fetch the unassigned student account to assign to the requested customer
     const student = await models.student.findOne({
       where: {
         assigned: {
@@ -24,6 +41,7 @@ router.post("/customer/create", async (req, res) => {
         }
       }
     });
+    // return error if student account is not available else assign it to the customer
     if (student === null) {
       console.log("Student Account Not Available!");
       res.status(400).send({ error });
@@ -31,36 +49,25 @@ router.post("/customer/create", async (req, res) => {
       await student.update({
         assigned: true
       });
-      console.log(student.id);
       console.log("customer req", req.body);
-      //var content = ` Name: ${req.body.name}\n Email ID: ${req.body.email}\n Company: ${req.body.company}\n Workshop List: ${req.body.workshopList}\n Start Date: ${req.body.startDate}\n End Date: ${req.body.endDate}\n`;
       const dataValues = await models.customer.create({
         ...req.body,
+        hours: 4,
+        ...getDates(),
         createdAt: new Date(),
         updatedAt: new Date()
       });
-      await dataValues.update({
-        studentId: student.id
-      });
-      const workshops = await models.workshop.findAll({
-        //attributes: ['id'],
-        where: {
-          name: req.body.workshopList
-        }
-      });
-      // const workshopIds = [];
-      if (workshops.length > 0) {
-        // workshops.map(workshop => {
-        //   workshopIds.push(workshop.id);
-        // });
-        console.log("inside capacity decrement", workshops.length);
-        await models.workshop.decrement("capacity", {
-          where: { name: req.body.workshopList }
+      if (dataValues) {
+        await dataValues.update({
+          studentId: student.id
+          // workshopId: workshop.id
         });
+        await workshop.decrement("capacity");
         //await dataValues.save();
         res.status(200).send({});
       }
     }
+    // }
   } catch (error) {
     res.status(400).send({ error });
   }
