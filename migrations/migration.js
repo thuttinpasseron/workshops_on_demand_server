@@ -124,7 +124,9 @@ var migrationCommands = [
         name: Sequelize.STRING,
         email: Sequelize.STRING,
         company: Sequelize.STRING,
-        workshopList: Sequelize.ARRAY(Sequelize.STRING),
+        //workshopList: Sequelize.ARRAY(Sequelize.STRING),
+        workshop: Sequelize.STRING,
+        hours: Sequelize.INTEGER,
         startDate: {
           type: Sequelize.DATE,
           allowNull: false
@@ -150,6 +152,17 @@ var migrationCommands = [
           //   allowNull: false,
           //   defaultValue: 0
         },
+        // workshopId: {
+        //   type: Sequelize.INTEGER,
+        //   onUpdate: "NO ACTION",
+        //   onDelete: "NO ACTION",
+        //   references: {
+        //     model: "workshops",
+        //     key: "id"
+        //   }
+        //   //   allowNull: false,
+        //   //   defaultValue: 0
+        // },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE
       },
