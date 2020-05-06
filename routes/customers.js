@@ -44,7 +44,7 @@ router.post("/customer/create", async (req, res) => {
     // return error if student account is not available else assign it to the customer
     if (student === null) {
       console.log("Student Account Not Available!");
-      res.status(400).send({ error });
+      res.status(400).send("Registration full, try agian tomorrow");
     } else {
       await student.update({
         assigned: true
