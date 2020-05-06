@@ -17,6 +17,21 @@ router.get("/customers", (req, res) => {
     .then(entries => res.send(entries));
 });
 
+// Get customer by ID
+router.get("/customer/:id", (req, res) => {
+  models.customer
+    .findOne({
+      where: { id: req.params.id }
+    })
+    .then(entry => {
+      if (entry) res.status(200).send(entry);
+      else res.status(400).send("Customer Not Found");
+    })
+    .catch(error => {
+      res.status(400).send({ error });
+    });
+});
+
 // Create customer
 router.post("/customer/create", async (req, res) => {
   try {
@@ -74,12 +89,13 @@ router.post("/customer/create", async (req, res) => {
 });
 
 // Edit customer
-router.post("/customer/edit/:id", (req, res) => {
+router.put("/customer/edit/:id", (req, res) => {
   models.customer
     .findOne({
       where: { id: req.params.id }
     })
     .then(entry => {
+      console.log("req.body", req.body);
       entry
         .update({ ...req.body })
         .then(({ dataValues }) => res.status(200).send(dataValues));
@@ -90,7 +106,7 @@ router.post("/customer/edit/:id", (req, res) => {
 });
 
 // Delete customer
-router.post("/customer/delete/:id", (req, res) => {
+router.delete("/customer/delete/:id", (req, res) => {
   models.customer
     .findOne({
       where: { id: req.params.id }

@@ -9,6 +9,7 @@ import compression from "compression";
 import morgan from "morgan";
 import workshopRoutes from "../routes/workshops";
 import customerRoutes from "../routes/customers";
+import studentRoutes from "../routes/students";
 import runCronJobs from "../modules/CheckCustomers";
 
 const app = express();
@@ -70,7 +71,7 @@ router.post("/api/sendmail", (req, res, next) => {
 
 // Model routes
 app.use("/api", workshopRoutes);
-
+app.use("/api", studentRoutes);
 app.use("/api", customerRoutes);
 
 app.use(express.json());

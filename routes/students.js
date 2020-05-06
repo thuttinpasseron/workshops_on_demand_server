@@ -5,13 +5,30 @@ const router = express.Router();
 
 // Get students
 router.get("/students", (req, res) => {
-  models.Workshop.findAll({
-    raw: true
-  }).then(entries => res.send(entries));
+  models.student
+    .findAll({
+      raw: true
+    })
+    .then(entries => res.send(entries));
+});
+
+// Get student by ID
+router.get("/student/:id", (req, res) => {
+  models.student
+    .findOne({
+      where: { id: req.params.id }
+    })
+    .then(entry => {
+      if (entry) res.status(200).send(entry);
+      else res.status(400).send("Student Not Found");
+    })
+    .catch(error => {
+      res.status(400).send({ error });
+    });
 });
 
 // Edit student
-router.post("/student/edit/:id", (req, res) => {
+router.put("/student/edit/:id", (req, res) => {
   models.student
     .findOne({
       where: { id: req.params.id }
@@ -27,7 +44,7 @@ router.post("/student/edit/:id", (req, res) => {
 });
 
 // Delete student
-router.post("/student/delete/:id", (req, res) => {
+router.delete("/student/delete/:id", (req, res) => {
   models.student
     .findOne({
       where: { id: req.params.id }
