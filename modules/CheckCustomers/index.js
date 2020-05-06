@@ -75,7 +75,7 @@ const checkCustomer = () => {
               heading: "Welcome to HPE Workshops On Demand!",
               content: `
                 Hi ${dataValues.name},</br>
-                Your request for the <b>${dataValues.workshop}</b> workshop has been received. We will send you the access details soon in a seperate email.</br>
+                Your request for the <b>${dataValues.workshop}</b> workshop has been received. We will send you the access details shortly in a seperate email.</br>
                 
                 <b>NOTE:</b> Your wokshop access will be expired in ${dataValues.hours} hours after you receive your credentials.</br>
                
@@ -121,10 +121,10 @@ const checkCustomer = () => {
           console.log("send expired email");
           return sendEmail({
             recipient: dataValues.email,
-            subject: "Your HPE Workshops On Demand trial has ended",
+            subject: "Your HPE Workshops On Demand session has ended",
             content: createEmailBody({
               heading: "Thanks for trying HPE Workshops On Demand!",
-              content: `We hope you enjoyed <b>${dataValues.workshop}<b> Workshop On Demand trial.`,
+              content: `We hope you enjoyed <b>${dataValues.workshop}<b> Workshop.`,
               buttonLabel: "Click here to Provide the Feedback",
               buttonUrl:
                 "https://forms.office.com/Pages/ResponsePage.aspx?id=YSBbEGm2MUuSrCTTBNGV3KiKnXK8thhKg7iBfJh46UlUQzFEUUVGMVVQMEowMElUMVY3WkVUU0pWVi4u"

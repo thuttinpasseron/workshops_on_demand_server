@@ -56,18 +56,11 @@ module.exports = ({
       : ""
   }
 
-  ${
-    videoUrl
-      ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto;">
-  Click <b> View workshop replay</b> to watch the workshop video
-</p><br>`
-      : ""
-  }
 
   ${
     videoUrl
       ? `<a href="${videoUrl}" style="display: inline-block; margin: 48px 0; padding: 18px 48px; background-color: #01A982; color: #FFFFFF; font-size: 20px; font-weight: 700; text-decoration: none;">
-        View workshop replay
+        Play Workshop Video
       </a>`
       : ""
   }
