@@ -12,10 +12,9 @@ const router = express.Router();
 const getDates = () => {
   const startDate = new Date();
   const endDate = new Date();
-  // const h = process.env.WORKSHOP_DURATION;
-  // console.log("env hours:", h);
-  // console.log("end hours:", endDate.getHours());
-  endDate.setHours(endDate.getHours() + 4);
+  endDate.setHours(
+    parseFloat(endDate.getHours()) + parseFloat(process.env.WORKSHOP_DURATION)
+  );
   return { startDate, endDate };
 };
 

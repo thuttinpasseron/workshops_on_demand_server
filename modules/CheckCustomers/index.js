@@ -18,8 +18,9 @@ const getHoursLeft = ends => {
 const getDates = () => {
   const startDate = new Date();
   const endDate = new Date();
-  // const addHours = process.env.WORKSHOP_DURATION;
-  endDate.setHours(endDate.getHours() + 4);
+  endDate.setHours(
+    parseFloat(endDate.getHours()) + parseFloat(process.env.WORKSHOP_DURATION)
+  );
   return { startDate, endDate };
 };
 
