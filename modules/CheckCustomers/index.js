@@ -76,9 +76,7 @@ const checkCustomer = () => {
               content: `
                 Hi ${dataValues.name},</br>
                 Your request for the <b>${dataValues.workshop}</b> workshop has been received. We will send you the access details shortly in a seperate email.</br>
-                
                 <b>NOTE:</b> Your wokshop access will be expired in ${dataValues.hours} hours after you receive your credentials.</br>
-               
                 </br></br>
               `
             })
@@ -129,7 +127,7 @@ const checkCustomer = () => {
               buttonUrl:
                 "https://forms.office.com/Pages/ResponsePage.aspx?id=YSBbEGm2MUuSrCTTBNGV3KiKnXK8thhKg7iBfJh46UlUQzFEUUVGMVVQMEowMElUMVY3WkVUU0pWVi4u"
             })
-          }).then(() => {
+          }).then(async () => {
             customer.update({
               lastEmailSent: "expired",
               active: false
@@ -138,9 +136,14 @@ const checkCustomer = () => {
               assigned: false,
               password: generatePassword()
             });
+            // fetch the customer requested workshop from workshops table
+            const workshop = await models.workshop.findOne({
+              where: { name: dataValues.workshop }
+            });
+            await workshop.increment("capacity");
           });
         }
-        return undefined;
+        return;
       })
     );
 };
