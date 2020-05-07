@@ -8,6 +8,17 @@ dotenv.config();
 
 const router = express.Router();
 
+// end customer workshop trail in process.env.WORKSHOP_DURATION hours
+const getDates = () => {
+  const startDate = new Date();
+  const endDate = new Date();
+  // const h = process.env.WORKSHOP_DURATION;
+  // console.log("env hours:", h);
+  // console.log("end hours:", endDate.getHours());
+  endDate.setHours(endDate.getHours() + 4);
+  return { startDate, endDate };
+};
+
 // Get customers
 router.get("/customers", (req, res) => {
   models.customer
@@ -35,14 +46,21 @@ router.get("/customer/:id", (req, res) => {
 // Create customer
 router.post("/customer/create", async (req, res) => {
   try {
-    // end customer workshop trail in process.env.WORKSHOP_DURATION hours
-    const getDates = () => {
-      const startDate = new Date();
-      const endDate = new Date();
-      endDate.setHours(endDate.getHours() + process.env.WORKSHOP_DURATION);
-      return { startDate, endDate };
-    };
-
+    // check whether customer is already registered for another workshop
+    const count = await models.customer.count({
+      where: {
+        email: req.body.email
+      }
+    });
+    console.log("count", count);
+    if (count >= 2) {
+      res
+        .status(202)
+        .send(
+          "You can only register for two workshops at a time, please finish and try again!"
+        );
+      return;
+    }
     // fetch the customer requested workshop from workshops table
     const workshop = await models.workshop.findOne({
       where: { name: req.body.workshop }
@@ -59,11 +77,9 @@ router.post("/customer/create", async (req, res) => {
     // return error if student account is not available else assign it to the customer
     if (student === null) {
       console.log("Student Account Not Available!");
-      res.status(400).send("Registration full, try agian tomorrow");
+      res.status(202).send("Registration full, try agian tomorrow");
+      return;
     } else {
-      await student.update({
-        assigned: true
-      });
       console.log("customer req", req.body);
       const dataValues = await models.customer.create({
         ...req.body,
@@ -73,6 +89,9 @@ router.post("/customer/create", async (req, res) => {
         updatedAt: new Date()
       });
       if (dataValues) {
+        await student.update({
+          assigned: true
+        });
         await dataValues.update({
           studentId: student.id
           // workshopId: workshop.id
@@ -84,6 +103,7 @@ router.post("/customer/create", async (req, res) => {
     }
     // }
   } catch (error) {
+    console.log("error in catch!", error);
     res.status(400).send({ error });
   }
 });
