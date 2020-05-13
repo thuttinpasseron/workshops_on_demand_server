@@ -129,6 +129,9 @@ var migrationCommands = [
         company: Sequelize.STRING,
         //workshopList: Sequelize.ARRAY(Sequelize.STRING),
         workshop: Sequelize.STRING,
+        jupyterWorkshop: {
+          type: Sequelize.STRING
+        },
         hours: Sequelize.INTEGER,
         startDate: {
           type: Sequelize.DATE,

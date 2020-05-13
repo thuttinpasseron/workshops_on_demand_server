@@ -8,6 +8,8 @@ dotenv.config();
 
 const { CronJob } = cron;
 
+const jupyterEmail = process.env.JUPYTER_EMAIL;
+console.log("jupyterEmail", jupyterEmail);
 const getHoursLeft = ends => {
   const oneHour = 1 * 60 * 60 * 1000;
   const endsDate = new Date(ends);
@@ -78,12 +80,20 @@ const checkCustomer = () => {
                 Hi ${dataValues.name},</br>
                 Your request for the <b>${dataValues.workshop}</b> workshop has been received. We will send you the access details shortly in a seperate email.</br>
                 <b>NOTE:</b> Your wokshop access will be expired in ${dataValues.hours} hours after you receive your credentials.</br>
+                Please save your workshop work before your loose the access</br>
                 </br></br>
               `
             })
           }).then(() => {
-            customer.update({
-              lastEmailSent: "welcome"
+            var mailContent = `${dataValues.jupyterWorkshop}`;
+            sendEmail({
+              recipient: jupyterEmail,
+              subject: `CREATE ${dataValues.studentId} ${dataValues.id} ${dataValues.email}`,
+              content: mailContent
+            }).then(() => {
+              customer.update({
+                lastEmailSent: "welcome"
+              });
             });
           });
         }

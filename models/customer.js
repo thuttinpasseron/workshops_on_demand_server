@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       company: DataTypes.STRING,
       //workshopList: DataTypes.ARRAY(DataTypes.STRING),
       workshop: DataTypes.STRING,
+      jupyterWorkshop: DataTypes.STRING,
       hours: DataTypes.INTEGER,
       startDate: DataTypes.DATE,
       endDate: DataTypes.DATE,
