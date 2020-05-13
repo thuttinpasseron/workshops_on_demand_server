@@ -5,9 +5,10 @@ module.exports = {
     return queryInterface.bulkInsert("workshops", [
       {
         name: "RedFish API101",
+        jupyterName: "WKSHP-Redfish",
         description:
           "After a quick positioning of the DMTF Redfish API, we will explore a Redfish tree to understand its basic structure",
-        capacity: 20,
+        capacity: 0,
         preRequisite: "Python, API",
         replayAvailable: true,
         active: false,
@@ -18,6 +19,7 @@ module.exports = {
       },
       {
         name: "Nimble Storage REST API",
+        jupyterName: "WKSHP-Nimble",
         description:
           "In this workshop we’ll go through some of the basics of the Nimble OS primitives to manipulate resources via the REST API",
         capacity: 20,
@@ -31,6 +33,7 @@ module.exports = {
       },
       {
         name: "HPE Simplivity REST API",
+        jupyterName: "WKSHP-SimpliVity",
         description:
           "HPE SimpliVity is intelligently simple HCI that is suitable for geographically dispersed datacenter. You will learn how to use the fully supported HPE SimpliVity’ s REST API, to perform authentication, to manage your REST API sessions, to interpret and respond to the status of your REST call and many other fundamental knowledge of using HPE SimpliVity REST API",
         capacity: 20,
@@ -44,6 +47,7 @@ module.exports = {
       },
       {
         name: "HPE OneView API",
+        jupyterName: "WKSHP-OneView",
         description:
           "In this workshop learn about HPE OneView, HPE's composable infrastructure management platform designed to help accelerate your customer outcomes. During our interactive session, we'll explore the API using Postman. After that, we will use PowerShell (or Python) to write a script that automates HPE OneView. By the end of the workshop, you will have written a simple example of infrastructure as code",
         capacity: 20,
@@ -58,6 +62,7 @@ module.exports = {
 
       {
         name: "Discover Grommet an HPE Open Source project to develop apps",
+        jupyterName: "WKSHP-Grommet",
         description:
           "Grommet is a react-based framework that provides accessibility, modularity, responsiveness, and theming in a tidy package. This session will allow you to discover the basics and deploy your first app on Netifly",
         capacity: 20,

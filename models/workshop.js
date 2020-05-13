@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true
       },
       name: DataTypes.STRING,
+      jupyterName: DataTypes.STRING,
       description: DataTypes.TEXT,
       capacity: DataTypes.INTEGER,
       preRequisite: DataTypes.TEXT,

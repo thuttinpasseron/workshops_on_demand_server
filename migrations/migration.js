@@ -33,6 +33,9 @@ var migrationCommands = [
         name: {
           type: Sequelize.STRING
         },
+        jupyterName: {
+          type: Sequelize.STRING
+        },
         description: {
           type: Sequelize.TEXT
         },
