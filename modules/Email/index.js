@@ -4,7 +4,6 @@ const sg = require("sendgrid")(process.env.SENDGRID_API_KEY);
 
 const sendEmail = ({ recipient, subject, content }) =>
   new Promise((resolve, reject) => {
-    console.log("inside send email promise", recipient, subject, content);
     // add plain version for mobile device previews.
     const contentPlainText = content.replace(/<(?:.|\n)*?>/gm, "");
     const request = sg.emptyRequest({
