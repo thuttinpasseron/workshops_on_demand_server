@@ -56,7 +56,7 @@ router.post("/customer/create", async (req, res) => {
       res
         .status(202)
         .send(
-          "You can only register for two workshops at a time, please finish and try again!"
+          "You can only register for two workshops at a time, please finish the current workshop and try again!"
         );
       return;
     }
@@ -76,7 +76,7 @@ router.post("/customer/create", async (req, res) => {
     // return error if student account is not available else assign it to the customer
     if (student === null) {
       console.log("Student Account Not Available!");
-      res.status(202).send("Registration full, try agian tomorrow");
+      res.status(202).send("Registration full, try again tomorrow");
       return;
     } else {
       console.log("customer req", req.body);
