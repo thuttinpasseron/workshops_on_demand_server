@@ -12,8 +12,8 @@ module.exports = {
       "customers",
       [
         {
-          name: "pramod",
-          email,
+          name: "Patrick",
+          email: "patrick.francois@hpe.com",
           company: "HPE",
           // workshopList: ["RedFish API101", "HPE OneView API"],
           ...getDates(),
@@ -23,8 +23,8 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          name: "reddy",
-          email,
+          name: "Fred",
+          email: "frederic.passeron@hpe.com",
           company: "HPE",
           // workshopList: ["RedFish API101", "HPE OneView API"],
           ...getDates(),
@@ -34,8 +34,8 @@ module.exports = {
           updatedAt: new Date()
         },
         {
-          name: "sareddy",
-          email,
+          name: "pramod sareddy",
+          email: "pramod-reddy.sareddy@hpe.com",
           company: "HPE",
           // workshopList: [
           //   "Discover Grommet an HPE Open Source project to develop apps"
