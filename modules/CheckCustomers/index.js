@@ -127,8 +127,34 @@ const checkCustomer = () => {
           });
         }
 
+        // Send expiring soon email.
+        if (hoursLeft <= 1 && dataValues.lastEmailSent === "credentials") {
+          // fetch the customer requested workshop from workshops table
+          const workshop = await models.workshop.findOne({
+            where: { name: dataValues.workshop }
+          });
+          return sendEmail({
+            recipient: dataValues.email,
+            subject: "Your HPE Workshops On Demand session will end in an hour",
+            content: createEmailBody({
+              heading:
+                "Your HPE Workshops On Demand session will end in an hour",
+              content: `Your workshop session will end in an hour. Please save your work and download the workshop notebook if required in future. Your account will be erased after your session is ended`,
+              buttonLabel: "View Workshop",
+              buttonUrl: dataValues.student.url,
+              userName: dataValues.student.username,
+              password: dataValues.student.password,
+              videoUrl: `${workshop.replayAvailable}` ? workshop.videoUrl : ""
+            })
+          }).then(() => {
+            customer.update({
+              lastEmailSent: "expiring"
+            });
+          });
+        }
+
         // Send expired email.
-        if (hoursLeft <= 0 && dataValues.lastEmailSent === "credentials") {
+        if (hoursLeft <= 0 && dataValues.lastEmailSent === "expiring") {
           console.log("send expired email");
           return sendEmail({
             recipient: dataValues.email,
