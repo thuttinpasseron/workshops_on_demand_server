@@ -9,7 +9,7 @@ dotenv.config();
 const { CronJob } = cron;
 
 const jupyterEmail = process.env.JUPYTER_EMAIL;
-console.log("jupyterEmail", jupyterEmail);
+const feedback_url = process.env.FEEDBACK_URL;
 const getHoursLeft = ends => {
   const oneHour = 1 * 60 * 60 * 1000;
   const endsDate = new Date(ends);
@@ -84,18 +84,20 @@ const checkCustomer = () => {
                 </br></br>
               `
             })
-          }).then(() => {
-            var mailContent = `${dataValues.jupyterWorkshop}`;
-            sendEmail({
-              recipient: jupyterEmail,
-              subject: `CREATE ${dataValues.studentId} ${dataValues.id} ${dataValues.email}`,
-              content: mailContent
-            }).then(() => {
+          })
+            .then(() => {
               customer.update({
                 lastEmailSent: "welcome"
               });
+            })
+            .then(() => {
+              var mailContent = `${dataValues.jupyterWorkshop}`;
+              sendEmail({
+                recipient: jupyterEmail,
+                subject: `CREATE ${dataValues.studentId} ${dataValues.id} ${dataValues.email}`,
+                content: mailContent
+              });
             });
-          });
         }
 
         // Send workshop credentilas as soon as there are ready.
@@ -135,8 +137,7 @@ const checkCustomer = () => {
               heading: "Thanks for trying HPE Workshops On Demand!",
               content: `We hope you enjoyed <b>${dataValues.workshop}<b> Workshop.`,
               buttonLabel: "Click here to Provide the Feedback",
-              buttonUrl:
-                "https://forms.office.com/Pages/ResponsePage.aspx?id=YSBbEGm2MUuSrCTTBNGV3KiKnXK8thhKg7iBfJh46UlUQzFEUUVGMVVQMEowMElUMVY3WkVUU0pWVi4u"
+              buttonUrl: feedback_url
             })
           }).then(async () => {
             customer.update({
