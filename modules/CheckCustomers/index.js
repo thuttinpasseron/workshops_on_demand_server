@@ -28,19 +28,19 @@ const getDates = () => {
 
 /* Function to generate combination of password */
 
-const generatePassword = () => {
-  var pass = "";
-  var str =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "abcdefghijklmnopqrstuvwxyz0123456789@#$";
+// const generatePassword = () => {
+//   var pass = "";
+//   var str =
+//     "ABCDEFGHIJKLMNOPQRSTUVWXYZ" + "abcdefghijklmnopqrstuvwxyz0123456789@#$";
 
-  for (let i = 1; i <= 8; i++) {
-    var char = Math.floor(Math.random() * str.length + 1);
+//   for (let i = 1; i <= 8; i++) {
+//     var char = Math.floor(Math.random() * str.length + 1);
 
-    pass += str.charAt(char);
-  }
+//     pass += str.charAt(char);
+//   }
 
-  return pass;
-};
+//   return pass;
+// };
 
 export const monthNames = [
   "January",
@@ -166,14 +166,22 @@ const checkCustomer = () => {
               buttonUrl: feedback_url
             })
           }).then(async () => {
-            customer.update({
-              lastEmailSent: "expired",
-              active: false
-            });
-            customer.student.update({
-              assigned: false,
-              password: generatePassword()
-            });
+            customer
+              .update({
+                lastEmailSent: "expired",
+                active: false
+              })
+              .then(() => {
+                sendEmail({
+                  recipient: jupyterEmail,
+                  subject: `CLEANUP ${dataValues.studentId}`
+                });
+              });
+            // change password
+            // customer.student.update({
+            //   assigned: false,
+            //   password: generatePassword()
+            // });
             // fetch the customer requested workshop from workshops table
             const workshop = await models.workshop.findOne({
               where: { name: dataValues.workshop }
