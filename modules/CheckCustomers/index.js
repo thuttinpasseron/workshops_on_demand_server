@@ -169,7 +169,10 @@ const checkCustomer = () => {
             customer
               .update({
                 lastEmailSent: "expired",
-                active: false
+                active: false,
+                email: "",
+                name: "",
+                company: ""
               })
               .then(() => {
                 sendEmail({
