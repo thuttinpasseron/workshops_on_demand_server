@@ -18,6 +18,28 @@ const getDates = () => {
   return { startDate, endDate };
 };
 
+/**
+ * @swagger
+ * tags:
+ *   name: Customers
+ *   description: Customer management
+ */
+
+/**
+ * @swagger
+ * path:
+ *  /customers:
+ *    get:
+ *      summary: Returns a list of  customers.
+ *      tags: [Customers]
+ *      responses:
+ *        "200":
+ *          description: A JSON array of customer objects
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Customer'
+ */
 // Get customers
 router.get("/customers", (req, res) => {
   models.customer
@@ -27,6 +49,28 @@ router.get("/customers", (req, res) => {
     .then(entries => res.send(entries));
 });
 
+/**
+ * @swagger
+ * path:
+ *  /customer/{customerId}:
+ *    get:
+ *      summary: Get a customer by ID.
+ *      tags: [Customers]
+ *      parameters:
+ *        - in: path
+ *          name: customerId
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: Id of the  customer
+ *      responses:
+ *        "200":
+ *          description: An customer object
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Customer'
+ */
 // Get customer by ID
 router.get("/customer/:id", (req, res) => {
   models.customer
@@ -42,6 +86,28 @@ router.get("/customer/:id", (req, res) => {
     });
 });
 
+// Create a Customer
+/**
+ * @swagger
+ * path:
+ *  /customer:
+ *    post:
+ *      summary: Create a new customer
+ *      tags: [Customers]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Customer'
+ *      responses:
+ *        "200":
+ *          description: A customer schema
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Customer'
+ */
 // Create customer
 router.post("/customer/create", async (req, res) => {
   try {
@@ -107,6 +173,28 @@ router.post("/customer/create", async (req, res) => {
   }
 });
 
+/**
+ * @swagger
+ * path:
+ *  /customer/edit/{customerId}:
+ *    put:
+ *      summary: Update a customer by ID.
+ *      tags: [Customers]
+ *      parameters:
+ *        - in: path
+ *          name: customerId
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: Id of the customer
+ *      responses:
+ *        "200":
+ *          description: A Customer object
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Customer'
+ */
 // Edit customer
 router.put("/customer/edit/:id", (req, res) => {
   models.customer
@@ -124,6 +212,28 @@ router.put("/customer/edit/:id", (req, res) => {
     });
 });
 
+/**
+ * @swagger
+ * path:
+ *  /customer/delete/{customerId}:
+ *    delete:
+ *      summary: Delete a  customer by ID.
+ *      tags: [Customers]
+ *      parameters:
+ *        - in: path
+ *          name: customerId
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: Id of the customer
+ *      responses:
+ *        "200":
+ *          description: A Customer object
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Customer'
+ */
 // Delete customer
 router.delete("/customer/delete/:id", (req, res) => {
   models.customer

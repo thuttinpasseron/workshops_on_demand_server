@@ -1,7 +1,6 @@
 var cors = require("cors"),
   router = express.Router(),
-  dotenv = require("dotenv"),
-  sgMail = require("@sendgrid/mail");
+  dotenv = require("dotenv");
 
 import express from "express";
 import bodyParser from "body-parser";
@@ -11,6 +10,13 @@ import workshopRoutes from "../routes/workshops";
 import customerRoutes from "../routes/customers";
 import studentRoutes from "../routes/students";
 import runCronJobs from "../modules/CheckCustomers";
+
+dotenv.config();
+
+const fromEmailAddress = process.env.FROM_EMAIL_ADDRESS;
+
+const swaggerJsdoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
 const app = express();
 app.use(cors());
@@ -24,13 +30,45 @@ app.use(
 );
 app.use(bodyParser.json({ limit: "20mb" }));
 
-dotenv.config();
+// Swagger set up
+const options = {
+  swaggerDefinition: {
+    openapi: "3.0.0",
+    info: {
+      title: "HPE Workshops On Demand API",
+      version: "1.0.0",
+      description: "HPE Workshops On Demand API documentation",
+      license: {
+        name: "MIT",
+        url: "https://choosealicense.com/licenses/mit/"
+      },
+      contact: {
+        name: "HPEDEV",
+        url: "https://hpedev.io",
+        email: fromEmailAddress
+      }
+    },
+    servers: [
+      {
+        url: "http://localhost:3002/api"
+      }
+    ]
+  },
+  apis: ["./models/*.js", "./routes/*.js"]
+};
+const swaggerSpec = swaggerJsdoc(options);
+router.use("/api/docs", swaggerUi.serve);
+router.get(
+  "/api/docs",
+  swaggerUi.setup(swaggerSpec, {
+    explorer: true
+  })
+);
 
-const fromEmailAddress = process.env.FROM_EMAIL_ADDRESS;
-const toEmailAddress = process.env.TO_EMAIL_ADDRESS;
-const sendGridAPIKey = process.env.SENDGRID_API_KEY;
-
-sgMail.setApiKey(sendGridAPIKey);
+app.get("/swagger.json", function(req, res) {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerSpec);
+});
 
 router.get("/", (req, res) => {
   res.json({
@@ -44,31 +82,6 @@ router.get("/test", (req, res) => {
   });
 });
 
-router.post("/api/sendmail", (req, res, next) => {
-  var name = req.body.name;
-  var email = req.body.email;
-  var company = req.body.company;
-  var notebookList = req.body.notebookList;
-  var bookingPeriod = req.body.bookingPeriod;
-
-  var content = ` Name: ${name}\n Email ID: ${email}\n Company: ${company}\n Notebook List: ${notebookList}\n Booking Period: ${bookingPeriod}\n `;
-
-  var mail = {
-    from: fromEmailAddress,
-    to: toEmailAddress, // Change to email address that you want to receive messages on
-    subject: `New notebooks booking request from ${name}`,
-    text: content
-  };
-
-  sgMail.send(mail, (err, data) => {
-    if (err) {
-      res.send("fail");
-    } else {
-      res.send("success");
-    }
-  });
-});
-
 // Model routes
 app.use("/api", workshopRoutes);
 app.use("/api", studentRoutes);
@@ -77,7 +90,7 @@ app.use("/api", customerRoutes);
 app.use(express.json());
 app.use("", router);
 app.listen(3002, () => {
-  console.log("Example app listening on port 3002!"); // eslint-disable-line no-console
+  console.log("HPE Workshops On Demand API listening on port 3002!"); // eslint-disable-line no-console
   runCronJobs();
 });
 

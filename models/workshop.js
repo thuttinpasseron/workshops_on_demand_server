@@ -1,4 +1,44 @@
 "use strict";
+/**
+ * @swagger
+ *  components:
+ *    schemas:
+ *      Workshop:
+ *        type: object
+ *        required:
+ *          - name
+ *          - jupyterName
+ *          - capacity
+ *        properties:
+ *          id:
+ *            type: integer
+ *          name:
+ *            type: string
+ *          jupyterName:
+ *            type: string
+ *          description:
+ *            type: string
+ *          capacity:
+ *            type: integer
+ *          preRequisite:
+ *            type: string
+ *          replayAvailable:
+ *            type: boolean
+ *          videoUrl:
+ *            type: string
+ *          active:
+ *            type: boolean
+ *          createdAt:
+ *            type: string
+ *            format: date-time
+ *          updatedAt:
+ *            type: string
+ *            format: date-time
+ *        example:
+ *           name: Grommet
+ *           capacity: 20
+ *           jupyterName: WKSHP-Grommet
+ */
 module.exports = (sequelize, DataTypes) => {
   const Workshop = sequelize.define(
     "workshop",

@@ -3,6 +3,59 @@ import models from "../models";
 
 const router = express.Router();
 
+/**
+ * @swagger
+ * tags:
+ *   name: Students
+ *   description: Jupyterhub Student management
+ */
+
+// Create a Student
+/**
+ * @swagger
+ * path:
+ *  /student:
+ *    post:
+ *      summary: Create a new student
+ *      tags: [Students]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Student'
+ *      responses:
+ *        "200":
+ *          description: A student schema
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Student'
+ */
+router.post("/student", (req, res) => {
+  models.student
+    .create({ ...req.body, createdAt: new Date(), updatedAt: new Date() })
+    .then(({ dataValues }) => res.status(200).send(dataValues))
+    .catch(error => {
+      res.status(400).send({ error });
+    });
+});
+
+/**
+ * @swagger
+ * path:
+ *  /students:
+ *    get:
+ *      summary: Returns a list of jupyterhub students.
+ *      tags: [Students]
+ *      responses:
+ *        "200":
+ *          description: A JSON array of student objects
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Student'
+ */
 // Get students
 router.get("/students", (req, res) => {
   models.student
@@ -12,6 +65,28 @@ router.get("/students", (req, res) => {
     .then(entries => res.send(entries));
 });
 
+/**
+ * @swagger
+ * path:
+ *  /student/{studentId}:
+ *    get:
+ *      summary: Get a student by ID.
+ *      tags: [Students]
+ *      parameters:
+ *        - in: path
+ *          name: studentId
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: Id of the jupyterhub student
+ *      responses:
+ *        "200":
+ *          description: An student object
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Student'
+ */
 // Get student by ID
 router.get("/student/:id", (req, res) => {
   models.student
@@ -27,6 +102,28 @@ router.get("/student/:id", (req, res) => {
     });
 });
 
+/**
+ * @swagger
+ * path:
+ *  /student/edit/{studentId}:
+ *    put:
+ *      summary: Update a student by ID.
+ *      tags: [Students]
+ *      parameters:
+ *        - in: path
+ *          name: studentId
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: Id of the student
+ *      responses:
+ *        "200":
+ *          description: A Student object
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Student'
+ */
 // Edit student
 router.put("/student/edit/:id", (req, res) => {
   models.student
@@ -42,6 +139,29 @@ router.put("/student/edit/:id", (req, res) => {
       res.status(400).send({ error });
     });
 });
+
+/**
+ * @swagger
+ * path:
+ *  /student/delete/{studentId}:
+ *    delete:
+ *      summary: Delete a jupyterhub student by ID.
+ *      tags: [Students]
+ *      parameters:
+ *        - in: path
+ *          name: studentId
+ *          schema:
+ *            type: integer
+ *          required: true
+ *          description: Id of the student
+ *      responses:
+ *        "200":
+ *          description: A Student object
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Student'
+ */
 
 // Delete student
 router.delete("/student/delete/:id", (req, res) => {
