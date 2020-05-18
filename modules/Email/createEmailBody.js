@@ -1,3 +1,6 @@
+require("dotenv").config();
+
+const fromEmailAddress = process.env.FROM_EMAIL_ADDRESS;
 module.exports = ({
   heading,
   content,
@@ -70,7 +73,7 @@ module.exports = ({
   <div style="max-width: 980px; margin: 0 auto; padding: 12px 24px;">
     <div style="margin: 24px 0; font-size: 14px;">
       <img src="" style="display: inline-block;">
-      <p>If you have any questions, contact us mailto:hpedev@hpe.com</p>
+      <p>If you have any questions, contact us mailto:${fromEmailAddress}</p>
       <p>Copyright ${new Date().getFullYear()} Hewlett Packard Enterprise Development LP.</p>
     </div>
   </div>
