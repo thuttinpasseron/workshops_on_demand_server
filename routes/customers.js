@@ -44,7 +44,8 @@ const getDates = () => {
 router.get("/customers", (req, res) => {
   models.customer
     .findAll({
-      raw: true
+      raw: true,
+      order: [["id", "ASC"]]
     })
     .then(entries => res.send(entries));
 });
@@ -180,6 +181,12 @@ router.post("/customer/create", async (req, res) => {
  *    put:
  *      summary: Update a customer by ID.
  *      tags: [Customers]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Customer'
  *      parameters:
  *        - in: path
  *          name: customerId

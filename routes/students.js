@@ -60,7 +60,8 @@ router.post("/student", (req, res) => {
 router.get("/students", (req, res) => {
   models.student
     .findAll({
-      raw: true
+      raw: true,
+      order: [["id", "ASC"]]
     })
     .then(entries => res.send(entries));
 });
@@ -109,6 +110,12 @@ router.get("/student/:id", (req, res) => {
  *    put:
  *      summary: Update a student by ID.
  *      tags: [Students]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Student'
  *      parameters:
  *        - in: path
  *          name: studentId

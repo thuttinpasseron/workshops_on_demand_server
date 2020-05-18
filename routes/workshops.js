@@ -60,7 +60,8 @@ router.post("/workshop", (req, res) => {
 router.get("/workshops", (req, res) => {
   models.workshop
     .findAll({
-      raw: true
+      raw: true,
+      order: [["name", "ASC"]]
     })
     .then(entries => res.send(entries));
 });
@@ -109,6 +110,12 @@ router.get("/workshop/:id", (req, res) => {
  *    put:
  *      summary: Update a workshop by ID.
  *      tags: [Workshops]
+ *      requestBody:
+ *        required: true
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Workshop'
  *      parameters:
  *        - in: path
  *          name: workshopId

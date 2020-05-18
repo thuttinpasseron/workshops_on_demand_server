@@ -32,8 +32,9 @@
  *            type: string
  *            format: date-time
  *        example:
- *           name: somestudent
- *           email: fake@email.com
+ *           url: someurl
+ *           username: someusername
+ *           password: somepassword
  */
 module.exports = (sequelize, DataTypes) => {
   const Student = sequelize.define(
