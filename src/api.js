@@ -14,6 +14,7 @@ import runCronJobs from "../modules/CheckCustomers";
 dotenv.config();
 
 const fromEmailAddress = process.env.FROM_EMAIL_ADDRESS;
+const prodApiUrl = process.env.PRODUCTION_API_SERVER;
 
 const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
@@ -50,7 +51,12 @@ const options = {
     },
     servers: [
       {
-        url: "http://localhost:3002/api"
+        url: "http://localhost:3002/api",
+        description: "Local (development) server"
+      },
+      {
+        url: prodApiUrl,
+        description: "Main (production) server"
       }
     ]
   },
