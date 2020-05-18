@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 const sg = require("sendgrid")(process.env.SENDGRID_API_KEY);
+const fromEmailAddress = process.env.FROM_EMAIL_ADDRESS;
 
 const sendEmail = ({ recipient, subject, content }) =>
   new Promise((resolve, reject) => {
@@ -23,7 +24,7 @@ const sendEmail = ({ recipient, subject, content }) =>
         ],
         from: {
           name: "HPE Workshops On Demand",
-          email: "pramod-reddy.sareddy@hpe.com"
+          email: fromEmailAddress
         },
         content: [
           {
