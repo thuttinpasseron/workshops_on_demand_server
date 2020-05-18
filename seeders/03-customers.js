@@ -1,4 +1,3 @@
-const email = process.env.EMAIL_ADDRESS;
 const getDates = () => {
   const startDate = new Date();
   const endDate = new Date();
