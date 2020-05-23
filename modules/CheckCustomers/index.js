@@ -97,6 +97,9 @@ const checkCustomer = () => {
                 subject: `CREATE ${dataValues.studentId} ${dataValues.id} ${dataValues.email}`,
                 content: mailContent
               });
+            })
+            .catch(() => {
+              console.log("Promise Rejected");
             });
         }
 
@@ -119,12 +122,16 @@ const checkCustomer = () => {
               password: dataValues.student.password,
               videoUrl: `${workshop.replayAvailable}` ? workshop.videoUrl : ""
             })
-          }).then(() => {
-            customer.update({
-              lastEmailSent: "credentials",
-              ...getDates()
+          })
+            .then(() => {
+              customer.update({
+                lastEmailSent: "credentials",
+                ...getDates()
+              });
+            })
+            .catch(() => {
+              console.log("Promise Rejected");
             });
-          });
         }
 
         // Send expiring soon email.
@@ -146,11 +153,15 @@ const checkCustomer = () => {
               password: dataValues.student.password,
               videoUrl: `${workshop.replayAvailable}` ? workshop.videoUrl : ""
             })
-          }).then(() => {
-            customer.update({
-              lastEmailSent: "expiring"
+          })
+            .then(() => {
+              customer.update({
+                lastEmailSent: "expiring"
+              });
+            })
+            .catch(() => {
+              console.log("Promise Rejected");
             });
-          });
         }
 
         // Send expired email.
@@ -179,6 +190,9 @@ const checkCustomer = () => {
                   recipient: jupyterEmail,
                   subject: `CLEANUP ${dataValues.studentId}`
                 });
+              })
+              .catch(() => {
+                console.log("Promise Rejected");
               });
             // change password
             // customer.student.update({
