@@ -70,4 +70,5 @@ You need to have node.js and a package manager; both npm (npm is installed with 
     $ cd server
     $ npm run reset-data
     ```
-  
+    
+  ## Test
