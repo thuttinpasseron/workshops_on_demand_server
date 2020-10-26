@@ -18,7 +18,7 @@ module.exports = {
         active: true,
         replayLink: "replays/0",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         name: "Redfish API use with PowerShell, Python, & Bash/cURL",
@@ -35,7 +35,7 @@ module.exports = {
         active: true,
         replayLink: "replays/10",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         name: "Introduction to the HPE OneView REST API",
@@ -52,7 +52,7 @@ module.exports = {
         active: true,
         replayLink: "replays/8",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         name: "Using the Container Storage Interface in Kubernetes",
@@ -69,7 +69,7 @@ module.exports = {
         active: true,
         replayLink: "replays/2",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         name: "Simple automation script with HPE SimpliVity REST API",
@@ -86,7 +86,7 @@ module.exports = {
         active: false,
         replayLink: "replays/13",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         name: "API 101 - API basics and the value they provide",
@@ -103,7 +103,7 @@ module.exports = {
         active: true,
         replayLink: "replays/9",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         name: "GIT 101 – Get involved in the open source community",
@@ -120,7 +120,7 @@ module.exports = {
         active: true,
         replayLink: "replays/13",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         name: "Streamline app development with open source Grommet",
@@ -137,7 +137,7 @@ module.exports = {
         active: true,
         replayLink: "replays/14",
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       },
       {
         name:
@@ -155,11 +155,28 @@ module.exports = {
         active: true,
         replayLink: "replays/13",
         createdAt: new Date(),
-        updatedAt: new Date()
-      }
+        updatedAt: new Date(),
+      },
+      {
+        name: "Deploy a front-end app on a Kubernetes cluster",
+        notebook: "CHLG-HPECP-API",
+        description:
+          "Take our challenge and compete for prizes! In this coding challenge, you will be tasked with deploying a front-end application of your choice on a CNCF certified Kubernetes cluster using API calls. This simple challenge takes what you learned in the Workshops-on-Demand: Introduction to the HPE Ezmeral Container Platform - REST API workshop and puts it to the test. Simply click on the “Challenge me” button to start.",
+        capacity: 20,
+        range: [1, 20],
+        reset: true,
+        ldap: true,
+        sessionType: "Coding Challenge",
+        location: "mougins",
+        preRequisite: "",
+        active: true,
+        replayLink: "replays/0",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
     ]);
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.bulkDelete("Workshops", null, {});
-  }
+  },
 };
