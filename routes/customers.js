@@ -7,6 +7,7 @@ import dotenv from "dotenv";
 dotenv.config();
 const session_type_workshops_on_demand =
   process.env.SESSION_TYPE_WORKSHOPS_ON_DEMAND;
+const session_type_coding_challenge = process.env.SESSION_TYPE_CODING_CHALLENGE;
 
 const router = express.Router();
 
@@ -47,9 +48,9 @@ router.get("/customers", (req, res) => {
   models.customer
     .findAll({
       raw: true,
-      order: [["id", "ASC"]]
+      order: [["id", "ASC"]],
     })
-    .then(entries => res.send(entries));
+    .then((entries) => res.send(entries));
 });
 
 /**
@@ -78,13 +79,13 @@ router.get("/customers", (req, res) => {
 router.get("/customers/:id", (req, res) => {
   models.customer
     .findOne({
-      where: { id: req.params.id }
+      where: { id: req.params.id },
     })
-    .then(entry => {
+    .then((entry) => {
       if (entry) res.status(200).send(entry);
       else res.status(400).send("Customer Not Found");
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(400).send({ error });
     });
 });
@@ -122,47 +123,50 @@ router.post("/customer", async (req, res) => {
         [op.or]: {
           active: true,
           lastEmailSent: {
-            [op.in]: ["welcome", "credentials", "expiring"]
-          }
-        }
-      }
+            [op.in]: ["welcome", "credentials", "expiring"],
+          },
+        },
+      },
     });
     if (exisitingCustomer.length > 0) {
       return res
         .status(202)
         .send(
-          `You can only register for one of the ${req.body.sessionType} at a time. Please finish the current workshop and try again.`
+          `You can only register for one of the ${req.body.sessionType} at a time. Please finish the current one and try again.`
         );
     }
     // fetch the customer requested workshop/challenge from workshops table
-    let workshop, challenge;
+    let workshop;
     let studentRange = [0, 0];
     let studentCount = process.env.NO_OF_STUDENT_ACCOUNTS;
     if (
       req.body.sessionType &&
-      req.body.sessionType === session_type_workshops_on_demand
+      (req.body.sessionType === session_type_workshops_on_demand ||
+        req.body.sessionType === session_type_coding_challenge)
     ) {
       workshop = await models.workshop.findOne({
-        where: { name: req.body.title }
+        where: { name: req.body.title },
       });
       studentRange = workshop.range;
       if (req.body.location && req.body.location === "grenoble") {
         studentRange[0] = studentRange[0] + parseInt(studentCount);
         studentRange[1] = studentRange[1] + parseInt(studentCount);
       }
-    } else if (
-      req.body.sessionType &&
-      req.body.sessionType === "Coding Challenge"
-    ) {
-      challenge = await models.challenge.findOne({
-        where: { name: req.body.title }
-      });
-      studentRange = challenge.range;
-      if (req.body.location && req.body.location === "grenoble") {
-        studentRange[0] = studentRange[0] + parseInt(studentCount);
-        studentRange[1] = studentRange[1] + parseInt(studentCount);
-      }
     }
+    // commented as challenges are added in workshops table
+    // else if (
+    //   req.body.sessionType &&
+    //   req.body.sessionType === session_type_coding_challenge
+    // ) {
+    //   challenge = await models.challenge.findOne({
+    //     where: { name: req.body.title },
+    //   });
+    //   studentRange = challenge.range;
+    //   if (req.body.location && req.body.location === "grenoble") {
+    //     studentRange[0] = studentRange[0] + parseInt(studentCount);
+    //     studentRange[1] = studentRange[1] + parseInt(studentCount);
+    //   }
+    // }
 
     console.log("student range", studentRange);
 
@@ -170,15 +174,15 @@ router.post("/customer", async (req, res) => {
     const student = await models.student.findOne({
       where: {
         assigned: {
-          [op.eq]: false
+          [op.eq]: false,
         },
         id: {
-          [op.between]: studentRange
+          [op.between]: studentRange,
         },
         location: {
-          [op.eq]: req.body.location
-        }
-      }
+          [op.eq]: req.body.location,
+        },
+      },
     });
     // return error if student account is not available else assign it to the customer
     if (student === null) {
@@ -190,7 +194,7 @@ router.post("/customer", async (req, res) => {
       name = name
         .toLowerCase()
         .split(" ")
-        .map(s => s.charAt(0).toUpperCase() + s.substring(1))
+        .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
         .join(" ");
       const dataValues = await models.customer.create({
         ...req.body,
@@ -199,27 +203,29 @@ router.post("/customer", async (req, res) => {
         hours: 4,
         ...getDates(),
         createdAt: new Date(),
-        updatedAt: new Date()
+        updatedAt: new Date(),
       });
       if (dataValues) {
         await student.update({
-          assigned: true
+          assigned: true,
         });
         await dataValues.update({
-          studentId: student.id
-          // workshopId: workshop.id
+          studentId: student.id,
         });
         if (
           req.body.sessionType &&
-          req.body.sessionType === session_type_workshops_on_demand
+          (req.body.sessionType === session_type_workshops_on_demand ||
+            req.body.sessionType === session_type_coding_challenge)
         ) {
           await workshop.decrement("capacity");
-        } else if (
-          req.body.sessionType &&
-          req.body.sessionType === "Coding Challenge"
-        ) {
-          await challenge.decrement("capacity");
         }
+        // commented as challenges are added in workshops table
+        // else if (
+        //   req.body.sessionType &&
+        //   req.body.sessionType === session_type_coding_challenge
+        // ) {
+        //   await challenge.decrement("capacity");
+        // }
         //await dataValues.save();
         res.status(200).send({});
       }
@@ -263,15 +269,15 @@ router.post("/customer", async (req, res) => {
 router.put("/customer/:id", (req, res) => {
   models.customer
     .findOne({
-      where: { id: req.params.id }
+      where: { id: req.params.id },
     })
-    .then(entry => {
+    .then((entry) => {
       console.log("req.body", req.body);
       entry
         .update({ ...req.body })
         .then(({ dataValues }) => res.status(200).send(dataValues));
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(400).send({ error });
     });
 });
@@ -302,12 +308,12 @@ router.put("/customer/:id", (req, res) => {
 router.delete("/customer/:id", (req, res) => {
   models.customer
     .findOne({
-      where: { id: req.params.id }
+      where: { id: req.params.id },
     })
-    .then(entry => {
+    .then((entry) => {
       entry.destroy().then(() => res.status(200).send({}));
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(400).send({ error });
     });
 });
