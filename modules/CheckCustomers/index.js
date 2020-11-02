@@ -114,7 +114,7 @@ const checkCustomer = () => {
                 content = `Hello, ${dataValues.name}! <br> <br>
                 In a moment, you will receive a second email providing you with the details required to access the Hack Shack <b>${dataValues.sessionName}</b> challenge.<br/><br/>
                 To ensure a successful experience with this challenge, please take a moment to review this <a href="https://hackshack.hpedev.io/${workshop.replayLink}">video replay</a> of the live workshop and 
-                read the detailed instructions found in this <a href="https://developer.hpe.com/blog/boost-skills-with-free-on-demand-software-technology-workshops">blog post</a>. We also advise that you 
+                read the detailed instructions found in this <a href="https://developer.hpe.com/blog/hpe-dev-hack-shack-coding-challenges-are-you-ready-to-compete">blog post</a>. We also advise that you 
                 <a href="https://slack.hpedev.io/">join us on Slack</a> to take advantage of the dedicated <a href="${process.env.SLACK_CHANNEL_CHALLENGES}">#hpe-hackshack-challenges</a> 
                 channel being provided so you can reach out to our subject matter experts (SMEs) and obtain support.<br/><br/>
                 <b>NOTE:</b> Your challenge access will expire in ${dataValues.hours} hours.
@@ -178,7 +178,7 @@ const checkCustomer = () => {
            Use below credentials to start the challenge:<br/><br/>
            <b>User Name: ${dataValues.student.username}</b><br/>
            <b>Password: ${dataValues.student.password}</b><br/>`;
-            registerMore = `Remember, to ensure a successful experience with this challenge, please take a moment to review this <a href="https://hackshack.hpedev.io/${workshop.replayLink}">video replay</a> of the live workshop. You may also find this <a href="https://developer.hpe.com/blog/boost-skills-with-free-on-demand-software-technology-workshops">blog post</a> detailing instructions on how to interact with this challenge helpful. We also advise that you 
+            registerMore = `Remember, to ensure a successful experience with this challenge, please take a moment to review this <a href="https://hackshack.hpedev.io/${workshop.replayLink}">video replay</a> of the live workshop. You may also find this <a href="https://developer.hpe.com/blog/hpe-dev-hack-shack-coding-challenges-are-you-ready-to-compete">blog post</a> detailing instructions on how to interact with this challenge helpful. We also advise that you 
            <a href="https://slack.hpedev.io/">join us on Slack</a> to take advantage of the dedicated <a href="${process.env.SLACK_CHANNEL_CHALLENGES}">#hpe-hackshack-challenges</a> 
            channel being provided so you can reach out to our subject matter experts (SMEs) and obtain support.<br/><br/>`;
             buttonLabel = "Start Challenge";

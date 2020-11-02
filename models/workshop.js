@@ -22,6 +22,8 @@
  *            type: string
  *          capacity:
  *            type: integer
+ *          priority:
+ *            type: integer
  *          range:
  *            type: array
  *          reset:
@@ -63,22 +65,23 @@ module.exports = (sequelize, DataTypes) => {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       name: DataTypes.STRING,
       notebook: DataTypes.STRING,
       description: DataTypes.TEXT,
       capacity: DataTypes.INTEGER,
+      priority: DataTypes.INTEGER,
       range: DataTypes.ARRAY(DataTypes.INTEGER),
       reset: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
       },
       ldap: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
       },
       sessionId: DataTypes.INTEGER,
       sessionType: DataTypes.STRING,
@@ -90,14 +93,14 @@ module.exports = (sequelize, DataTypes) => {
       active: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        defaultValue: false
+        defaultValue: false,
       },
       createdAt: DataTypes.DATE,
-      updatedAt: DataTypes.DATE
+      updatedAt: DataTypes.DATE,
     },
     {}
   );
-  Workshop.associate = function(models) {
+  Workshop.associate = function (models) {
     // associations can be defined here
   };
   return Workshop;
