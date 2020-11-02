@@ -36,7 +36,7 @@ router.post("/workshop", (req, res) => {
   models.workshop
     .create({ ...req.body, createdAt: new Date(), updatedAt: new Date() })
     .then(({ dataValues }) => res.status(200).send(dataValues))
-    .catch(error => {
+    .catch((error) => {
       res.status(400).send({ error });
     });
 });
@@ -66,19 +66,19 @@ router.get("/workshops", (req, res) => {
     models.workshop
       .findAll({
         raw: true,
-        order: [["name", "ASC"]],
+        order: [["priority", "ASC"]],
         where: {
-          active: req.query.active
-        }
+          active: req.query.active,
+        },
       })
-      .then(entries => res.send(entries));
+      .then((entries) => res.send(entries));
   } else {
     models.workshop
       .findAll({
         raw: true,
-        order: [["name", "ASC"]]
+        order: [["priority", "ASC"]],
       })
-      .then(entries => res.send(entries));
+      .then((entries) => res.send(entries));
   }
 });
 
@@ -108,13 +108,13 @@ router.get("/workshops", (req, res) => {
 router.get("/workshops/:id", (req, res) => {
   models.workshop
     .findOne({
-      where: { id: req.params.id }
+      where: { id: req.params.id },
     })
-    .then(entry => {
+    .then((entry) => {
       if (entry) res.status(200).send(entry);
       else res.status(400).send("Workshop Not Found");
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(400).send({ error });
     });
 });
@@ -151,14 +151,14 @@ router.get("/workshops/:id", (req, res) => {
 router.put("/workshop/:id", (req, res) => {
   models.workshop
     .findOne({
-      where: { id: req.params.id }
+      where: { id: req.params.id },
     })
-    .then(entry => {
+    .then((entry) => {
       entry
         .update({ ...req.body })
         .then(({ dataValues }) => res.status(200).send(dataValues));
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(400).send({ error });
     });
 });
@@ -189,12 +189,12 @@ router.put("/workshop/:id", (req, res) => {
 router.delete("/workshop/:id", (req, res) => {
   models.workshop
     .findOne({
-      where: { id: req.params.id }
+      where: { id: req.params.id },
     })
-    .then(entry => {
+    .then((entry) => {
       entry.destroy().then(() => res.status(200).send({}));
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(400).send({ error });
     });
 });
