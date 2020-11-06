@@ -329,33 +329,39 @@ const checkCustomer = () => {
               })
               .then(async () => {
                 if (
-                  sessionType &&
-                  (sessionType === session_type_workshops_on_demand ||
-                    sessionType === session_type_coding_challenge) &&
-                  workshop.reset &&
-                  workshop.capacity === 0
+                  (sessionType &&
+                    (sessionType === session_type_workshops_on_demand ||
+                      sessionType === session_type_coding_challenge) &&
+                    workshop.reset &&
+                    workshop.capacity === 0 &&
+                    workshop.notebook === "WKSHP-OneView") ||
+                  (workshop.reset && workshop.notebook != "WKSHP-OneView")
                 ) {
                   console.log(
                     "sending reset email RESET",
                     workshop.notebook,
                     workshop.range
                   );
+                  if (workshop.notebook != "WKSHP-OneView") {
+                    subject = `RESET ${studentId}`;
+                  } else {
+                    subject = `RESET ${workshop.range}`;
+                  }
                   sendPostfixEmail({
                     location: location,
                     content: workshop.notebook,
                     recipient: jupyterEmail,
-                    subject: `RESET ${workshop.range}`,
+                    subject: subject,
                   });
-                  if (!workshop.reset) {
-                    await workshop.increment("capacity");
-                  }
                 }
-                // else if (
-                //   sessionType &&
-                //   sessionType === session_type_coding_challenge
-                // ) {
-                //   await challenge.increment("capacity");
-                // }
+              })
+              .then(async () => {
+                if (
+                  !workshop.reset ||
+                  (workshop.reset && workshop.notebook != "WKSHP-OneView")
+                ) {
+                  await workshop.increment("capacity");
+                }
               })
               .catch((error) => {
                 console.log("Promise Rejected", error);
