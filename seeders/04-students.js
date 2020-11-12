@@ -1,6 +1,6 @@
 // require("dotenv").config();
 // const N = process.env.NO_OF_STUDENT_ACCOUNTS;
-const N = 1500;
+const N = 2000;
 
 module.exports = {
   up: (queryInterface) => {
