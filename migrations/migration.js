@@ -178,21 +178,6 @@ var migrationCommands = [
           defaultValue: false,
         },
         location: Sequelize.STRING,
-        active: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
-          defaultValue: false,
-        },
-        // customerId: {
-        //   type: Sequelize.INTEGER,
-        //   onUpdate: "NO ACTION",
-        //   onDelete: "NO ACTION",
-        //   references: {
-        //     model: "customers",
-        //     key: "id"
-        //   },
-        //   allowNull: false
-        // },
         createdAt: {
           type: Sequelize.DATE,
         },
