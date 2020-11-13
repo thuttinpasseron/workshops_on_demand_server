@@ -44,7 +44,7 @@ module.exports = {
           "Python101 - A simple introduction to Python programming language",
         notebook: "WKSHP-Python101",
         description:
-          "Python is an interpreted, high-level and general-purpose programming language. Created by Guido van Rossum and first released in 1991, Python's design philosophy emphasizes code readability with its notable use of significant whitespace. Its language constructs and object-oriented approach aim to help programmers write clear, logical code for small and large-scale projects.",
+          "Are you interested in learning more about Python, the high-level, general-purpose programming language? This basic 101-level course will get you started. Begin with a simple Hello World example and move to loops, dict and tuples concepts. Learn to use Python language constructs and an object-oriented approach to write clear, logical code for small and large-scale projects.",
         capacity: 54,
         priority: 3,
         range: [696, 749],

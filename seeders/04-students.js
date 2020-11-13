@@ -1,4 +1,5 @@
-// require("dotenv").config();
+// import dotenv from "dotenv";
+// dotenv.config();
 // const N = process.env.NO_OF_STUDENT_ACCOUNTS;
 const N = 2000;
 
@@ -9,7 +10,7 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date(),
       //   customerId: 0,
-      url: `https://notebooks3.hpedev.io/user/student${key}/lab?`,
+      url: `https://notebooks.hpedev.io/user/student${key}/lab?`,
       username: `student${key}`,
       password: "MyNewPassword",
       location: "mougins",
@@ -20,7 +21,7 @@ module.exports = {
       createdAt: new Date(),
       updatedAt: new Date(),
       //   customerId: 0,
-      url: `https://notebooks3.hpedev.io/user/student${key}/lab?`,
+      url: `https://notebooks.hpedev.io/user/student${key}/lab?`,
       username: `student${key}`,
       password: "MyNewPassword",
       location: "grenoble",
