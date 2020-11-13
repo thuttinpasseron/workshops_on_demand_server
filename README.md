@@ -42,8 +42,10 @@ You need to have node.js and a package manager; both npm (npm is installed with 
       FEEDBACK_URL= // Feedback URL 
       PRODUCTION_API_SERVER= // Production API Server hostname to access swagger doc 
       NO_OF_STUDENT_ACCOUNTS= // total number of student accounts for each location
-      SLACK_CHANNEL_WORKSHOPS_ON_DEMAND= Slack channel ID for workshops on demand
-      SESSION_TYPE_WORKSHOPS_ON_DEMAND= workshops on demand session type 
+      SLACK_CHANNEL_WORKSHOPS_ON_DEMAND= // Slack channel ID for workshops on demand
+      SESSION_TYPE_WORKSHOPS_ON_DEMAND= // workshops on demand session type
+      SESSION_TYPE_CODING_CHALLENGE= // coding challenge session type
+      SLACK_CHANNEL_CHALLENGES= // Slack channel ID for challenges
     ```
 
   2. Run the backend server:
@@ -70,4 +72,5 @@ You need to have node.js and a package manager; both npm (npm is installed with 
     $ cd server
     $ npm run reset-data
     ```
-  
+    
+  ## Test
