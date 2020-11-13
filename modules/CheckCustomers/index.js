@@ -8,7 +8,8 @@ dotenv.config();
 
 const { CronJob } = cron;
 
-const feedback_url = process.env.FEEDBACK_URL;
+const feedback_workshop_url = process.env.FEEDBACK_WORKSHOP_URL;
+const feedback_challenge_url = process.env.FEEDBACK_CHALLENGE_URL;
 const session_type_workshops_on_demand =
   process.env.SESSION_TYPE_WORKSHOPS_ON_DEMAND;
 const session_type_coding_challenge = process.env.SESSION_TYPE_CODING_CHALLENGE;
@@ -274,7 +275,8 @@ const checkCustomer = () => {
             heading,
             content,
             registerMore,
-            shareWorkshop = "";
+            shareWorkshop,
+            feedback_url = "";
           if (sessionType && sessionType === session_type_workshops_on_demand) {
             subject =
               "Thanks for participating in the HPE DEV Workshops-on-Demand!";
@@ -283,6 +285,7 @@ const checkCustomer = () => {
                 It is our goal to continually improve how we offer Workshops-on-Demand, so please share your feedback.`;
             registerMore = `Ready for another Workshop? Register <a href="https://hackshack.hpedev.io/workshops">here</a>.`;
             shareWorkshop = `Share Workshops-on-Demand with your colleagues!<br/>`;
+            feedback_url = feedback_workshop_url;
           } else if (
             sessionType &&
             sessionType === session_type_coding_challenge
@@ -293,6 +296,7 @@ const checkCustomer = () => {
                 It is our goal to continually improve how we offer challenges, so please share your feedback.`;
             registerMore = `Ready for another Challenge? Register <a href="https://hackshack.hpedev.io/challenges">here</a>.`;
             //shareWorkshop = `Share Challenge with your colleagues!<br/>`;
+            feedback_url = feedback_challenge_url;
           }
           console.log(
             "send CLEANUP email",
