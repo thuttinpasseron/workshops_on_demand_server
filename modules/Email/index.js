@@ -92,6 +92,7 @@ const sendEmail = ({ sessionType, recipient, subject, content, proxy }) =>
       },
     });
     if (proxy === "hackshack") {
+      console.log("*******request from hack shack*********");
       sg.API(request, (error, response) => {
         if (error) {
           console.log("Response", JSON.stringify(response, null, 2));
@@ -104,6 +105,7 @@ const sendEmail = ({ sessionType, recipient, subject, content, proxy }) =>
         return resolve(recipient);
       });
     } else {
+      console.log("$$$$$$$$$$$$$request not from hack shack$$$$$$$$$$$$$$");
       return resolve(recipient);
     }
   });
