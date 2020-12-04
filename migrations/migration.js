@@ -209,6 +209,13 @@ var migrationCommands = [
         notebook: {
           type: Sequelize.STRING,
         },
+        proxy: Sequelize.STRING,
+        active: {
+          type: Sequelize.BOOLEAN,
+          allowNull: false,
+          defaultValue: false,
+        },
+        lastEmailSent: Sequelize.STRING,
         hours: Sequelize.INTEGER,
         startDate: {
           type: Sequelize.DATE,
@@ -218,12 +225,6 @@ var migrationCommands = [
           type: Sequelize.DATE,
           allowNull: false,
         },
-        active: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
-          defaultValue: false,
-        },
-        lastEmailSent: Sequelize.STRING,
         studentId: {
           type: Sequelize.INTEGER,
           onUpdate: "NO ACTION",

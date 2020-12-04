@@ -10,6 +10,11 @@
  *          - name
  *          - email
  *          - company
+ *          - title
+ *          - notebook
+ *          - sessionType
+ *          - proxy
+ *          - location
  *        properties:
  *          id:
  *            type: integer
@@ -34,6 +39,15 @@
  *          location:
  *            type: string
  *            description: location of challenge/workshop in jupyterhub registered by the customer
+ *          proxy:
+ *            type: string
+ *            description: request originitation platform like hackshack site or from the external partner
+ *          active:
+ *            type: boolean
+ *            description: customer will be active between the workshop start and end date
+ *          lastEmailSent:
+ *            type: string
+ *            description: lastEmailSent can be welcome | credentials |  expiring | expired
  *          hours:
  *            type: boolean
  *          startDate:
@@ -44,12 +58,6 @@
  *            type: string
  *            format: date-time
  *            description: workshop end date
- *          active:
- *            type: boolean
- *            description: customer will be active between the workshop start and end date
- *          lastEmailSent:
- *            type: string
- *            description: lastEmailSent can be welcome | credentials |  expiring | expired
  *          createdAt:
  *            type: string
  *            format: date-time
@@ -62,6 +70,7 @@
  *           company: someCompany
  *           sessionName: Grommet
  *           sessionType: workshop
+ *           proxy: hackshack
  *           active: false
  *           lastEmailSent: welcome
  */
@@ -72,7 +81,7 @@ module.exports = (sequelize, DataTypes) => {
       id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
-        autoIncrement: true
+        autoIncrement: true,
       },
       name: DataTypes.STRING,
       email: DataTypes.STRING,
@@ -80,39 +89,29 @@ module.exports = (sequelize, DataTypes) => {
       sessionName: DataTypes.STRING,
       sessionType: DataTypes.STRING,
       location: DataTypes.STRING,
+      proxy: DataTypes.STRING,
+      active: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      lastEmailSent: DataTypes.STRING,
       notebook: DataTypes.STRING,
       hours: DataTypes.INTEGER,
       startDate: DataTypes.DATE,
       endDate: DataTypes.DATE,
-      active: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
-      },
-      lastEmailSent: DataTypes.STRING,
       createdAt: DataTypes.DATE,
-      updatedAt: DataTypes.DATE
+      updatedAt: DataTypes.DATE,
     },
     {}
   );
-  Customer.associate = models => {
+  Customer.associate = (models) => {
     Customer.belongsTo(models.student, {
       foreignKey: {
-        field: "studentId"
-        //allowNull: false,
-        // defaultValue: 0
-      }
+        field: "studentId",
+      },
     });
   };
-  // Customer.associate = models => {
-  //   Customer.belongsTo(models.workshop, {
-  //     foreignKey: {
-  //       field: "workshopId"
-  //       //allowNull: false,
-  //       // defaultValue: 0
-  //     }
-  //   });
-  // };
   return Customer;
 };
 /* eslint-enable */

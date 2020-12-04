@@ -120,10 +120,10 @@ router.post("/customer", async (req, res) => {
     const exisitingCustomer = await models.customer.findAll({
       where: {
         email: req.body.email,
-        [op.or]: {
-          active: true,
-          lastEmailSent: {
+        lastEmailSent: {
+          [op.or]: {
             [op.in]: ["welcome", "credentials", "expiring"],
+            [op.is]: null,
           },
         },
       },
@@ -227,7 +227,13 @@ router.post("/customer", async (req, res) => {
         //   await challenge.decrement("capacity");
         // }
         //await dataValues.save();
-        res.status(200).send({});
+        res.status(200).send({
+          id: dataValues.id,
+          name: dataValues.name,
+          email: dataValues.email,
+          studentId: dataValues.studentId,
+          proxy: dataValues.proxy,
+        });
       }
     }
     // }

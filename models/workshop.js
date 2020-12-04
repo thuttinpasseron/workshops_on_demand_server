@@ -56,6 +56,7 @@
  *           name: Grommet
  *           capacity: 20
  *           notebook: WKSHP-Grommet
+ *           range: [546, 549]
  *           location: grenoble
  */
 module.exports = (sequelize, DataTypes) => {
