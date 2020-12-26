@@ -41,7 +41,7 @@ module.exports = {
       },
       {
         name:
-          "Python101 - A simple introduction to Python programming language",
+          "Python 101 - A simple introduction to Python programming language",
         notebook: "WKSHP-Python101",
         description:
           "Are you interested in learning more about Python, the high-level, general-purpose programming language? This basic 101-level course will get you started. Begin with a simple Hello World example and move to loops, dict and tuples concepts. Learn to use Python language constructs and an object-oriented approach to write clear, logical code for small and large-scale projects.",
@@ -59,7 +59,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "RUST 101 Introduction to the Rust programming language",
+        name: "RUST 101 - Introduction to the Rust programming language",
         notebook: "WKSHP-RUST101",
         description:
           "Hundreds of companies around the world are using Rust in production today for fast, low-resource, cross-platform solutions. Software you know and love, like Firefox, Dropbox, and Cloudflare, uses Rust. From startups to large corporations, from embedded devices to scalable web services, Rust is a great fit. In this session we will introduce the audience to Rust programming. A language empowering everyone to build reliable and efficient software.",
@@ -167,7 +167,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        name: "Automate apps with the HPE Container Platform",
+        name: "Automate apps with the HPE Ezmeral Container Platform",
         notebook: "WKSHP-HPECP-Automate-Apps",
         description:
           "IT Administrators are frequently challenged to stand-up hardware and software environments. These requests can be time consuming and confusing for non-technical teams to deploy. By implementing the HPE Container Platform with its easy-to-use APIs, new clusters and software applications can be created automatically with specified resources. Join this hands-on workshop to learn how the HPE Container Platform APIs make it easier to configure apps and compute resources, along with how to pull detailed usage reports for Chargeback/Showback.",
