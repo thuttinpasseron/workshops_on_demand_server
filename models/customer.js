@@ -89,6 +89,7 @@ module.exports = (sequelize, DataTypes) => {
       sessionName: DataTypes.STRING,
       sessionType: DataTypes.STRING,
       location: DataTypes.STRING,
+      proxy: DataTypes.STRING,
       active: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
