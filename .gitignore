@@ -16,3 +16,6 @@ functions
 .vscode
 .eslintcache
 .env
+
+# rest call for local testing 
+request.rest

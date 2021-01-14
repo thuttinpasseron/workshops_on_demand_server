@@ -1,5 +1,5 @@
 /* eslint-disable */
-"use strict";
+'use strict';
 /**
  * @swagger
  *  components:
@@ -76,7 +76,7 @@
  */
 module.exports = (sequelize, DataTypes) => {
   const Customer = sequelize.define(
-    "customer",
+    'customer',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -89,7 +89,6 @@ module.exports = (sequelize, DataTypes) => {
       sessionName: DataTypes.STRING,
       sessionType: DataTypes.STRING,
       location: DataTypes.STRING,
-      proxy: DataTypes.STRING,
       active: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
@@ -108,7 +107,7 @@ module.exports = (sequelize, DataTypes) => {
   Customer.associate = (models) => {
     Customer.belongsTo(models.student, {
       foreignKey: {
-        field: "studentId",
+        field: 'studentId',
       },
     });
   };
