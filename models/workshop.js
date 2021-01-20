@@ -92,6 +92,7 @@ module.exports = (sequelize, DataTypes) => {
       avatar: DataTypes.STRING,
       role: DataTypes.STRING,
       preRequisite: DataTypes.TEXT,
+      compile: DataTypes.STRING(1234),
       replayLink: DataTypes.STRING,
       active: {
         type: DataTypes.BOOLEAN,
