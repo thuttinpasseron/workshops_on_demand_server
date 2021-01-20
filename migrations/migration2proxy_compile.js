@@ -11,6 +11,14 @@ module.exports = {
         },
         { transaction }
       );
+      await queryInterface.addColumn(
+        'workshops',
+        'compile',
+        {
+          type: Sequelize.DataTypes.STRING(1234),
+        },
+        { transaction }
+      );
       await transaction.commit();
     } catch (err) {
       await transaction.rollback();
@@ -23,7 +31,18 @@ Example:
 return queryInterface.createTable('users', { id: Sequelize.INTEGER });
 */
   },
-  down: (queryInterface, Sequelize) => {
+  down: async (queryInterface, Sequelize) => {
+    const transaction = await queryInterface.sequelize.transaction();
+    try {
+      await queryInterface.removeColumn('customers', 'proxy', { transaction });
+      await queryInterface.removeColumn('workshops', 'compile', {
+        transaction,
+      });
+      await transaction.commit();
+    } catch (err) {
+      await transaction.rollback();
+      throw err;
+    }
     /*
 Add reverting commands here.
 Return a promise to correctly handle asynchronicity.

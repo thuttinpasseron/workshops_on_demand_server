@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /**
  * @swagger
  *  components:
@@ -52,6 +52,8 @@
  *          updatedAt:
  *            type: string
  *            format: date-time
+ *          compile:
+ *            type: string
  *        example:
  *           name: Grommet
  *           capacity: 20
@@ -61,7 +63,7 @@
  */
 module.exports = (sequelize, DataTypes) => {
   const Workshop = sequelize.define(
-    "workshop",
+    'workshop',
     {
       id: {
         type: DataTypes.INTEGER,

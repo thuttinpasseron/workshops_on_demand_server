@@ -239,32 +239,26 @@ var migrationCommands = [
       {},
     ],
   },
-  {
-    fn: 'createTable',
-    params: [
-      'users',
-      {
-        id: {
-          type: Sequelize.INTEGER,
-          primaryKey: true,
-          autoIncrement: true,
-        },
-        name: Sequelize.STRING,
-        email: Sequelize.STRING,
-        password: Sequelize.STRING,
-        company: Sequelize.STRING,
-        role: Sequelize.STRING,
-        active: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
-          defaultValue: false,
-        },
-        createdAt: Sequelize.DATE,
-        updatedAt: Sequelize.DATE,
-      },
-      {},
-    ],
-  },
+  // {
+  //   fn: 'createTable',
+  //   params: [
+  //     'users',
+  //     {
+  //       id: {
+  //         type: Sequelize.INTEGER,
+  //         primaryKey: true,
+  //         autoIncrement: true,
+  //       },
+  //       username: Sequelize.STRING,
+  //       email: Sequelize.STRING,
+  //       password: Sequelize.STRING,
+
+  //       createdAt: Sequelize.DATE,
+  //       updatedAt: Sequelize.DATE,
+  //     },
+  //     {},
+  //   ],
+  // },
 ];
 
 module.exports = {
