@@ -40,4 +40,5 @@ module.exports = (sequelize, DataTypes) => {
   );
   return Role;
 };
+
 /* eslint-enable */
