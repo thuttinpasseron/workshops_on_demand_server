@@ -135,7 +135,7 @@ router.get('/students/:id', [authJwt.verifyToken], (req, res) => {
 // Edit student
 router.put(
   '/student/:id',
-  [authJwt.verifyToken, authJwt.isAdmin],
+  [authJwt.verifyToken, authJwt.isModeratorOrAdmin],
   (req, res) => {
     models.student
       .findOne({

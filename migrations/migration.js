@@ -84,9 +84,6 @@ var migrationCommands = [
         replayLink: {
           type: Sequelize.TEXT,
         },
-        compile: {
-          type: Sequelize.STRING(1234),
-        },
         createdAt: {
           type: Sequelize.DATE,
         },
@@ -217,7 +214,6 @@ var migrationCommands = [
           allowNull: false,
           defaultValue: false,
         },
-        proxy: Sequelize.STRING,
         lastEmailSent: Sequelize.STRING,
         hours: Sequelize.INTEGER,
         startDate: {
@@ -236,62 +232,6 @@ var migrationCommands = [
             model: 'students',
             key: 'id',
           },
-        },
-        createdAt: Sequelize.DATE,
-        updatedAt: Sequelize.DATE,
-      },
-      {},
-    ],
-  },
-  {
-    fn: 'createTable',
-    params: [
-      'users',
-      {
-        id: {
-          type: Sequelize.INTEGER,
-          primaryKey: true,
-          autoIncrement: true,
-        },
-        username: Sequelize.STRING,
-        email: Sequelize.STRING,
-        password: Sequelize.STRING,
-        roleId: {
-          type: Sequelize.INTEGER,
-          onUpdate: 'NO ACTION',
-          onDelete: 'NO ACTION',
-          references: {
-            model: 'users',
-            key: 'id',
-          },
-          // allowNull: false,
-        },
-        createdAt: Sequelize.DATE,
-        updatedAt: Sequelize.DATE,
-      },
-      {},
-    ],
-  },
-  {
-    fn: 'createTable',
-    params: [
-      'roles',
-      {
-        id: {
-          type: Sequelize.INTEGER,
-          primaryKey: true,
-          autoIncrement: true,
-        },
-        name: Sequelize.STRING,
-        userId: {
-          type: Sequelize.INTEGER,
-          onUpdate: 'NO ACTION',
-          onDelete: 'NO ACTION',
-          references: {
-            model: 'roles',
-            key: 'id',
-          },
-          // allowNull: false,
         },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE,
