@@ -1,7 +1,6 @@
 import express from 'express';
 import models from '../models';
-import { verifyToken } from '../src/util';
-const jwt = require('jsonwebtoken');
+const { authJwt } = require('../middleware');
 
 const router = express.Router();
 
@@ -34,19 +33,13 @@ const router = express.Router();
  *              schema:
  *                $ref: '#/components/schemas/Workshop'
  */
-router.post('/workshop', (req, res) => {
-  // jwt.verify(req.token, 'secretkey', (err, authdata) => {
-  //   if (err) {
-  //     res.status(403).send('Access Denied');
-  //   } else {
+router.post('/workshop', [authJwt.verifyToken, authJwt.isAdmin], (req, res) => {
   models.workshop
     .create({ ...req.body, createdAt: new Date(), updatedAt: new Date() })
     .then(({ dataValues }) => res.status(200).send(dataValues))
     .catch((error) => {
       res.status(400).send({ error });
     });
-  //   }
-  // });
 });
 
 // Get workshops
@@ -65,11 +58,7 @@ router.post('/workshop', (req, res) => {
  *              schema:
  *                $ref: '#/components/schemas/Workshop'
  */
-router.get('/workshops', (req, res) => {
-  // jwt.verify(req.token, 'secretkey', (err, authdata) => {
-  //   if (err) {
-  //     res.status(403).send('Access Denied');
-  //   } else {
+router.get('/workshops', [authJwt.verifyToken], (req, res) => {
   if (
     typeof req.query.active != 'undefined' &&
     (req.query.active || !req.query.active)
@@ -91,8 +80,6 @@ router.get('/workshops', (req, res) => {
       })
       .then((entries) => res.send(entries));
   }
-  //   }
-  // });
 });
 
 /**
@@ -118,11 +105,7 @@ router.get('/workshops', (req, res) => {
  *                $ref: '#/components/schemas/Workshop'
  */
 // Get workshop by ID
-router.get('/workshops/:id', (req, res) => {
-  // jwt.verify(req.token, 'secretkey', (err, authdata) => {
-  //   if (err) {
-  //     res.status(403).send('Access Denied');
-  //   } else {
+router.get('/workshops/:id', [authJwt.verifyToken], (req, res) => {
   models.workshop
     .findOne({
       where: { id: req.params.id },
@@ -134,8 +117,6 @@ router.get('/workshops/:id', (req, res) => {
     .catch((error) => {
       res.status(400).send({ error });
     });
-  //   }
-  // });
 });
 
 /**
@@ -167,26 +148,24 @@ router.get('/workshops/:id', (req, res) => {
  *                $ref: '#/components/schemas/Workshop'
  */
 // Edit workshop
-router.put('/workshop/:id', (req, res) => {
-  // jwt.verify(req.token, 'secretkey', (err, authdata) => {
-  //   if (err) {
-  //     res.status(403).send('Access Denied');
-  //   } else {
-  models.workshop
-    .findOne({
-      where: { id: req.params.id },
-    })
-    .then((entry) => {
-      entry
-        .update({ ...req.body })
-        .then(({ dataValues }) => res.status(200).send(dataValues));
-    })
-    .catch((error) => {
-      res.status(400).send({ error });
-    });
-  //   }
-  // });
-});
+router.put(
+  '/workshop/:id',
+  [authJwt.verifyToken, authJwt.isAdmin],
+  (req, res) => {
+    models.workshop
+      .findOne({
+        where: { id: req.params.id },
+      })
+      .then((entry) => {
+        entry
+          .update({ ...req.body })
+          .then(({ dataValues }) => res.status(200).send(dataValues));
+      })
+      .catch((error) => {
+        res.status(400).send({ error });
+      });
+  }
+);
 /**
  * @swagger
  * path:
@@ -211,23 +190,21 @@ router.put('/workshop/:id', (req, res) => {
  */
 
 // Delete workshop
-router.delete('/workshop/:id', (req, res) => {
-  // jwt.verify(req.token, 'secretkey', (err, authdata) => {
-  //   if (err) {
-  //     res.status(403).send('Access Denied');
-  //   } else {
-  models.workshop
-    .findOne({
-      where: { id: req.params.id },
-    })
-    .then((entry) => {
-      entry.destroy().then(() => res.status(200).send({}));
-    })
-    .catch((error) => {
-      res.status(400).send({ error });
-    });
-  //   }
-  // });
-});
+router.delete(
+  '/workshop/:id',
+  [authJwt.verifyToken, authJwt.isAdmin],
+  (req, res) => {
+    models.workshop
+      .findOne({
+        where: { id: req.params.id },
+      })
+      .then((entry) => {
+        entry.destroy().then(() => res.status(200).send({}));
+      })
+      .catch((error) => {
+        res.status(400).send({ error });
+      });
+  }
+);
 
 export default router;
