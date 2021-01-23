@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-var Sequelize = require("sequelize");
+var Sequelize = require('sequelize');
 
 /**
  * Actions summary:
@@ -13,16 +13,16 @@ var Sequelize = require("sequelize");
 
 var info = {
   revision: 1,
-  name: "test",
-  created: "2020-04-24T02:31:23.794Z",
-  comment: "",
+  name: 'test',
+  created: '2020-04-24T02:31:23.794Z',
+  comment: '',
 };
 
 var migrationCommands = [
   {
-    fn: "createTable",
+    fn: 'createTable',
     params: [
-      "workshops",
+      'workshops',
       {
         id: {
           type: Sequelize.INTEGER,
@@ -96,9 +96,9 @@ var migrationCommands = [
     ],
   },
   {
-    fn: "createTable",
+    fn: 'createTable',
     params: [
-      "challenges",
+      'challenges',
       {
         id: {
           type: Sequelize.INTEGER,
@@ -159,9 +159,9 @@ var migrationCommands = [
     ],
   },
   {
-    fn: "createTable",
+    fn: 'createTable',
     params: [
-      "students",
+      'students',
       {
         id: {
           type: Sequelize.INTEGER,
@@ -190,9 +190,9 @@ var migrationCommands = [
     ],
   },
   {
-    fn: "createTable",
+    fn: 'createTable',
     params: [
-      "customers",
+      'customers',
       {
         id: {
           type: Sequelize.INTEGER,
@@ -209,6 +209,12 @@ var migrationCommands = [
         notebook: {
           type: Sequelize.STRING,
         },
+        active: {
+          type: Sequelize.BOOLEAN,
+          allowNull: false,
+          defaultValue: false,
+        },
+        lastEmailSent: Sequelize.STRING,
         hours: Sequelize.INTEGER,
         startDate: {
           type: Sequelize.DATE,
@@ -218,40 +224,41 @@ var migrationCommands = [
           type: Sequelize.DATE,
           allowNull: false,
         },
-        active: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
-          defaultValue: false,
-        },
-        lastEmailSent: Sequelize.STRING,
         studentId: {
           type: Sequelize.INTEGER,
-          onUpdate: "NO ACTION",
-          onDelete: "NO ACTION",
+          onUpdate: 'NO ACTION',
+          onDelete: 'NO ACTION',
           references: {
-            model: "students",
-            key: "id",
+            model: 'students',
+            key: 'id',
           },
-          //   allowNull: false,
-          //   defaultValue: 0
         },
-        // workshopId: {
-        //   type: Sequelize.INTEGER,
-        //   onUpdate: "NO ACTION",
-        //   onDelete: "NO ACTION",
-        //   references: {
-        //     model: "workshops",
-        //     key: "id"
-        //   }
-        //   //   allowNull: false,
-        //   //   defaultValue: 0
-        // },
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.DATE,
       },
       {},
     ],
   },
+  // {
+  //   fn: 'createTable',
+  //   params: [
+  //     'users',
+  //     {
+  //       id: {
+  //         type: Sequelize.INTEGER,
+  //         primaryKey: true,
+  //         autoIncrement: true,
+  //       },
+  //       username: Sequelize.STRING,
+  //       email: Sequelize.STRING,
+  //       password: Sequelize.STRING,
+
+  //       createdAt: Sequelize.DATE,
+  //       updatedAt: Sequelize.DATE,
+  //     },
+  //     {},
+  //   ],
+  // },
 ];
 
 module.exports = {
@@ -262,7 +269,7 @@ module.exports = {
       function next() {
         if (index < migrationCommands.length) {
           let command = migrationCommands[index];
-          console.log("[#" + index + "] execute: " + command.fn);
+          console.log('[#' + index + '] execute: ' + command.fn);
           index++;
           queryInterface[command.fn]
             .apply(queryInterface, command.params)

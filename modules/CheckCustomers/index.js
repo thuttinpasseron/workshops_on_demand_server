@@ -132,6 +132,7 @@ const checkCustomer = () => {
                   content: content,
                   enjoyWorkshop: enjoyWorkshop,
                 }),
+                proxy: dataValues.proxy,
               });
             })
             .then(() => {
@@ -197,6 +198,7 @@ const checkCustomer = () => {
               registerMore: registerMore,
               enjoyWorkshop: enjoyWorkshop,
             }),
+            proxy: dataValues.proxy,
           })
             .then(() => {
               customer.update({
@@ -257,6 +259,7 @@ const checkCustomer = () => {
               buttonUrl: dataValues.student.url,
               enjoyWorkshop: enjoyWorkshop,
             }),
+            proxy: dataValues.proxy,
           })
             .then(() => {
               customer.update({
@@ -329,6 +332,7 @@ const checkCustomer = () => {
                     registerMore: registerMore,
                     shareWorkshop: shareWorkshop,
                   }),
+                  proxy: dataValues.proxy,
                 });
               })
               .then(async () => {

@@ -1,5 +1,7 @@
-import express from "express";
-import models from "../models";
+import express from 'express';
+import models from '../models';
+import { verifyToken } from '../src/util';
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
@@ -32,13 +34,19 @@ const router = express.Router();
  *              schema:
  *                $ref: '#/components/schemas/Student'
  */
-router.post("/student", (req, res) => {
+router.post('/student', (req, res) => {
+  // jwt.verify(req.token, 'secretkey', (err) => {
+  //   if (err) {
+  //     res.status(403).send('Access Denied');
+  //   } else {
   models.student
     .create({ ...req.body, createdAt: new Date(), updatedAt: new Date() })
     .then(({ dataValues }) => res.status(200).send(dataValues))
-    .catch(error => {
+    .catch((error) => {
       res.status(400).send({ error });
     });
+  //   }
+  // });
 });
 
 /**
@@ -57,13 +65,19 @@ router.post("/student", (req, res) => {
  *                $ref: '#/components/schemas/Student'
  */
 // Get students
-router.get("/students", (req, res) => {
+router.get('/students', (req, res) => {
+  // jwt.verify(req.token, 'secretkey', (err) => {
+  //   if (err) {
+  //     res.status(403).send('Access Denied');
+  //   } else {
   models.student
     .findAll({
       raw: true,
-      order: [["id", "ASC"]]
+      order: [['id', 'ASC']],
     })
-    .then(entries => res.send(entries));
+    .then((entries) => res.send(entries));
+  //   }
+  // });
 });
 
 /**
@@ -89,18 +103,24 @@ router.get("/students", (req, res) => {
  *                $ref: '#/components/schemas/Student'
  */
 // Get student by ID
-router.get("/students/:id", (req, res) => {
+router.get('/students/:id', (req, res) => {
+  // jwt.verify(req.token, 'secretkey', (err) => {
+  //   if (err) {
+  //     res.status(403).send('Access Denied');
+  //   } else {
   models.student
     .findOne({
-      where: { id: req.params.id }
+      where: { id: req.params.id },
     })
-    .then(entry => {
+    .then((entry) => {
       if (entry) res.status(200).send(entry);
-      else res.status(400).send("Student Not Found");
+      else res.status(400).send('Student Not Found');
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(400).send({ error });
     });
+  //   }
+  // });
 });
 
 /**
@@ -132,19 +152,25 @@ router.get("/students/:id", (req, res) => {
  *                $ref: '#/components/schemas/Student'
  */
 // Edit student
-router.put("/student/:id", (req, res) => {
+router.put('/student/:id', (req, res) => {
+  // jwt.verify(req.token, 'secretkey', (err) => {
+  //   if (err) {
+  //     res.status(403).send('Access Denied');
+  //   } else {
   models.student
     .findOne({
-      where: { id: req.params.id }
+      where: { id: req.params.id },
     })
-    .then(entry => {
+    .then((entry) => {
       entry
         .update({ ...req.body })
         .then(({ dataValues }) => res.status(200).send(dataValues));
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(400).send({ error });
     });
+  //   }
+  // });
 });
 
 /**
@@ -171,16 +197,22 @@ router.put("/student/:id", (req, res) => {
  */
 
 // Delete student
-router.delete("/student/:id", (req, res) => {
+router.delete('/student/:id', (req, res) => {
+  // jwt.verify(req.token, 'secretkey', (err) => {
+  //   if (err) {
+  //     res.status(403).send('Access Denied');
+  //   } else {
   models.student
     .findOne({
-      where: { id: req.params.id }
+      where: { id: req.params.id },
     })
-    .then(entry => {
+    .then((entry) => {
       entry.destroy().then(() => res.status(200).send({}));
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(400).send({ error });
     });
+  //   }
+  // });
 });
 export default router;

@@ -1,8 +1,10 @@
-import express from "express";
-import models from "../models";
-const Sequelize = require("sequelize");
+import express from 'express';
+import models from '../models';
+import { verifyToken } from '../src/util';
+const jwt = require('jsonwebtoken');
+const Sequelize = require('sequelize');
 const op = Sequelize.Op;
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 
 dotenv.config();
 const session_type_workshops_on_demand =
@@ -44,13 +46,19 @@ const getDates = () => {
  *                $ref: '#/components/schemas/Customer'
  */
 // Get customers
-router.get("/customers", (req, res) => {
+router.get('/customers', (req, res) => {
+  // jwt.verify(req.token, 'secretkey', (err) => {
+  //   if (err) {
+  //     res.status(403).send('Access Denied');
+  //   } else {
   models.customer
     .findAll({
       raw: true,
-      order: [["id", "ASC"]],
+      order: [['id', 'ASC']],
     })
     .then((entries) => res.send(entries));
+  //   }
+  // });
 });
 
 /**
@@ -76,18 +84,24 @@ router.get("/customers", (req, res) => {
  *                $ref: '#/components/schemas/Customer'
  */
 // Get customer by ID
-router.get("/customers/:id", (req, res) => {
+router.get('/customers/:id', (req, res) => {
+  // jwt.verify(req.token, 'secretkey', (err) => {
+  //   if (err) {
+  //     res.status(403).send('Access Denied');
+  //   } else {
   models.customer
     .findOne({
       where: { id: req.params.id },
     })
     .then((entry) => {
       if (entry) res.status(200).send(entry);
-      else res.status(400).send("Customer Not Found");
+      else res.status(400).send('Customer Not Found');
     })
     .catch((error) => {
       res.status(400).send({ error });
     });
+  //   }
+  // });
 });
 
 // Create a Customer
@@ -113,17 +127,20 @@ router.get("/customers/:id", (req, res) => {
  *                $ref: '#/components/schemas/Customer'
  */
 // Create customer
-router.post("/customer", async (req, res) => {
+router.post('/customer', async (req, res) => {
+  // jwt.verify(req.token, 'secretkey', async (err) => {
+  //   if (err) {
+  //     res.status(403).send('Access Denied');
+  //   } else {
   try {
     // check whether customer is already registered for another workshop
-
     const exisitingCustomer = await models.customer.findAll({
       where: {
         email: req.body.email,
-        [op.or]: {
-          active: true,
-          lastEmailSent: {
-            [op.in]: ["welcome", "credentials", "expiring"],
+        lastEmailSent: {
+          [op.or]: {
+            [op.in]: ['welcome', 'credentials', 'expiring'],
+            [op.is]: null,
           },
         },
       },
@@ -148,27 +165,13 @@ router.post("/customer", async (req, res) => {
         where: { name: req.body.title },
       });
       studentRange = workshop.range;
-      if (req.body.location && req.body.location === "grenoble") {
+      if (req.body.location && req.body.location === 'grenoble') {
         studentRange[0] = studentRange[0] + parseInt(studentCount);
         studentRange[1] = studentRange[1] + parseInt(studentCount);
       }
     }
-    // commented as challenges are added in workshops table
-    // else if (
-    //   req.body.sessionType &&
-    //   req.body.sessionType === session_type_coding_challenge
-    // ) {
-    //   challenge = await models.challenge.findOne({
-    //     where: { name: req.body.title },
-    //   });
-    //   studentRange = challenge.range;
-    //   if (req.body.location && req.body.location === "grenoble") {
-    //     studentRange[0] = studentRange[0] + parseInt(studentCount);
-    //     studentRange[1] = studentRange[1] + parseInt(studentCount);
-    //   }
-    // }
 
-    console.log("student range", studentRange);
+    console.log('student range', studentRange);
 
     // fetch the unassigned student account to assign to the requested customer
     const student = await models.student.findOne({
@@ -186,16 +189,16 @@ router.post("/customer", async (req, res) => {
     });
     // return error if student account is not available else assign it to the customer
     if (student === null) {
-      console.log("Student Account Not Available!");
-      return res.status(202).send("Registration full, Please try again later");
+      console.log('Student Account Not Available!');
+      return res.status(202).send('Registration full, Please try again later');
     } else {
-      console.log("customer req", req.body);
+      console.log('customer req', req.body);
       var name = req.body.name;
       name = name
         .toLowerCase()
-        .split(" ")
+        .split(' ')
         .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-        .join(" ");
+        .join(' ');
       const dataValues = await models.customer.create({
         ...req.body,
         name: name,
@@ -217,26 +220,25 @@ router.post("/customer", async (req, res) => {
           (req.body.sessionType === session_type_workshops_on_demand ||
             req.body.sessionType === session_type_coding_challenge)
         ) {
-          await workshop.decrement("capacity");
+          await workshop.decrement('capacity');
         }
-        // commented as challenges are added in workshops table
-        // else if (
-        //   req.body.sessionType &&
-        //   req.body.sessionType === session_type_coding_challenge
-        // ) {
-        //   await challenge.decrement("capacity");
-        // }
-        //await dataValues.save();
-        res.status(200).send({});
+        res.status(200).send({
+          id: dataValues.id,
+          name: dataValues.name,
+          email: dataValues.email,
+          studentId: dataValues.studentId,
+          proxy: dataValues.proxy,
+        });
       }
     }
     // }
   } catch (error) {
-    console.log("error in catch!", error);
+    console.log('error in catch!', error);
     res.status(400).send({ error });
   }
+  // }
+  // });
 });
-
 /**
  * @swagger
  * path:
@@ -266,13 +268,17 @@ router.post("/customer", async (req, res) => {
  *                $ref: '#/components/schemas/Customer'
  */
 // Edit customer
-router.put("/customer/:id", (req, res) => {
+router.put('/customer/:id', (req, res) => {
+  // jwt.verify(req.token, 'secretkey', (err) => {
+  //   if (err) {
+  //     res.status(403).send('Access Denied');
+  //   } else {
   models.customer
     .findOne({
       where: { id: req.params.id },
     })
     .then((entry) => {
-      console.log("req.body", req.body);
+      console.log('req.body', req.body);
       entry
         .update({ ...req.body })
         .then(({ dataValues }) => res.status(200).send(dataValues));
@@ -280,6 +286,8 @@ router.put("/customer/:id", (req, res) => {
     .catch((error) => {
       res.status(400).send({ error });
     });
+  // }
+  // });
 });
 
 /**
@@ -305,7 +313,11 @@ router.put("/customer/:id", (req, res) => {
  *                $ref: '#/components/schemas/Customer'
  */
 // Delete customer
-router.delete("/customer/:id", (req, res) => {
+router.delete('/customer/:id', (req, res) => {
+  // jwt.verify(req.token, 'secretkey', (err) => {
+  //   if (err) {
+  //     res.status(403).send('Access Denied');
+  //   } else {
   models.customer
     .findOne({
       where: { id: req.params.id },
@@ -316,6 +328,8 @@ router.delete("/customer/:id", (req, res) => {
     .catch((error) => {
       res.status(400).send({ error });
     });
+  //   }
+  // });
 });
 
 export default router;

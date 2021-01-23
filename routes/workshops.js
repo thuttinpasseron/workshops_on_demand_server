@@ -1,5 +1,7 @@
-import express from "express";
-import models from "../models";
+import express from 'express';
+import models from '../models';
+import { verifyToken } from '../src/util';
+const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
@@ -32,13 +34,19 @@ const router = express.Router();
  *              schema:
  *                $ref: '#/components/schemas/Workshop'
  */
-router.post("/workshop", (req, res) => {
+router.post('/workshop', (req, res) => {
+  // jwt.verify(req.token, 'secretkey', (err, authdata) => {
+  //   if (err) {
+  //     res.status(403).send('Access Denied');
+  //   } else {
   models.workshop
     .create({ ...req.body, createdAt: new Date(), updatedAt: new Date() })
     .then(({ dataValues }) => res.status(200).send(dataValues))
     .catch((error) => {
       res.status(400).send({ error });
     });
+  //   }
+  // });
 });
 
 // Get workshops
@@ -57,16 +65,19 @@ router.post("/workshop", (req, res) => {
  *              schema:
  *                $ref: '#/components/schemas/Workshop'
  */
-router.get("/workshops", (req, res) => {
-  console.log("req query", req.query.active);
+router.get('/workshops', (req, res) => {
+  // jwt.verify(req.token, 'secretkey', (err, authdata) => {
+  //   if (err) {
+  //     res.status(403).send('Access Denied');
+  //   } else {
   if (
-    typeof req.query.active != "undefined" &&
+    typeof req.query.active != 'undefined' &&
     (req.query.active || !req.query.active)
   ) {
     models.workshop
       .findAll({
         raw: true,
-        order: [["priority", "ASC"]],
+        order: [['priority', 'ASC']],
         where: {
           active: req.query.active,
         },
@@ -76,10 +87,12 @@ router.get("/workshops", (req, res) => {
     models.workshop
       .findAll({
         raw: true,
-        order: [["priority", "ASC"]],
+        order: [['priority', 'ASC']],
       })
       .then((entries) => res.send(entries));
   }
+  //   }
+  // });
 });
 
 /**
@@ -105,18 +118,24 @@ router.get("/workshops", (req, res) => {
  *                $ref: '#/components/schemas/Workshop'
  */
 // Get workshop by ID
-router.get("/workshops/:id", (req, res) => {
+router.get('/workshops/:id', (req, res) => {
+  // jwt.verify(req.token, 'secretkey', (err, authdata) => {
+  //   if (err) {
+  //     res.status(403).send('Access Denied');
+  //   } else {
   models.workshop
     .findOne({
       where: { id: req.params.id },
     })
     .then((entry) => {
       if (entry) res.status(200).send(entry);
-      else res.status(400).send("Workshop Not Found");
+      else res.status(400).send('Workshop Not Found');
     })
     .catch((error) => {
       res.status(400).send({ error });
     });
+  //   }
+  // });
 });
 
 /**
@@ -148,7 +167,11 @@ router.get("/workshops/:id", (req, res) => {
  *                $ref: '#/components/schemas/Workshop'
  */
 // Edit workshop
-router.put("/workshop/:id", (req, res) => {
+router.put('/workshop/:id', (req, res) => {
+  // jwt.verify(req.token, 'secretkey', (err, authdata) => {
+  //   if (err) {
+  //     res.status(403).send('Access Denied');
+  //   } else {
   models.workshop
     .findOne({
       where: { id: req.params.id },
@@ -161,6 +184,8 @@ router.put("/workshop/:id", (req, res) => {
     .catch((error) => {
       res.status(400).send({ error });
     });
+  //   }
+  // });
 });
 /**
  * @swagger
@@ -186,7 +211,11 @@ router.put("/workshop/:id", (req, res) => {
  */
 
 // Delete workshop
-router.delete("/workshop/:id", (req, res) => {
+router.delete('/workshop/:id', (req, res) => {
+  // jwt.verify(req.token, 'secretkey', (err, authdata) => {
+  //   if (err) {
+  //     res.status(403).send('Access Denied');
+  //   } else {
   models.workshop
     .findOne({
       where: { id: req.params.id },
@@ -197,6 +226,8 @@ router.delete("/workshop/:id", (req, res) => {
     .catch((error) => {
       res.status(400).send({ error });
     });
+  //   }
+  // });
 });
 
 export default router;

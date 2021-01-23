@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 /**
  * @swagger
  *  components:
@@ -52,15 +52,18 @@
  *          updatedAt:
  *            type: string
  *            format: date-time
+ *          compile:
+ *            type: string
  *        example:
  *           name: Grommet
  *           capacity: 20
  *           notebook: WKSHP-Grommet
+ *           range: [546, 549]
  *           location: grenoble
  */
 module.exports = (sequelize, DataTypes) => {
   const Workshop = sequelize.define(
-    "workshop",
+    'workshop',
     {
       id: {
         type: DataTypes.INTEGER,
@@ -89,6 +92,7 @@ module.exports = (sequelize, DataTypes) => {
       avatar: DataTypes.STRING,
       role: DataTypes.STRING,
       preRequisite: DataTypes.TEXT,
+      compile: DataTypes.STRING(1234),
       replayLink: DataTypes.STRING,
       active: {
         type: DataTypes.BOOLEAN,
