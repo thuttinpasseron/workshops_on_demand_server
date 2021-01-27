@@ -1,7 +1,6 @@
 import express from 'express';
 import models from '../models';
-import { verifyToken } from '../src/util';
-const jwt = require('jsonwebtoken');
+const { authJwt } = require('../middleware');
 const Sequelize = require('sequelize');
 const op = Sequelize.Op;
 import dotenv from 'dotenv';
@@ -46,7 +45,7 @@ const getDates = () => {
  *                $ref: '#/components/schemas/Customer'
  */
 // Get customers
-router.get('/customers', (req, res) => {
+router.get('/customers', [authJwt.verifyToken], (req, res) => {
   // jwt.verify(req.token, 'secretkey', (err) => {
   //   if (err) {
   //     res.status(403).send('Access Denied');
@@ -84,11 +83,7 @@ router.get('/customers', (req, res) => {
  *                $ref: '#/components/schemas/Customer'
  */
 // Get customer by ID
-router.get('/customers/:id', (req, res) => {
-  // jwt.verify(req.token, 'secretkey', (err) => {
-  //   if (err) {
-  //     res.status(403).send('Access Denied');
-  //   } else {
+router.get('/customers/:id', [authJwt.verifyToken], (req, res) => {
   models.customer
     .findOne({
       where: { id: req.params.id },
@@ -100,8 +95,6 @@ router.get('/customers/:id', (req, res) => {
     .catch((error) => {
       res.status(400).send({ error });
     });
-  //   }
-  // });
 });
 
 // Create a Customer
@@ -127,11 +120,7 @@ router.get('/customers/:id', (req, res) => {
  *                $ref: '#/components/schemas/Customer'
  */
 // Create customer
-router.post('/customer', async (req, res) => {
-  // jwt.verify(req.token, 'secretkey', async (err) => {
-  //   if (err) {
-  //     res.status(403).send('Access Denied');
-  //   } else {
+router.post('/customer', [authJwt.verifyToken], async (req, res) => {
   try {
     // check whether customer is already registered for another workshop
     const exisitingCustomer = await models.customer.findAll({
@@ -236,8 +225,6 @@ router.post('/customer', async (req, res) => {
     console.log('error in catch!', error);
     res.status(400).send({ error });
   }
-  // }
-  // });
 });
 /**
  * @swagger
@@ -268,27 +255,25 @@ router.post('/customer', async (req, res) => {
  *                $ref: '#/components/schemas/Customer'
  */
 // Edit customer
-router.put('/customer/:id', (req, res) => {
-  // jwt.verify(req.token, 'secretkey', (err) => {
-  //   if (err) {
-  //     res.status(403).send('Access Denied');
-  //   } else {
-  models.customer
-    .findOne({
-      where: { id: req.params.id },
-    })
-    .then((entry) => {
-      console.log('req.body', req.body);
-      entry
-        .update({ ...req.body })
-        .then(({ dataValues }) => res.status(200).send(dataValues));
-    })
-    .catch((error) => {
-      res.status(400).send({ error });
-    });
-  // }
-  // });
-});
+router.put(
+  '/customer/:id',
+  [authJwt.verifyToken, authJwt.isModeratorOrAdmin],
+  (req, res) => {
+    models.customer
+      .findOne({
+        where: { id: req.params.id },
+      })
+      .then((entry) => {
+        console.log('req.body', req.body);
+        entry
+          .update({ ...req.body })
+          .then(({ dataValues }) => res.status(200).send(dataValues));
+      })
+      .catch((error) => {
+        res.status(400).send({ error });
+      });
+  }
+);
 
 /**
  * @swagger
@@ -313,23 +298,21 @@ router.put('/customer/:id', (req, res) => {
  *                $ref: '#/components/schemas/Customer'
  */
 // Delete customer
-router.delete('/customer/:id', (req, res) => {
-  // jwt.verify(req.token, 'secretkey', (err) => {
-  //   if (err) {
-  //     res.status(403).send('Access Denied');
-  //   } else {
-  models.customer
-    .findOne({
-      where: { id: req.params.id },
-    })
-    .then((entry) => {
-      entry.destroy().then(() => res.status(200).send({}));
-    })
-    .catch((error) => {
-      res.status(400).send({ error });
-    });
-  //   }
-  // });
-});
+router.delete(
+  '/customer/:id',
+  [authJwt.verifyToken, authJwt.isAdmin],
+  (req, res) => {
+    models.customer
+      .findOne({
+        where: { id: req.params.id },
+      })
+      .then((entry) => {
+        entry.destroy().then(() => res.status(200).send({}));
+      })
+      .catch((error) => {
+        res.status(400).send({ error });
+      });
+  }
+);
 
 export default router;

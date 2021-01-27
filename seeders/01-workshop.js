@@ -207,7 +207,7 @@ module.exports = {
       {
         name:
           'Deploying end-to-end machine learning workflows​ With HPE Ezmeral MLOPS​',
-        notebook: 'WKSHP-ML-KUB',
+        notebook: 'WKSHP-HPECP-MLOPS',
         description:
           'Join this hands-on workshop and learn some fundamentals of the HPE Ezmeral Container Platform’s ability to manage, deploy, and work with models in a notebook oriented around machine learning, model development, and management. You will understand how to securely deploy and update your models in a containerized workload using data in the global data fabric and applications loaded on the HPE Ezmeral Container Platform.',
         capacity: 54,
@@ -225,19 +225,19 @@ module.exports = {
       },
       {
         name: 'Building a dynamic Machine Learning pipeline with KubeDirector​',
-        notebook: 'WKSHP-MLKUB',
+        notebook: 'WKSHP-K8s-ML-Pipeline',
         description:
           'Looking for a quick introduction to Machine Learning pipeline with open source application called KubeDirector? Take this free hands-on workshop to learn the steps to create an end-to-end machine learning (ML) pipeline, from data preparation to model deployment through model training and registry. You will discover how the key use of KubeDirector and its capabilities enable a dynamic ML pipeline on a CNCF-certified Kubernetes cluster managed by HPE Ezmeral Container Platform.',
         capacity: 54,
         priority: 12,
-        range: [996, 1049],
+        range: [976, 1050],
         reset: true,
         ldap: false,
         sessionType: 'Workshops-on-Demand',
         location: 'mougins',
         preRequisite: '',
         active: false,
-        replayLink: 'replays/0',
+        replayLink: 'replays/18',
         createdAt: new Date(),
         updatedAt: new Date(),
       },

@@ -12,9 +12,9 @@ var Sequelize = require('sequelize');
  **/
 
 var info = {
-  revision: 1,
+  revision: 2,
   name: 'test',
-  created: '2020-04-24T02:31:23.794Z',
+  created: '2021-01-20T02:31:23.794Z',
   comment: '',
 };
 
@@ -239,26 +239,6 @@ var migrationCommands = [
       {},
     ],
   },
-  // {
-  //   fn: 'createTable',
-  //   params: [
-  //     'users',
-  //     {
-  //       id: {
-  //         type: Sequelize.INTEGER,
-  //         primaryKey: true,
-  //         autoIncrement: true,
-  //       },
-  //       username: Sequelize.STRING,
-  //       email: Sequelize.STRING,
-  //       password: Sequelize.STRING,
-
-  //       createdAt: Sequelize.DATE,
-  //       updatedAt: Sequelize.DATE,
-  //     },
-  //     {},
-  //   ],
-  // },
 ];
 
 module.exports = {

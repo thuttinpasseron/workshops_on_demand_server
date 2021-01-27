@@ -10,21 +10,26 @@ import workshopRoutes from '../routes/workshops';
 import customerRoutes from '../routes/customers';
 import studentRoutes from '../routes/students';
 import challengeRoutes from '../routes/challenges';
-// import userRoutes from '../routes/users';
-// import loginRoutes from '../routes/login';
+import userRoutes from '../routes/users';
+import loginRoutes from '../routes/login';
 import emailsRoutes from '../routes/emails';
 import runCronJobs from '../modules/CheckCustomers';
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
+const db = require('../models');
 
 dotenv.config();
 
-const fromEmailAddress = process.env.FROM_EMAIL_ADDRESS;
-const prodApiUrl = process.env.PRODUCTION_API_SERVER;
-const apiPort = process.env.API_PORT;
+const { FROM_EMAIL_ADDRESS, PRODUCTION_API_SERVER, API_PORT } = process.env;
+
+const SOURCE_ORIGIN = process.env.SOURCE_ORIGIN.split(',');
 
 const app = express();
-app.use(cors());
+
+let corsOptions = {
+  origin: SOURCE_ORIGIN,
+};
+app.use(cors(corsOptions));
 app.use(compression());
 app.use(morgan('tiny'));
 app.use(
@@ -50,16 +55,16 @@ const options = {
       contact: {
         name: 'HPEDEV',
         url: 'https://hpedev.io',
-        email: fromEmailAddress,
+        email: FROM_EMAIL_ADDRESS,
       },
     },
     servers: [
       {
-        url: `http://localhost:${apiPort}/api`,
+        url: `http://localhost:${API_PORT}/api`,
         description: 'Local (development) server',
       },
       {
-        url: prodApiUrl,
+        url: PRODUCTION_API_SERVER,
         description: 'Main (production) server',
       },
     ],
@@ -97,14 +102,17 @@ app.use('/api', workshopRoutes);
 app.use('/api', studentRoutes);
 app.use('/api', customerRoutes);
 app.use('/api', challengeRoutes);
-// app.use('/api', userRoutes);
-// app.use('/api', loginRoutes);
+app.use('/api', userRoutes);
+app.use('/api', loginRoutes);
 app.use('/api', emailsRoutes);
 
 app.use(express.json());
 app.use('', router);
-app.listen(apiPort, () => {
-  console.log(`HPE Workshops On Demand API listening on port ${apiPort}!`); // eslint-disable-line no-console
+
+db.sequelize.sync();
+
+app.listen(API_PORT, () => {
+  console.log(`HPE Workshops On Demand API listening on port ${API_PORT}!`); // eslint-disable-line no-console
   runCronJobs();
 });
 
