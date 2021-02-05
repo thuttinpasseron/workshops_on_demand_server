@@ -71,6 +71,12 @@ const checkCustomer = () => {
         ) {
           jupyterEmail = process.env.POSTFIX_EMAIL_MOUGINS;
           studentId = dataValues.studentId;
+        } else if (
+          location &&
+          location === process.env.JUPYTER_GREENLAKE_LOCATION
+        ) {
+          jupyterEmail = process.env.POSTFIX_EMAIL_GREENLAKE;
+          studentId = dataValues.studentId;
         }
         // Send welcome email.
         if (!dataValues.lastEmailSent && studentId != null && studentId > 0) {
