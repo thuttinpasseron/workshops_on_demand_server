@@ -76,7 +76,8 @@ const checkCustomer = () => {
           location === process.env.JUPYTER_GREENLAKE_LOCATION
         ) {
           jupyterEmail = process.env.POSTFIX_EMAIL_GREENLAKE;
-          studentId = dataValues.studentId;
+          studentId =
+            dataValues.studentId - 2 * process.env.NO_OF_STUDENT_ACCOUNTS;
         }
         // Send welcome email.
         if (!dataValues.lastEmailSent && studentId != null && studentId > 0) {
