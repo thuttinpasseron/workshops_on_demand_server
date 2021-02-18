@@ -361,7 +361,7 @@ const checkCustomer = () => {
                     workshop.range
                   );
                   if (
-                    workshop.notebook != 'WKSHP-OneView' ||
+                    workshop.notebook != 'WKSHP-OneView' &&
                     workshop.notebook != 'WKSHP-OneView-Advanced'
                   ) {
                     subject = `RESET ${studentId}`;
@@ -380,8 +380,8 @@ const checkCustomer = () => {
                 if (
                   !workshop.reset ||
                   (workshop.reset &&
-                    (workshop.notebook != 'WKSHP-OneView' ||
-                      workshop.notebook != 'WKSHP-OneView-Advanced'))
+                    workshop.notebook != 'WKSHP-OneView' &&
+                    workshop.notebook != 'WKSHP-OneView-Advanced')
                 ) {
                   await workshop.increment('capacity');
                 }
