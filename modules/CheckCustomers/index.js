@@ -349,15 +349,21 @@ const checkCustomer = () => {
                       sessionType === session_type_coding_challenge) &&
                     workshop.reset &&
                     workshop.capacity === 0 &&
-                    workshop.notebook === 'WKSHP-OneView') ||
-                  (workshop.reset && workshop.notebook != 'WKSHP-OneView')
+                    (workshop.notebook === 'WKSHP-OneView' ||
+                      workshop.notebook === 'WKSHP-OneView-Advanced')) ||
+                  (workshop.reset &&
+                    (workshop.notebook != 'WKSHP-OneView' ||
+                      workshop.notebook != 'WKSHP-OneView-Advanced'))
                 ) {
                   console.log(
                     'sending reset email RESET',
                     workshop.notebook,
                     workshop.range
                   );
-                  if (workshop.notebook != 'WKSHP-OneView') {
+                  if (
+                    workshop.notebook != 'WKSHP-OneView' ||
+                    workshop.notebook != 'WKSHP-OneView-Advanced'
+                  ) {
                     subject = `RESET ${studentId}`;
                   } else {
                     subject = `RESET ${workshop.range}`;
@@ -373,7 +379,9 @@ const checkCustomer = () => {
               .then(async () => {
                 if (
                   !workshop.reset ||
-                  (workshop.reset && workshop.notebook != 'WKSHP-OneView')
+                  (workshop.reset &&
+                    (workshop.notebook != 'WKSHP-OneView' ||
+                      workshop.notebook != 'WKSHP-OneView-Advanced'))
                 ) {
                   await workshop.increment('capacity');
                 }
