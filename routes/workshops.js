@@ -150,7 +150,7 @@ router.get('/workshops/:id', [authJwt.verifyToken], (req, res) => {
 // Edit workshop
 router.put(
   '/workshop/:id',
-  [authJwt.verifyToken, authJwt.isAdmin],
+  [authJwt.verifyToken, authJwt.isModeratorOrAdmin],
   (req, res) => {
     models.workshop
       .findOne({
