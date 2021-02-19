@@ -71,6 +71,13 @@ const checkCustomer = () => {
         ) {
           jupyterEmail = process.env.POSTFIX_EMAIL_MOUGINS;
           studentId = dataValues.studentId;
+        } else if (
+          location &&
+          location === process.env.JUPYTER_GREENLAKE_LOCATION
+        ) {
+          jupyterEmail = process.env.POSTFIX_EMAIL_GREENLAKE;
+          studentId =
+            dataValues.studentId - 2 * process.env.NO_OF_STUDENT_ACCOUNTS;
         }
         // Send welcome email.
         if (!dataValues.lastEmailSent && studentId != null && studentId > 0) {
@@ -342,15 +349,21 @@ const checkCustomer = () => {
                       sessionType === session_type_coding_challenge) &&
                     workshop.reset &&
                     workshop.capacity === 0 &&
-                    workshop.notebook === 'WKSHP-OneView') ||
-                  (workshop.reset && workshop.notebook != 'WKSHP-OneView')
+                    (workshop.notebook === 'WKSHP-OneView' ||
+                      workshop.notebook === 'WKSHP-OneView-Advanced')) ||
+                  (workshop.reset &&
+                    (workshop.notebook != 'WKSHP-OneView' ||
+                      workshop.notebook != 'WKSHP-OneView-Advanced'))
                 ) {
                   console.log(
                     'sending reset email RESET',
                     workshop.notebook,
                     workshop.range
                   );
-                  if (workshop.notebook != 'WKSHP-OneView') {
+                  if (
+                    workshop.notebook != 'WKSHP-OneView' &&
+                    workshop.notebook != 'WKSHP-OneView-Advanced'
+                  ) {
                     subject = `RESET ${studentId}`;
                   } else {
                     subject = `RESET ${workshop.range}`;
@@ -366,7 +379,9 @@ const checkCustomer = () => {
               .then(async () => {
                 if (
                   !workshop.reset ||
-                  (workshop.reset && workshop.notebook != 'WKSHP-OneView')
+                  (workshop.reset &&
+                    workshop.notebook != 'WKSHP-OneView' &&
+                    workshop.notebook != 'WKSHP-OneView-Advanced')
                 ) {
                   await workshop.increment('capacity');
                 }

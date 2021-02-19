@@ -33,12 +33,16 @@ You need to have node.js and a package manager; both npm (npm is installed with 
       PRODUCTION_API_SERVER=''  // swagger documentation
       JUPYTER_MOUGINS_LOCATION= // Mougins location name
       JUPYTER_GRENOBLE_LOCATION= // grenoble location name
+      JUPYTER_GREENLAKE_LOCATION= // Greenlake location name
       POSTFIX_EMAIL_GRENOBLE=  // email of Postfix server in  Grenoble to send email
       POSTFIX_EMAIL_MOUGINS= // email of Postfix server in  Mougins to send email
+      POSTFIX_EMAIL_GREENLAKE= // email of Postfix server in  Greenlake to send email
       POSTFIX_HOST_GRENOBLE= // Host of Postfix server in  Grenoble to send email
       POSTFIX_PORT_GRENOBLE=  // Port of Postfix server in  Grenoble to send email
       POSTFIX_HOST_MOUGINS=   // Host of Postfix server in  Mougins to send email
       POSTFIX_PORT_MOUGINS=   // Port of Postfix server in  Mougins to send email
+      POSTFIX_HOST_GREENLAKE=   // Host of Postfix server in  Greenlake to send email
+      POSTFIX_PORT_GREENLAKE=   // Port of Postfix server in  Greenlake to send email
       FEEDBACK_URL= // Feedback URL 
       PRODUCTION_API_SERVER= // Production API Server hostname to access swagger doc 
       NO_OF_STUDENT_ACCOUNTS= // total number of student accounts for each location

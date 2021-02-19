@@ -157,6 +157,9 @@ router.post('/customer', [authJwt.verifyToken], async (req, res) => {
       if (req.body.location && req.body.location === 'grenoble') {
         studentRange[0] = studentRange[0] + parseInt(studentCount);
         studentRange[1] = studentRange[1] + parseInt(studentCount);
+      } else if (req.body.location && req.body.location === 'greenlake') {
+        studentRange[0] = studentRange[0] + 2 * parseInt(studentCount);
+        studentRange[1] = studentRange[1] + 2 * parseInt(studentCount);
       }
     }
 

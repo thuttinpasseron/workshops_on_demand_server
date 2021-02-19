@@ -12,8 +12,8 @@ module.exports = {
       //   customerId: 0,
       url: `https://notebooks3.hpedev.io/user/student${key}/lab?`,
       username: `student${key}`,
-      password: "MyNewPassword",
-      location: "mougins",
+      password: 'MyNewPassword',
+      location: 'mougins',
     }));
 
     const arr2 = [...Array(N + 1).keys()].slice(1);
@@ -23,13 +23,24 @@ module.exports = {
       //   customerId: 0,
       url: `https://notebooks2.hpedev.io/user/student${key}/lab?`,
       username: `student${key}`,
-      password: "MyNewPassword",
-      location: "grenoble",
+      password: 'MyNewPassword',
+      location: 'grenoble',
     }));
 
-    let entries = [...entries1, ...entries2];
+    const arr3 = [...Array(N + 1).keys()].slice(1);
+    const entries3 = arr3.map((key) => ({
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      //   customerId: 0,
+      url: `https://notebooks4.hpedev.io/user/student${key}/lab?`,
+      username: `student${key}`,
+      password: 'MyNewPassword',
+      location: 'greenlake',
+    }));
 
-    return queryInterface.bulkInsert("students", entries, { returning: true });
+    let entries = [...entries1, ...entries2, ...entries3];
+
+    return queryInterface.bulkInsert('students', entries, { returning: true });
   },
-  down: (queryInterface) => queryInterface.bulkDelete("students", null, {}),
+  down: (queryInterface) => queryInterface.bulkDelete('students', null, {}),
 };
