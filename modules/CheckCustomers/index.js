@@ -352,8 +352,8 @@ const checkCustomer = () => {
                     (workshop.notebook === 'WKSHP-OneView' ||
                       workshop.notebook === 'WKSHP-OneView-Advanced')) ||
                   (workshop.reset &&
-                    (workshop.notebook != 'WKSHP-OneView' ||
-                      workshop.notebook != 'WKSHP-OneView-Advanced'))
+                    workshop.notebook != 'WKSHP-OneView' &&
+                    workshop.notebook != 'WKSHP-OneView-Advanced')
                 ) {
                   console.log(
                     'sending reset email RESET',
