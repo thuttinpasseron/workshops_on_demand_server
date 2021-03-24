@@ -28,6 +28,8 @@
  *            type: array
  *          reset:
  *            type: boolean
+ *          varpass:
+ *            type: boolean
  *          ldap:
  *            type: boolean
  *          sessionId:
@@ -77,6 +79,11 @@ module.exports = (sequelize, DataTypes) => {
       priority: DataTypes.INTEGER,
       range: DataTypes.ARRAY(DataTypes.INTEGER),
       reset: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      varpass: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
