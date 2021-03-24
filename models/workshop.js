@@ -28,6 +28,8 @@
  *            type: array
  *          reset:
  *            type: boolean
+ *          varpass:
+ *            type: boolean
  *          ldap:
  *            type: boolean
  *          sessionId:
