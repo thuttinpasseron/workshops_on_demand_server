@@ -94,6 +94,10 @@ jobs:
           --file-exists-behavior OVERWRITE \
           --s3-location bucket=${{ matrix.s3-bucket }},key=${{ matrix.s3-filename }}.zip,bundleType=zip \
       
+      # Install PM2
+      - name: Install PM2
+        run: npm i pm2
+
       # Restart PM2 process
       - name: Restart PM2
         run: |
