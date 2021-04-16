@@ -7,7 +7,12 @@
  *      Replay:
  *        type: object
  *        required:
- *          - name
+ *          - avatar
+ *          - title
+ *          - desc
+ *          - presenter
+ *          - role
+ *          - videoLink
  *        properties:
  *          id:
  *            type: integer
@@ -22,7 +27,8 @@
  *            type: string
  *          role:
  *            type: string
- *          videoLink: string
+ *          videoLink: 
+ *            type: string
  *          createdAt:
  *            type: string
  *            format: date-time
@@ -35,7 +41,7 @@
  *           desc: Calling all developers, data analysts and IT architects. Learn how to interact with the HPE Ezmeral Container Platform programmatically through its REST API. In this hands-on workshop, you'll learn how to perform authentication, deploy distributed multi-mode applications for AI/ML and data analytics and interpret/respond to REST API calls. We'll walk you through, step by step, and, by the end of the session, you'll be deploying a TensorFlow application framework and other simple applications. No previous programming experience required.
  *           presenter: Denis Choukroun
  *           role: Cloud Solution Architect
- *           videolink: https://vimeo.com/445302013
+ *           videoLink: https://vimeo.com/445302013
  */
 module.exports = (sequelize, DataTypes) => {
   const Replay = sequelize.define(
