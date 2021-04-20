@@ -28,8 +28,8 @@ jobs:
       # Install project dependencies, test and build
       - name: Install dependencies
         run: npm install
-      # - name: Run build
-      #   run: npm run build
+      #- name: Run build
+      #  run: npm run build
 
   deploy:
     name: CD Pipeline
@@ -38,7 +38,7 @@ jobs:
       matrix:
         python-version: [3.8]
         node-version: ['12.x']
-        appname: ['workshops-on-demand']
+        appname: ['workshops-on-demand-staging']
         deploy-group: ['staging']
         s3-bucket: ['workshops-on-demand']
         s3-filename: ['staging-workshops-on-demand-${{ github.sha }}']
@@ -56,15 +56,15 @@ jobs:
       # Install project dependencies and build
       - name: Install dependencies
         run: npm install
-      # - name: Run build
-      #   run: npm run build
+      #- name: Run build
+      #  run: npm run build
 
       # Install AWS CLI 2
       - name: Install AWS CLI 2
         run: |
           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
           unzip awscliv2.zip
-          sudo ./aws/install
+          sudo ./aws/install --update
 
       # Configure AWS credentials
       - name: Configure AWS credentials
@@ -88,8 +88,18 @@ jobs:
       - name: AWS Create Deployment
         run: |
           aws deploy create-deployment \
-           --application-name ${{ matrix.appname }} \
-           --deployment-config-name CodeDeployDefault.OneAtATime \
-           --deployment-group-name ${{ matrix.deploy-group }} \
-           --file-exists-behavior OVERWRITE \
-           --s3-location bucket=${{ matrix.s3-bucket }},key=${{ matrix.s3-filename }}.zip,bundleType=zip \
+          --application-name ${{ matrix.appname }} \
+          --deployment-config-name CodeDeployDefault.OneAtATime \
+          --deployment-group-name ${{ matrix.deploy-group }} \
+          --file-exists-behavior OVERWRITE \
+          --s3-location bucket=${{ matrix.s3-bucket }},key=${{ matrix.s3-filename }}.zip,bundleType=zip \
+      
+      # # Install PM2
+      # - name: Install PM2
+      #   run: npm i pm2
+
+      # # Restart PM2 process
+      # - name: Restart PM2
+      #   run: |
+      #     pm2 kill
+      #     pm2 start npm -- start
