@@ -27,18 +27,7 @@ module.exports = {
       location: 'grenoble',
     }));
 
-    const arr3 = [...Array(N + 1).keys()].slice(1);
-    const entries3 = arr3.map((key) => ({
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      //   customerId: 0,
-      url: `https://notebooks4.hpedev.io/user/student${key}/lab?`,
-      username: `student${key}`,
-      password: 'MyNewPassword',
-      location: 'greenlake',
-    }));
-
-    let entries = [...entries1, ...entries2, ...entries3];
+    let entries = [...entries1, ...entries2];
 
     return queryInterface.bulkInsert('students', entries, { returning: true });
   },
