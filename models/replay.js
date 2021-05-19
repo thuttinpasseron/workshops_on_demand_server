@@ -25,6 +25,8 @@
  *            type: string
  *          presenter:
  *            type: string
+ *          presenter2:
+ *            type: string
  *          role:
  *            type: string
  *          videoLink: 
