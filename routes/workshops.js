@@ -65,11 +65,14 @@ router.get('/workshops', [authJwt.verifyToken], (req, res) => {
   ) {
     models.workshop
       .findAll({
-        raw: true,
         order: [['priority', 'ASC']],
         where: {
           active: req.query.active,
         },
+        include: {
+          model: models.replays, 
+          attributes:['avatar', 'presenter', 'role'],
+        }
       })
       .then((entries) => res.send(entries));
   } else {
@@ -77,6 +80,10 @@ router.get('/workshops', [authJwt.verifyToken], (req, res) => {
       .findAll({
         raw: true,
         order: [['priority', 'ASC']],
+        include: {
+          model: models.replays, 
+          attributes:['avatar', 'presenter', 'role'],
+        }
       })
       .then((entries) => res.send(entries));
   }

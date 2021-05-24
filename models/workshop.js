@@ -113,6 +113,12 @@ module.exports = (sequelize, DataTypes) => {
   );
   Workshop.associate = function (models) {
     // associations can be defined here
+    Workshop.hasOne(models.replays,
+      {
+        foreignKey: {
+          field: 'replayId',
+        },
+      });
   };
   return Workshop;
 };
