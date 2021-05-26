@@ -78,7 +78,6 @@ router.get('/workshops', [authJwt.verifyToken], (req, res) => {
   } else {
     models.workshop
       .findAll({
-        raw: true,
         order: [['priority', 'ASC']],
         include: {
           model: models.replays, 
