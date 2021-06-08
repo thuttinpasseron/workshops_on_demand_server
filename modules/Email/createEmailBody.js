@@ -11,6 +11,7 @@ module.exports = ({
   shareWorkshop,
   registerMore,
   enjoyWorkshop,
+  badgeImg,
   replayId,
 }) => `
 <html>
@@ -65,9 +66,9 @@ module.exports = ({
   ${
     shareWorkshop
       ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;"> ${shareWorkshop}</p><br>
-      <img src="${workshop.badgeImg ? workshop.badgeImg : null}>
+      <img src="${badgeImg}">
       <p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;">
-          <a style="text-decoration: none;" href="http://twitter.com/share?url=https://deploy-preview-179--musing-kalam-f76e20.netlify.app/${replayId}/15/finisher-badge">
+          <a style="text-decoration: none;" href="https://twitter.com/intent/tweet?url=https://deploy-preview-179--musing-kalam-f76e20.netlify.app/replays/${replayId}/finisher-badge">
             <img src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/Twitter.png" style="display: inline-block;">
           </a>
           <a style="text-decoration: none;" href="https://www.linkedin.com/sharing/share-offsite/?url=https://deploy-preview-179--musing-kalam-f76e20.netlify.app/replays/${replayId}/finisher-badge">

@@ -50,6 +50,8 @@
  *            type: boolean
  *          badgeImg:
  *            type: string
+ *          replayId:
+ *             type: integer
  *          createdAt:
  *            type: string
  *            format: date-time
