@@ -32,7 +32,7 @@ router.get("/replays", (req, res) => {
       order: [["id", "ASC"]],
       include: {
         model: models.workshop, 
-        attributes:['notebook', 'sessionType', 'location', 'capacity', 'name']
+        attributes:['notebook', 'sessionType', 'location', 'capacity', 'name', 'badgeImg']
       }
     })
     .then(entries => (res.send(entries)));

@@ -286,7 +286,8 @@ const checkCustomer = () => {
             content,
             registerMore,
             shareWorkshop,
-            feedback_url = '';
+            feedback_url = '',
+            replayId;
           if (sessionType && sessionType === session_type_workshops_on_demand) {
             subject =
               'Thanks for participating in the HPE DEV Workshops-on-Demand!';
@@ -296,6 +297,7 @@ const checkCustomer = () => {
             registerMore = `Ready for another Workshop? Register <a href="https://hackshack.hpedev.io/workshops">here</a>.`;
             shareWorkshop = `Share Workshops-on-Demand with your colleagues!<br/>`;
             feedback_url = feedback_workshop_url;
+            replayId = workshop.replayId;
           } else if (
             sessionType &&
             sessionType === session_type_coding_challenge
@@ -338,6 +340,7 @@ const checkCustomer = () => {
                     buttonUrl: feedback_url,
                     registerMore: registerMore,
                     shareWorkshop: shareWorkshop,
+                    replayId: replayId,
                   }),
                   proxy: dataValues.proxy,
                 });

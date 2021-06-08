@@ -48,6 +48,8 @@
  *            type: string
  *          active:
  *            type: boolean
+ *          badgeImg:
+ *            type: string
  *          createdAt:
  *            type: string
  *            format: date-time
@@ -106,6 +108,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: false,
       },
+      badgeImg: DataTypes.STRING,
+      replayId: DataTypes.INTEGER,
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
     },

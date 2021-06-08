@@ -10,7 +10,8 @@ module.exports = ({
   password,
   shareWorkshop,
   registerMore,
-  enjoyWorkshop
+  enjoyWorkshop,
+  replayId,
 }) => `
 <html>
 
@@ -64,11 +65,12 @@ module.exports = ({
   ${
     shareWorkshop
       ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;"> ${shareWorkshop}</p><br>
+      <img src="${workshop.badgeImg ? workshop.badgeImg : null}>
       <p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;">
-          <a style="text-decoration: none;" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fhackshack.hpedev.io%2Fworkshops&text=I%20enjoyed%20the%20HPE%20DEV%20Workshops-on-demand.%20Check%20it%20out!">
+          <a style="text-decoration: none;" href="http://twitter.com/share?url=https://deploy-preview-179--musing-kalam-f76e20.netlify.app/${replayId}/15/finisher-badge">
             <img src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/Twitter.png" style="display: inline-block;">
           </a>
-          <a style="text-decoration: none;" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fhackshack.hpedev.io%2Fworkshops&text=I%20enjoyed%20the%20HPE%20DEV%20Workshops-on-demand.%20Check%20it%20out!">
+          <a style="text-decoration: none;" href="https://www.linkedin.com/sharing/share-offsite/?url=https://deploy-preview-179--musing-kalam-f76e20.netlify.app/replays/${replayId}/finisher-badge">
             <img src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/LinkedIn.png" style="display: inline-block;">
           </a>
     </p>
