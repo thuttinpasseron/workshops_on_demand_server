@@ -100,6 +100,7 @@ module.exports = (sequelize, DataTypes) => {
       hours: DataTypes.INTEGER,
       startDate: DataTypes.DATE,
       endDate: DataTypes.DATE,
+      badgeReceived: DataTypes.STRING,
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
     },

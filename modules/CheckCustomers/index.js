@@ -13,6 +13,10 @@ const feedback_challenge_url = process.env.FEEDBACK_CHALLENGE_URL;
 const session_type_workshops_on_demand =
   process.env.SESSION_TYPE_WORKSHOPS_ON_DEMAND;
 const session_type_coding_challenge = process.env.SESSION_TYPE_CODING_CHALLENGE;
+const explorer_badge = 'explorer-badge';
+const expert_badge = 'expert-badge';
+const star_badge = 'star-badge';
+const superstar_badge = 'superstart-badge';
 const getHoursLeft = (ends) => {
   const oneHour = 1 * 60 * 60 * 1000;
   const endsDate = new Date(ends);
@@ -28,6 +32,45 @@ const getDates = () => {
   );
   return { startDate, endDate };
 };
+
+const checkCompletedCourses = (email) => {
+  return models.customer
+    .findAll({
+      where: {
+        email: email,
+        lastEmailSent: 'expired',
+      },
+      attributes: ['sessionName'],
+      group: ['sessionName'],
+      logging: false
+    })
+}
+
+const checkAlreadySentBadge = (email, badge) => {
+  return models.customer
+    .findAll({
+      where: {
+        email: email,
+        badgeReceived: badge
+      }
+    })
+}
+
+const specialBadgeEmail = (sessionType, recipient, subject, heading, content, buttonLabel, buttonUrl, enjoyWorkshop, proxy) => {
+  return sendEmail({
+    sessionType: sessionType,
+    recipient: recipient,
+    subject: subject,
+    content: createEmailBody({
+      heading: heading,
+      content: content,
+      buttonLabel: buttonLabel,
+      buttonUrl: buttonUrl,
+      enjoyWorkshop: enjoyWorkshop,
+    }),
+    proxy: proxy,
+  })
+}
 
 const checkCustomer = () => {
   models.customer
@@ -394,6 +437,80 @@ const checkCustomer = () => {
                 console.log('Promise Rejected', error);
               });
           });
+        }
+        // Send special badge.
+        if (dataValues.lastEmailSent === 'expired') {
+          let subject, heading, content, buttonLabel, enjoyWorkshop;
+
+          if (sessionType && sessionType === session_type_workshops_on_demand) {
+            subject =
+              'Special Badge';
+            heading =
+              'You received a finisher badge';
+            content = `${dataValues.name}, <br/> <br/>Please remember to save your work and download the workshop notebook if you anticipate 
+              requiring it in the future. Your account will be erased after your session has ended. <br/><br/>
+              Keep in mind that you can <a href="https://slack.hpedev.io/">join us on Slack</a> to take advantage of the dedicated 
+              <a href="${process.env.SLACK_CHANNEL_WORKSHOPS_ON_DEMAND}">#hpe-workshops-on-demand</a> 
+              channel being provided so you can reach out to our subject matter experts (SMEs) and obtain support.<br/><br/>
+              Remember to use these credentials to connect to the workshop:<br/><br/>
+              <b>User Name: ${dataValues.student.username}</b><br/>
+              <b>Password: ${dataValues.student.password}</b><br/>`;
+            buttonLabel = 'View Workshop';
+            enjoyWorkshop = 'Enjoy the workshop!';
+          }
+          // Checks total number of courses taken excluding duplicate courses
+          checkCompletedCourses(dataValues.email)
+            .then((result) => {
+              console.log('~~~~~~Customer', dataValues.email, 'has taken', result.length, 'courses.~~~~~~');
+              if (result.length === 3 && dataValues.badgeReceived !== explorer_badge) {
+                customer.update({
+                  badgeReceived: explorer_badge,
+                });
+                checkAlreadySentBadge(dataValues.email, explorer_badge)
+                  .then((result) => {
+                    if (result.length <= 0) {
+                      console.log("~~~~~SEND EXPLORER~~~~~!")
+                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, buttonLabel, dataValues.student.url, enjoyWorkshop, dataValues.proxy);
+                    }
+                  })
+              } else if (result.length === 5 && dataValues.badgeReceived !== expert_badge) {
+                customer.update({
+                  badgeReceived: expert_badge,
+                });
+                checkAlreadySentBadge(dataValues.email, expert_badge)
+                  .then((result) => {
+                    if (result.length <= 0) {
+                      console.log("!!!!!SEND EXPERT!!!!!!")
+                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, buttonLabel, dataValues.student.url, enjoyWorkshop, dataValues.proxy);
+                    }
+                  })
+              } else if (result.length === 7 && dataValues.badgeReceived !== star_badge) {
+                customer.update({
+                  badgeReceived: star_badge,
+                });
+                checkAlreadySentBadge(dataValues.email, star_badge)
+                  .then((result) => {
+                    if (result.length <= 0) {
+                      console.log("******SEND STAR BADGE *****")
+                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, buttonLabel, dataValues.student.url, enjoyWorkshop, dataValues.proxy);
+                    }
+                  })
+              } else if (result.length === 10 && dataValues.badgeReceived !== superstar_badge) {
+                customer.update({
+                  badgeReceived: superstar_badge,
+                });
+                checkAlreadySentBadge(dataValues.email, superstar_badge)
+                  .then((result) => {
+                    if (result.length <= 0) {
+                      console.log("$$$$$ SEND SUPERSTAR BADGE $$$$$")
+                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, buttonLabel, dataValues.student.url, enjoyWorkshop, dataValues.proxy);
+                    }
+                  })
+              }
+            })
+            .catch((error) => {
+              console.log('Promise Rejected', error);
+            });
         }
         return;
       })
