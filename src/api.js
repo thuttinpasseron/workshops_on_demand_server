@@ -14,6 +14,7 @@ import userRoutes from '../routes/users';
 import loginRoutes from '../routes/login';
 import emailsRoutes from '../routes/emails';
 import replaysRoutes from  '../routes/replays';
+import specialBadgesRoutes from '../routes/specialBadges';
 import runCronJobs from '../modules/CheckCustomers';
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
@@ -107,7 +108,7 @@ app.use('/api', userRoutes);
 app.use('/api', loginRoutes);
 app.use('/api', emailsRoutes);
 app.use('/api', replaysRoutes);
-
+app.use('/api', specialBadgesRoutes);
 
 app.use(express.json());
 app.use('', router);
