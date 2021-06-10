@@ -13,10 +13,10 @@ const feedback_challenge_url = process.env.FEEDBACK_CHALLENGE_URL;
 const session_type_workshops_on_demand =
   process.env.SESSION_TYPE_WORKSHOPS_ON_DEMAND;
 const session_type_coding_challenge = process.env.SESSION_TYPE_CODING_CHALLENGE;
-const explorer_badge = 'explorer-badge';
-const expert_badge = 'expert-badge';
-const star_badge = 'star-badge';
-const superstar_badge = 'superstart-badge';
+const explorer_badge = 1;
+const expert_badge = 2;
+const star_badge = 3;
+const superstar_badge = 4;
 const getHoursLeft = (ends) => {
   const oneHour = 1 * 60 * 60 * 1000;
   const endsDate = new Date(ends);
@@ -51,12 +51,12 @@ const checkAlreadySentBadge = (email, badge) => {
     .findAll({
       where: {
         email: email,
-        badgeReceived: badge
+        specialBadgeId: badge
       }
     })
 }
 
-const specialBadgeEmail = (sessionType, recipient, subject, heading, content, buttonLabel, buttonUrl, enjoyWorkshop, proxy) => {
+const specialBadgeEmail = (sessionType, recipient, subject, heading, content, feedback_url, registerMore, shareSpecialWorkshop, badgeImg, proxy) => {
   return sendEmail({
     sessionType: sessionType,
     recipient: recipient,
@@ -64,9 +64,11 @@ const specialBadgeEmail = (sessionType, recipient, subject, heading, content, bu
     content: createEmailBody({
       heading: heading,
       content: content,
-      buttonLabel: buttonLabel,
-      buttonUrl: buttonUrl,
-      enjoyWorkshop: enjoyWorkshop,
+      buttonLabel: 'Click here to provide feedback',
+      buttonUrl: feedback_url,
+      registerMore: registerMore,
+      shareSpecialWorkshop: shareSpecialWorkshop,
+      badgeImg: badgeImg,
     }),
     proxy: proxy,
   })
@@ -438,72 +440,83 @@ const checkCustomer = () => {
               });
           });
         }
-        // Send special badge.
-        if (dataValues.lastEmailSent === 'expired') {
-          let subject, heading, content, buttonLabel, enjoyWorkshop;
+        // Send special badges
+        if (dataValues.lastEmailSent === 'expired' && dataValues.specialBadgeId !== superstar_badge) {
+          let subject, heading, content, registerMore, shareSpecialWorkshop, feedback_url, badgeImg;
 
           if (sessionType && sessionType === session_type_workshops_on_demand) {
             subject =
-              'Special Badge';
-            heading =
-              'You received a finisher badge';
-            content = `${dataValues.name}, <br/> <br/>Please remember to save your work and download the workshop notebook if you anticipate 
-              requiring it in the future. Your account will be erased after your session has ended. <br/><br/>
-              Keep in mind that you can <a href="https://slack.hpedev.io/">join us on Slack</a> to take advantage of the dedicated 
-              <a href="${process.env.SLACK_CHANNEL_WORKSHOPS_ON_DEMAND}">#hpe-workshops-on-demand</a> 
-              channel being provided so you can reach out to our subject matter experts (SMEs) and obtain support.<br/><br/>
-              Remember to use these credentials to connect to the workshop:<br/><br/>
-              <b>User Name: ${dataValues.student.username}</b><br/>
-              <b>Password: ${dataValues.student.password}</b><br/>`;
-            buttonLabel = 'View Workshop';
-            enjoyWorkshop = 'Enjoy the workshop!';
+              'You have recieved the Explorer Badge!';
+            heading = `Thanks for participating in the HPE DEV Workshops-on-Demand!`;
+            content = `It is our goal to continually improve how we offer Workshops-on-Demand, so please share your feedback.`;
+            registerMore = `Ready for another Workshop? Register <a href="https://hackshack.hpedev.io/workshops">here</a>.`;
+            shareSpecialWorkshop = `Share Workshops-on-Demand with your colleagues!<br/>`;
+            feedback_url = feedback_workshop_url;
           }
           // Checks total number of courses taken excluding duplicate courses
           checkCompletedCourses(dataValues.email)
             .then((result) => {
-              console.log('~~~~~~Customer', dataValues.email, 'has taken', result.length, 'courses.~~~~~~');
-              if (result.length === 3 && dataValues.badgeReceived !== explorer_badge) {
+              if (result.length === 3 && dataValues.specialBadgeId !== explorer_badge) {
                 customer.update({
-                  badgeReceived: explorer_badge,
-                });
+                  specialBadgeId: explorer_badge
+                })
                 checkAlreadySentBadge(dataValues.email, explorer_badge)
-                  .then((result) => {
+                  .then(async (result) => {
                     if (result.length <= 0) {
-                      console.log("~~~~~SEND EXPLORER~~~~~!")
-                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, buttonLabel, dataValues.student.url, enjoyWorkshop, dataValues.proxy);
+                      const specialBadge = await models.special_badge.findOne({
+                        where: { id: dataValues.specialBadgeId },
+                      });
+                      badgeImg = specialBadge.dataValues.badgeImg;
+                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, dataValues.student.url, registerMore, shareSpecialWorkshop, badgeImg, dataValues.proxy);
+                      console.log('Explorer badge sent');
                     }
                   })
-              } else if (result.length === 5 && dataValues.badgeReceived !== expert_badge) {
+              } else if (result.length === 5 && dataValues.specialBadgeId !== expert_badge) {
                 customer.update({
-                  badgeReceived: expert_badge,
+                  specialBadgeId: expert_badge,
                 });
                 checkAlreadySentBadge(dataValues.email, expert_badge)
-                  .then((result) => {
+                  .then(async (result) => {
                     if (result.length <= 0) {
-                      console.log("!!!!!SEND EXPERT!!!!!!")
-                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, buttonLabel, dataValues.student.url, enjoyWorkshop, dataValues.proxy);
+                      const specialBadge = await models.special_badge.findOne({
+                        where: { id: dataValues.specialBadgeId },
+                      });
+                      subject = 'Expert Badge'
+                      badgeImg = specialBadge.dataValues.badgeImg;
+                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, dataValues.student.url, registerMore, shareSpecialWorkshop, badgeImg, dataValues.proxy);
+                      console.log('Expert badge sent');
                     }
                   })
-              } else if (result.length === 7 && dataValues.badgeReceived !== star_badge) {
+              } else if (result.length === 7 && dataValues.specialBadgeId !== star_badge) {
                 customer.update({
-                  badgeReceived: star_badge,
+                  specialBadgeId: star_badge,
                 });
                 checkAlreadySentBadge(dataValues.email, star_badge)
-                  .then((result) => {
+                  .then(async (result) => {
                     if (result.length <= 0) {
-                      console.log("******SEND STAR BADGE *****")
-                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, buttonLabel, dataValues.student.url, enjoyWorkshop, dataValues.proxy);
+                      const specialBadge = await models.special_badge.findOne({
+                        where: { id: dataValues.specialBadgeId },
+                      });
+                      subject = 'Star Badge'
+                      badgeImg = specialBadge.dataValues.badgeImg;
+                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, dataValues.student.url, registerMore, shareSpecialWorkshop, badgeImg, dataValues.proxy);
+                      console.log('Star badge sent');
                     }
                   })
-              } else if (result.length === 10 && dataValues.badgeReceived !== superstar_badge) {
+              } else if (result.length === 10 && dataValues.specialBadgeId !== superstar_badge) {
                 customer.update({
-                  badgeReceived: superstar_badge,
+                  specialBadgeId: superstar_badge,
                 });
                 checkAlreadySentBadge(dataValues.email, superstar_badge)
-                  .then((result) => {
+                  .then(async (result) => {
                     if (result.length <= 0) {
-                      console.log("$$$$$ SEND SUPERSTAR BADGE $$$$$")
-                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, buttonLabel, dataValues.student.url, enjoyWorkshop, dataValues.proxy);
+                      const specialBadge = await models.special_badge.findOne({
+                        where: { id: dataValues.specialBadgeId },
+                      });
+                      subject = 'SuperStar Badge'
+                      badgeImg = specialBadge.dataValues.badgeImg;
+                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, dataValues.student.url, registerMore, shareSpecialWorkshop, badgeImg, dataValues.proxy);
+                      console.log('SuperStar badge sent');
                     }
                   })
               }
@@ -520,7 +533,7 @@ const checkCustomer = () => {
 const runCronJobs = () => {
   const jobToCheckCustomers = new CronJob({
     // cronTime: '00 00 * * * *', // every hour
-    cronTime: '*/20 * * * * *', // every 20 seconds
+    cronTime: '*/10 * * * * *', // every 20 seconds
     onTick: () => checkCustomer(),
     runOnInit: true,
   });
