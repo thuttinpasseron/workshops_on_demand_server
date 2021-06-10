@@ -13,7 +13,8 @@ module.exports = ({
   enjoyWorkshop,
   badgeImg,
   replayId,
-  shareSpecialWorkshop
+  shareSpecialWorkshop,
+  specialBadgeId
 }) => `
 <html>
 
@@ -67,7 +68,7 @@ module.exports = ({
   ${
     shareWorkshop
       ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;"> ${shareWorkshop}</p><br>
-      <img src="${badgeImg}">
+      <img src="${badgeImg} style="width: 700px;">
       <p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;">
           <a style="text-decoration: none;" href="https://twitter.com/intent/tweet?url=https://deploy-preview-179--musing-kalam-f76e20.netlify.app/replays/${replayId}/finisher-badge">
             <img src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/Twitter.png" style="display: inline-block;">
@@ -85,10 +86,10 @@ module.exports = ({
       ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;"> ${shareSpecialWorkshop}</p><br>
       <img src="${badgeImg}" style="width: 700px;">
       <p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;">
-          <a style="text-decoration: none;" href="https://twitter.com/intent/tweet?url=https://hackshack.hpedev.io/workshops">
+          <a style="text-decoration: none;" href="https://twitter.com/intent/tweet?url=https://deploy-preview-179--musing-kalam-f76e20.netlify.app/workshops/${specialBadgeId}/special-badge">
             <img src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/Twitter.png" style="display: inline-block;">
           </a>
-          <a style="text-decoration: none;" href="https://www.linkedin.com/sharing/share-offsite/?url=https://hackshack.hpedev.io/workshops">
+          <a style="text-decoration: none;" href="https://www.linkedin.com/sharing/share-offsite/?url=https://deploy-preview-179--musing-kalam-f76e20.netlify.app/workshops/${specialBadgeId}/special-badge">
             <img src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/LinkedIn.png" style="display: inline-block;">
           </a>
     </p>

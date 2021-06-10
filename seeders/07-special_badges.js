@@ -4,25 +4,25 @@ module.exports = {
       'special_badges',
       [
         {
-          id: 1,
+          id: 0,
           badgeImg: 'https://us-central1-grommet-designer.cloudfunctions.net/images/jay-giang-hpe-com/explorer.jpg',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          id: 2,
+          id: 1,
           badgeImg: 'https://us-central1-grommet-designer.cloudfunctions.net/images/jay-giang-hpe-com/expert.jpg',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          id: 3,
+          id: 2,
           badgeImg: 'https://us-central1-grommet-designer.cloudfunctions.net/images/jay-giang-hpe-com/star.jpg',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          id: 4,
+          id: 3,
           badgeImg: 'https://us-central1-grommet-designer.cloudfunctions.net/images/jay-giang-hpe-com/superstar.jpg',
           createdAt: new Date(),
           updatedAt: new Date(),

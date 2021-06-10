@@ -56,7 +56,7 @@ const checkAlreadySentBadge = (email, badge) => {
     })
 }
 
-const specialBadgeEmail = (sessionType, recipient, subject, heading, content, feedback_url, registerMore, shareSpecialWorkshop, badgeImg, proxy) => {
+const specialBadgeEmail = (sessionType, recipient, subject, heading, content, feedback_url, registerMore, shareSpecialWorkshop, badgeImg, specialBadgeId, proxy) => {
   return sendEmail({
     sessionType: sessionType,
     recipient: recipient,
@@ -69,6 +69,7 @@ const specialBadgeEmail = (sessionType, recipient, subject, heading, content, fe
       registerMore: registerMore,
       shareSpecialWorkshop: shareSpecialWorkshop,
       badgeImg: badgeImg,
+      specialBadgeId: specialBadgeId
     }),
     proxy: proxy,
   })
@@ -467,7 +468,7 @@ const checkCustomer = () => {
                         where: { id: dataValues.specialBadgeId },
                       });
                       badgeImg = specialBadge.dataValues.badgeImg;
-                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, dataValues.student.url, registerMore, shareSpecialWorkshop, badgeImg, dataValues.proxy);
+                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, dataValues.student.url, registerMore, shareSpecialWorkshop, badgeImg, dataValues.specialBadgeId, dataValues.proxy);
                       console.log('Explorer badge sent');
                     }
                   })
@@ -483,7 +484,7 @@ const checkCustomer = () => {
                       });
                       subject = 'Expert Badge'
                       badgeImg = specialBadge.dataValues.badgeImg;
-                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, dataValues.student.url, registerMore, shareSpecialWorkshop, badgeImg, dataValues.proxy);
+                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, dataValues.student.url, registerMore, shareSpecialWorkshop, badgeImg, dataValues.specialBadgeId, dataValues.proxy);
                       console.log('Expert badge sent');
                     }
                   })
@@ -499,7 +500,7 @@ const checkCustomer = () => {
                       });
                       subject = 'Star Badge'
                       badgeImg = specialBadge.dataValues.badgeImg;
-                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, dataValues.student.url, registerMore, shareSpecialWorkshop, badgeImg, dataValues.proxy);
+                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, dataValues.student.url, registerMore, shareSpecialWorkshop, badgeImg, dataValues.specialBadgeId, dataValues.proxy);
                       console.log('Star badge sent');
                     }
                   })
@@ -515,7 +516,7 @@ const checkCustomer = () => {
                       });
                       subject = 'SuperStar Badge'
                       badgeImg = specialBadge.dataValues.badgeImg;
-                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, dataValues.student.url, registerMore, shareSpecialWorkshop, badgeImg, dataValues.proxy);
+                      specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, dataValues.student.url, registerMore, shareSpecialWorkshop, badgeImg, dataValues.specialBadgeId, dataValues.proxy);
                       console.log('SuperStar badge sent');
                     }
                   })
@@ -533,7 +534,7 @@ const checkCustomer = () => {
 const runCronJobs = () => {
   const jobToCheckCustomers = new CronJob({
     // cronTime: '00 00 * * * *', // every hour
-    cronTime: '*/10 * * * * *', // every 20 seconds
+    cronTime: '*/20 * * * * *', // every 20 seconds
     onTick: () => checkCustomer(),
     runOnInit: true,
   });
