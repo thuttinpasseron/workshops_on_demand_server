@@ -150,7 +150,7 @@ const checkCustomer = () => {
                 subject = 'HPE DEV Workshops-on-Demand';
                 heading = 'Welcome to HPE DEV Workshops-on-Demand!';
                 content = `Hello, ${dataValues.name}! <br> <br>
-                In a moment, you will receive a second email providing you with the details required to access the Hack Shack <b>${dataValues.sessionName}</b> workshop.<br/><br/>
+                In a moment, you will receive a second email providing you with the details required to access the HPE DEV Workshop-on-Demand, <b>${dataValues.sessionName}</b> workshop.<br/><br/>
                 To ensure a successful experience with this workshop, please take a moment to review this <a href="https://hackshack.hpedev.io/${workshop.replayLink}">video replay</a> of the live workshop and 
                 read the detailed instructions found in this <a href="https://developer.hpe.com/blog/boost-skills-with-free-on-demand-software-technology-workshops">blog post</a>. We also advise that you 
                 <a href="https://slack.hpedev.io/">join us on Slack</a> to take advantage of the dedicated <a href="${process.env.SLACK_CHANNEL_WORKSHOPS_ON_DEMAND}">#hpe-workshops-on-demand</a> 
@@ -166,7 +166,7 @@ const checkCustomer = () => {
                 subject = 'HPE DEV Challenge';
                 heading = 'Welcome to HPE DEV Challenge!';
                 content = `Hello, ${dataValues.name}! <br> <br>
-                In a moment, you will receive a second email providing you with the details required to access the Hack Shack <b>${dataValues.sessionName}</b> challenge.<br/><br/>
+                In a moment, you will receive a second email providing you with the details required to access the HPE DEV Workshop-on-Demand, <b>${dataValues.sessionName}</b> challenge.<br/><br/>
                 To ensure a successful experience with this challenge, please take a moment to review this <a href="https://hackshack.hpedev.io/${workshop.replayLink}">video replay</a> of the live workshop and 
                 read the detailed instructions found in this <a href="https://developer.hpe.com/blog/hpe-dev-hack-shack-coding-challenges-are-you-ready-to-compete">blog post</a>. We also advise that you 
                 <a href="https://slack.hpedev.io/">join us on Slack</a> to take advantage of the dedicated <a href="${process.env.SLACK_CHANNEL_CHALLENGES}">#hpe-hackshack-challenges</a> 
@@ -210,7 +210,7 @@ const checkCustomer = () => {
           if (sessionType && sessionType === session_type_workshops_on_demand) {
             subject = 'HPE DEV Workshops-on-Demand credentials';
             heading = 'Your HPE DEV Workshops-on-Demand credentials';
-            content = `${dataValues.name}, <br/> <br/>The clock has started! Begin your Hack Shack <b>${dataValues.sessionName}</b> workshop using the credentials below.
+            content = `${dataValues.name}, <br/> <br/>The clock has started! Begin your HPE DEV Workshop-on-Demand, <b>${dataValues.sessionName}</b> workshop using the credentials below.
              Remember, you have <b>4 hours</b> from now to finish your workshop. If you do not currently have a dedicated 4-hour period in which to complete it, you can re-register at a later time.<br/><br/> 
             <b>NOTE:</b> You may have to click the Launch Server button once you log into your Jupyter student account.<br/><br/>
             Use below credentials to start the workshop:<br/><br/>
@@ -339,8 +339,8 @@ const checkCustomer = () => {
             subject =
               'Thanks for participating in the HPE DEV Workshops-on-Demand!';
             heading = `Thanks for participating in the HPE DEV Workshops-on-Demand!`;
-            content = `Time's up! We hope you enjoyed the <b>${dataValues.sessionName}</b> workshop.<br/><br/>
-                It is our goal to continually improve how we offer Workshops-on-Demand, so please share your feedback.`;
+            content = `Time’s up! Congratulations on finishing the <b>${dataValues.sessionName}</b> workshop. 
+              Please find your commemorative badge below, recognizing your achievement. Share your accomplishment with friends and colleagues by clicking on the social links below.`;
             registerMore = `Ready for another Workshop? Register <a href="https://hackshack.hpedev.io/workshops">here</a>.`;
             shareWorkshop = `Share Workshops-on-Demand with your colleagues!<br/>`;
             feedback_url = feedback_workshop_url;
@@ -350,8 +350,8 @@ const checkCustomer = () => {
           ) {
             subject = 'Thanks for participating in the HPE DEV Challenge!';
             heading = 'Thanks for participating in the HPE DEV Challenge!';
-            content = `Time's up! We hope you enjoyed the <b>${dataValues.sessionName}</b> challenge.<br/><br/>
-                It is our goal to continually improve how we offer challenges, so please share your feedback.`;
+            content = `Time’s up! Congratulations on finishing the <b>${dataValues.sessionName}</b> workshop. 
+            Please find your commemorative badge below, recognizing your achievement. Share your accomplishment with friends and colleagues by clicking on the social links below.`;
             registerMore = `Ready for another Challenge? Register <a href="https://hackshack.hpedev.io/challenges">here</a>.`;
             //shareWorkshop = `Share Challenge with your colleagues!<br/>`;
             feedback_url = feedback_challenge_url;
@@ -443,14 +443,15 @@ const checkCustomer = () => {
         }
         // Send special badges
         if (dataValues.lastEmailSent === 'expired' && dataValues.specialBadgeId !== superstar_badge) {
-          let subject, heading, content, registerMore, shareSpecialWorkshop, feedback_url, badgeImg;
+          let subject, heading, contentTemplate, content, registerMore, shareSpecialWorkshop, feedback_url, badgeImg;
 
           if (sessionType && sessionType === session_type_workshops_on_demand) {
             subject =
-              'You have recieved the Explorer Badge!';
+              'Way to go! You have recieved the Explorer Badge.';
             heading = `Thanks for participating in the HPE DEV Workshops-on-Demand!`;
-            content = `It is our goal to continually improve how we offer Workshops-on-Demand, so please share your feedback.`;
-            registerMore = `Ready for another Workshop? Register <a href="https://hackshack.hpedev.io/workshops">here</a>.`;
+            contentTemplate = (number) => `Way to go! Congratulations on finishing another HPE DEV Workshop-on-Demand. In recognition of your having finished ${number} of workshops, 
+            please find your commemorative badge below. Feel free to share your accomplishment with friends and colleagues by clicking on the social links below.`;
+            registerMore = `Continue to level up and collect more badges by registering for <a href="https://hackshack.hpedev.io/workshops">addtional workshops</a>.`;
             shareSpecialWorkshop = `Share Workshops-on-Demand with your colleagues!<br/>`;
             feedback_url = feedback_workshop_url;
           }
@@ -468,6 +469,7 @@ const checkCustomer = () => {
                         where: { id: dataValues.specialBadgeId },
                       });
                       badgeImg = specialBadge.dataValues.badgeImg;
+                      content = contentTemplate(3);
                       specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, dataValues.student.url, registerMore, shareSpecialWorkshop, badgeImg, dataValues.specialBadgeId, dataValues.proxy);
                       console.log('Explorer badge sent');
                     }
@@ -482,8 +484,9 @@ const checkCustomer = () => {
                       const specialBadge = await models.special_badge.findOne({
                         where: { id: dataValues.specialBadgeId },
                       });
-                      subject = 'Expert Badge'
+                      subject = 'Way to go! You have recieved the Expert Badge.'
                       badgeImg = specialBadge.dataValues.badgeImg;
+                      content = contentTemplate(5);
                       specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, dataValues.student.url, registerMore, shareSpecialWorkshop, badgeImg, dataValues.specialBadgeId, dataValues.proxy);
                       console.log('Expert badge sent');
                     }
@@ -498,8 +501,9 @@ const checkCustomer = () => {
                       const specialBadge = await models.special_badge.findOne({
                         where: { id: dataValues.specialBadgeId },
                       });
-                      subject = 'Star Badge'
+                      subject = 'Way to go! You have recieved the Star Badge.'
                       badgeImg = specialBadge.dataValues.badgeImg;
+                      content = contentTemplate(7);
                       specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, dataValues.student.url, registerMore, shareSpecialWorkshop, badgeImg, dataValues.specialBadgeId, dataValues.proxy);
                       console.log('Star badge sent');
                     }
@@ -514,8 +518,9 @@ const checkCustomer = () => {
                       const specialBadge = await models.special_badge.findOne({
                         where: { id: dataValues.specialBadgeId },
                       });
-                      subject = 'SuperStar Badge'
+                      subject = 'Way to go! You have recieved the SuperStar Badge.'
                       badgeImg = specialBadge.dataValues.badgeImg;
+                      content = contentTemplate(10);
                       specialBadgeEmail(sessionType, dataValues.email, subject, heading, content, dataValues.student.url, registerMore, shareSpecialWorkshop, badgeImg, dataValues.specialBadgeId, dataValues.proxy);
                       console.log('SuperStar badge sent');
                     }
