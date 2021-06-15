@@ -11,6 +11,22 @@ module.exports = {
         },
         { transaction }
       );
+      await queryInterface.addColumn(
+        'workshops',
+        'workshopImg',
+        {
+          type: Sequelize.DataTypes.STRING,
+        },
+        { transaction }
+      );
+      await queryInterface.addColumn(
+        'workshops',
+        'badgeImg',
+        {
+          type: Sequelize.DataTypes.STRING,
+        },
+        { transaction }
+      );
       await transaction.commit();
     } catch (err) {
       await transaction.rollback();
@@ -27,6 +43,8 @@ return queryInterface.createTable('users', { id: Sequelize.INTEGER });
     const transaction = await queryInterface.sequelize.transaction();
     try {
       await queryInterface.removeColumn('customers', 'specialBadgeId', { transaction });
+      await queryInterface.removeColumn('workshops', 'workshopImg', { transaction });
+      await queryInterface.removeColumn('workshops', 'badgeImg', { transaction });
       await transaction.commit();
     } catch (err) {
       await transaction.rollback();

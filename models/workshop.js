@@ -110,6 +110,7 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: false,
       },
+      workshopImg: DataTypes.STRING,
       badgeImg: DataTypes.STRING,
       replayId: DataTypes.INTEGER,
       createdAt: DataTypes.DATE,
