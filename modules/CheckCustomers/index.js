@@ -388,6 +388,7 @@ const checkCustomer = () => {
                     shareWorkshop: shareWorkshop,
                     badgeImg: badgeImg,
                     replayId: replayId,
+                    sessionName: dataValues.sessionName
                   }),
                   proxy: dataValues.proxy,
                 });
@@ -458,7 +459,7 @@ const checkCustomer = () => {
           // Checks total number of courses taken excluding duplicate courses
           checkCompletedCourses(dataValues.email)
             .then((result) => {
-              if (result.length === 3 && dataValues.specialBadgeId !== explorer_badge) {
+              if ((result.length >= 3 && result.length <= 4) && dataValues.specialBadgeId !== explorer_badge) {
                 customer.update({
                   specialBadgeId: explorer_badge
                 })
@@ -474,7 +475,7 @@ const checkCustomer = () => {
                       console.log('Explorer badge sent');
                     }
                   })
-              } else if (result.length === 5 && dataValues.specialBadgeId !== expert_badge) {
+              } else if ((result.length >= 5 && result.length <= 6) && dataValues.specialBadgeId !== expert_badge) {
                 customer.update({
                   specialBadgeId: expert_badge,
                 });
@@ -491,7 +492,7 @@ const checkCustomer = () => {
                       console.log('Expert badge sent');
                     }
                   })
-              } else if (result.length === 7 && dataValues.specialBadgeId !== star_badge) {
+              } else if ((result.length >= 7 && result.length <= 9) && dataValues.specialBadgeId !== star_badge) {
                 customer.update({
                   specialBadgeId: star_badge,
                 });

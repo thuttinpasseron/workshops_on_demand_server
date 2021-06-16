@@ -14,7 +14,8 @@ module.exports = ({
   badgeImg,
   replayId,
   shareSpecialWorkshop,
-  specialBadgeId
+  specialBadgeId,
+  sessionName
 }) => `
 <html>
 
@@ -64,7 +65,7 @@ module.exports = ({
     ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;"> ${shareWorkshop}</p><br>
       <img src="${badgeImg}" style="width: 700px; margin-bottom: 50px;">
       <p style="font-size:20px; max-width:720px; margin:0 auto;">
-      <a href="https://twitter.com/intent/tweet?url=https://deploy-preview-179--musing-kalam-f76e20.netlify.app/workshop/${replayId}/finisher-badge"
+      <a href="https://twitter.com/intent/tweet?text=I survived <b>${sessionName}<b> Workshop-on-Demand!&url=https://deploy-preview-179--musing-kalam-f76e20.netlify.app/workshop/${replayId}/finisher-badge&hashtags=hpedev"
         style="text-decoration: none; display:flex; align-items: center;">
         <img data-imagetype="External"
           src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/Twitter.png"
