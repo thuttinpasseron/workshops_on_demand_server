@@ -450,7 +450,7 @@ const checkCustomer = () => {
             subject =
               'Way to go! You have recieved the Explorer Badge.';
             heading = `Thanks for participating in the HPE DEV Workshops-on-Demand!`;
-            contentTemplate = (number) => `Way to go! Congratulations on finishing another HPE DEV Workshop-on-Demand. In recognition of your having finished ${number} of workshops, 
+            contentTemplate = (number) => `Way to go! Congratulations on finishing another HPE DEV Workshop-on-Demand. In recognition of your having finished  <b>${number} workshops</b>, 
             please find your commemorative badge below. Feel free to share your accomplishment with friends and colleagues by clicking on the social links below.`;
             registerMore = `Continue to level up and collect more badges by registering for <a href="https://hackshack.hpedev.io/workshops">addtional workshops</a>.`;
             shareSpecialWorkshop = `Share Workshops-on-Demand with your colleagues!<br/>`;
