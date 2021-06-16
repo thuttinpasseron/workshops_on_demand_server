@@ -48,6 +48,10 @@
  *            type: string
  *          active:
  *            type: boolean
+ *          badgeImg:
+ *            type: string
+ *          replayId:
+ *             type: integer
  *          createdAt:
  *            type: string
  *            format: date-time
@@ -106,6 +110,9 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: false,
       },
+      workshopImg: DataTypes.STRING,
+      badgeImg: DataTypes.STRING,
+      replayId: DataTypes.INTEGER,
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
     },
@@ -113,6 +120,12 @@ module.exports = (sequelize, DataTypes) => {
   );
   Workshop.associate = function (models) {
     // associations can be defined here
+    Workshop.hasOne(models.replays,
+      {
+        foreignKey: {
+          field: 'replayId',
+        },
+      });
   };
   return Workshop;
 };

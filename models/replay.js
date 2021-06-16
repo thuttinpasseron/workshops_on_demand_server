@@ -65,6 +65,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
+  Replay.associate = (models) => {
+    Replay.belongsTo(models.workshop, {
+      foreignKey: {
+        field: 'workshopId',
+      },
+    });
+  };
   return Replay;
 };
 
