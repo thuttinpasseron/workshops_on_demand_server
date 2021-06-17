@@ -334,7 +334,7 @@ const checkCustomer = () => {
             shareWorkshop,
             feedback_url = '',
             badgeImg = workshop.badgeImg ? workshop.badgeImg : null,
-            replayId = workshop.replayId ? workshop.replayId : null;
+            replayId = workshop.replayId || workshop.replayId === 0  ? workshop.replayId : null;
           if (sessionType && sessionType === session_type_workshops_on_demand) {
             subject =
               'Thanks for participating in the HPE DEV Workshops-on-Demand!';
