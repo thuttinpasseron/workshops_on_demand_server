@@ -27,6 +27,8 @@ var migrationCommands = [
           primaryKey: true,
           autoIncrement: true,
         },
+        title: Sequelize.STRING,
+        description: Sequelize.STRING,
         badgeImg: Sequelize.STRING,
         createdAt: Sequelize.DATE,
         updatedAt: Sequelize.TEXT,
