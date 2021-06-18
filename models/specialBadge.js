@@ -11,6 +11,10 @@
 //  *        properties:
 //  *          id:
 //  *            type: integer
+//  *          title: 
+//  *            type: string
+//  *          description: 
+//  *            type: string
 //  *          badgeImg: 
 //  *            type: string
 //  *          createdAt:
@@ -31,6 +35,8 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
+      title: DataTypes.STRING,
+      description: DataTypes.STRING,
       badgeImg: DataTypes.STRING
     },
     {}
