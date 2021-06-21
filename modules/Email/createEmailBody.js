@@ -66,15 +66,15 @@ module.exports = ({
       <img src="${badgeImg}" style="width: 700px; margin-bottom: 50px;">
       <p style="font-size:20px; max-width:720px; margin:0 auto;">
       <a href="https://twitter.com/intent/tweet?text=I survived ${sessionName} Workshop-on-Demand!%0a&url=https://deploy-preview-190--musing-kalam-f76e20.netlify.app/workshop/${replayId}/finisher-badge%0a&hashtags=HPEDEV&via=HPE_DevCom"
-        style="text-decoration: none; display:flex; align-items: center;">
+        style="text-decoration: none; display:flex; align-items: center; width: 30px; height: 30px;">
         <img data-imagetype="External"
           src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/Twitter.png"
           style="display:inline-block; margin-right: 25px">
-        Share your badge on Twitter
+         Share your badge on Twitter
       </a>
       <br />
       <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://deploy-preview-190--musing-kalam-f76e20.netlify.app/workshop/${replayId}/finisher-badge"
-        style="text-decoration: none; display:flex; align-items: center;">
+        style="text-decoration: none; display:flex; align-items: center; width: 30px; height: 30px;">
         <img data-imagetype="External"
           src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/LinkedIn.png"
           style="display:inline-block; margin-right: 25px">
@@ -90,7 +90,7 @@ module.exports = ({
       <img src="${badgeImg}" style="width: 700px; margin-bottom: 50px;">
       <p style="font-size:20px; max-width:720px; margin:0 auto;">
       <a href="https://twitter.com/intent/tweet?text=I survived ${sessionName} Workshop-on-Demand!%0a&url=https://deploy-preview-190--musing-kalam-f76e20.netlify.app/workshops/${specialBadgeId - 1}/special-badge%0a&hashtags=HPEDEV&via=HPE_DevCom"
-        style="text-decoration: none; display:flex; align-items:center">
+        style="text-decoration: none; display:flex; align-items:center; width: 30px; height: 30px;">
         <img data-imagetype="External"
           src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/Twitter.png"
           style="display:inline-block; margin-right: 25px">
@@ -98,7 +98,7 @@ module.exports = ({
       </a>
       <br />
       <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://deploy-preview-190--musing-kalam-f76e20.netlify.app/workshops/${specialBadgeId - 1}/special-badge"
-        style="text-decoration: none; display:flex; align-items:center">
+        style="text-decoration: none; display:flex; align-items:center; width: 30px; height: 30px;">
         <img data-imagetype="External"
           src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/LinkedIn.png"
           style="display:inline-block; margin-right: 25px">
