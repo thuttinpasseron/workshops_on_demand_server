@@ -323,11 +323,11 @@ const checkCustomer = () => {
             subject: `CLEANUP ${studentId} ${dataValues.id}`,
             content: workshop.notebook,
           }).then(() => {
-          customer
-            .update({
-              lastEmailSent: 'expired',
-              active: false,
-            })
+            customer
+              .update({
+                lastEmailSent: 'expired',
+                active: false,
+              })
               .then(async () => {
                 console.log('send expired email');
                 sendEmail({
@@ -392,9 +392,9 @@ const checkCustomer = () => {
                   await workshop.increment('capacity');
                 }
               })
-          .then(() => {
-          checkSpecialBadges()
-          })
+              //.then(() => {
+                // checkSpecialBadges()
+              //})
               .catch((error) => {
                 console.log('Promise Rejected', error);
               });
@@ -404,7 +404,7 @@ const checkCustomer = () => {
       })
 
       // just run this once for at least 20 seconds
-      checkSpecialBadgesNull();
+      // checkSpecialBadgesNull();
     });
 };
 
@@ -480,16 +480,16 @@ const checkSpecialBadgesNull = () => {
                 badgeImg = specialBadge.dataValues.badgeImg;
                 content = contentTemplate(3);
                 specialBadgeEmail(
-                  sessionType, 
-                  dataValues.email, 
-                  subject, 
-                  heading, 
-                  content, 
-                  dataValues.student.url, 
-                  registerMore, 
-                  shareSpecialWorkshop, 
-                  badgeImg, 
-                  dataValues.specialBadgeId, 
+                  sessionType,
+                  dataValues.email,
+                  subject,
+                  heading,
+                  content,
+                  dataValues.student.url,
+                  registerMore,
+                  shareSpecialWorkshop,
+                  badgeImg,
+                  dataValues.specialBadgeId,
                   dataValues.proxy
                 );
                 console.log('~~~~~~~~Apprentice badge sent~~~~~~~');
@@ -508,16 +508,16 @@ const checkSpecialBadgesNull = () => {
                   badgeImg = specialBadge.dataValues.badgeImg;
                   content = contentTemplate(5);
                   specialBadgeEmail(
-                    sessionType, 
-                    dataValues.email, 
-                    subject, 
-                    heading, 
-                    content, 
-                    dataValues.student.url, 
-                    registerMore, 
-                    shareSpecialWorkshop, 
-                    badgeImg, 
-                    dataValues.specialBadgeId, 
+                    sessionType,
+                    dataValues.email,
+                    subject,
+                    heading,
+                    content,
+                    dataValues.student.url,
+                    registerMore,
+                    shareSpecialWorkshop,
+                    badgeImg,
+                    dataValues.specialBadgeId,
                     dataValues.proxy
                   );
                   console.log('~~~~~~Pathfinder badge sent~~~~~~~~~~');
@@ -536,16 +536,16 @@ const checkSpecialBadgesNull = () => {
                   badgeImg = specialBadge.dataValues.badgeImg;
                   content = contentTemplate(7);
                   specialBadgeEmail(
-                    sessionType, 
-                    dataValues.email, 
-                    subject, 
-                    heading, 
-                    content, 
-                    dataValues.student.url, 
-                    registerMore, 
-                    shareSpecialWorkshop, 
-                    badgeImg, 
-                    dataValues.specialBadgeId, 
+                    sessionType,
+                    dataValues.email,
+                    subject,
+                    heading,
+                    content,
+                    dataValues.student.url,
+                    registerMore,
+                    shareSpecialWorkshop,
+                    badgeImg,
+                    dataValues.specialBadgeId,
                     dataValues.proxy
                   );
                   console.log('~~~~~~~~Squire badge sent~~~~~~~~');
@@ -564,16 +564,16 @@ const checkSpecialBadgesNull = () => {
                   badgeImg = specialBadge.dataValues.badgeImg;
                   content = contentTemplate(10);
                   specialBadgeEmail(
-                    sessionType, 
-                    dataValues.email, 
-                    subject, 
-                    heading, 
-                    content, 
-                    dataValues.student.url, 
-                    registerMore, 
-                    shareSpecialWorkshop, 
-                    badgeImg, 
-                    dataValues.specialBadgeId, 
+                    sessionType,
+                    dataValues.email,
+                    subject,
+                    heading,
+                    content,
+                    dataValues.student.url,
+                    registerMore,
+                    shareSpecialWorkshop,
+                    badgeImg,
+                    dataValues.specialBadgeId,
                     dataValues.proxy
                   );
                   console.log('~~~~~~~~Adventurer badge sent~~~~~~~~');
@@ -667,7 +667,7 @@ const checkSpecialBadges = () => {
           }
           checkCompletedCourses(dataValues.email)
             .then(async (result) => {
-              
+
               // APPRENTICE BADGE
               if ((result.length >= 3 && result.length <= 4) && dataValues.specialBadgeId !== apprentice_badge) {
                 customer.update({
@@ -679,16 +679,16 @@ const checkSpecialBadges = () => {
                 badgeImg = specialBadge.dataValues.badgeImg;
                 content = contentTemplate(3);
                 specialBadgeEmail(
-                  sessionType, 
-                  dataValues.email, 
-                  subject, 
-                  heading, 
-                  content, 
-                  dataValues.student.url, 
-                  registerMore, 
-                  shareSpecialWorkshop, 
-                  badgeImg, 
-                  dataValues.specialBadgeId, 
+                  sessionType,
+                  dataValues.email,
+                  subject,
+                  heading,
+                  content,
+                  dataValues.student.url,
+                  registerMore,
+                  shareSpecialWorkshop,
+                  badgeImg,
+                  dataValues.specialBadgeId,
                   dataValues.proxy
                 );
                 console.log('~~~~~~~~Apprentice badge sent~~~~~~~');
@@ -707,16 +707,16 @@ const checkSpecialBadges = () => {
                   badgeImg = specialBadge.dataValues.badgeImg;
                   content = contentTemplate(5);
                   specialBadgeEmail(
-                    sessionType, 
-                    dataValues.email, 
-                    subject, 
-                    heading, 
-                    content, 
-                    dataValues.student.url, 
-                    registerMore, 
-                    shareSpecialWorkshop, 
-                    badgeImg, 
-                    dataValues.specialBadgeId, 
+                    sessionType,
+                    dataValues.email,
+                    subject,
+                    heading,
+                    content,
+                    dataValues.student.url,
+                    registerMore,
+                    shareSpecialWorkshop,
+                    badgeImg,
+                    dataValues.specialBadgeId,
                     dataValues.proxy
                   );
                   console.log('~~~~~~Pathfinder badge sent~~~~~~~~~~');
@@ -735,16 +735,16 @@ const checkSpecialBadges = () => {
                   badgeImg = specialBadge.dataValues.badgeImg;
                   content = contentTemplate(7);
                   specialBadgeEmail(
-                    sessionType, 
-                    dataValues.email, 
-                    subject, 
-                    heading, 
-                    content, 
-                    dataValues.student.url, 
-                    registerMore, 
-                    shareSpecialWorkshop, 
-                    badgeImg, 
-                    dataValues.specialBadgeId, 
+                    sessionType,
+                    dataValues.email,
+                    subject,
+                    heading,
+                    content,
+                    dataValues.student.url,
+                    registerMore,
+                    shareSpecialWorkshop,
+                    badgeImg,
+                    dataValues.specialBadgeId,
                     dataValues.proxy
                   );
                   console.log('~~~~~~~~Squire badge sent~~~~~~~~');
@@ -763,16 +763,16 @@ const checkSpecialBadges = () => {
                   badgeImg = specialBadge.dataValues.badgeImg;
                   content = contentTemplate(10);
                   specialBadgeEmail(
-                    sessionType, 
-                    dataValues.email, 
-                    subject, 
-                    heading, 
-                    content, 
-                    dataValues.student.url, 
-                    registerMore, 
-                    shareSpecialWorkshop, 
-                    badgeImg, 
-                    dataValues.specialBadgeId, 
+                    sessionType,
+                    dataValues.email,
+                    subject,
+                    heading,
+                    content,
+                    dataValues.student.url,
+                    registerMore,
+                    shareSpecialWorkshop,
+                    badgeImg,
+                    dataValues.specialBadgeId,
                     dataValues.proxy
                   );
                   console.log('~~~~~~~~Adventurer badge sent~~~~~~~~');
