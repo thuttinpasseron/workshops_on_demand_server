@@ -99,6 +99,7 @@ module.exports = (sequelize, DataTypes) => {
       notebook: DataTypes.STRING,
       hours: DataTypes.INTEGER,
       startDate: DataTypes.DATE,
+      specialBadgeId: DataTypes.INTEGER,
       endDate: DataTypes.DATE,
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
@@ -109,6 +110,11 @@ module.exports = (sequelize, DataTypes) => {
     Customer.belongsTo(models.student, {
       foreignKey: {
         field: 'studentId',
+      },
+    });
+    Customer.belongsTo(models.special_badge, {
+      foreignKey: {
+        field: 'specialBadgeId',
       },
     });
   };

@@ -10,7 +10,12 @@ module.exports = ({
   password,
   shareWorkshop,
   registerMore,
-  enjoyWorkshop
+  enjoyWorkshop,
+  badgeImg,
+  replayId,
+  shareSpecialWorkshop,
+  specialBadgeId,
+  sessionName
 }) => `
 <html>
 
@@ -30,51 +35,79 @@ module.exports = ({
       ${content}
     </p><br>
 
-    ${
-      userName && password
-        ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto;">
+    ${userName && password
+    ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto;">
     Use below credentials to start the workshop
   </p><br>`
-        : ""
-    }
+    : ""
+  }
 
-    ${
-      userName
-        ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto;"> <b>User Name: ${userName}</b></p><br>`
-        : ""
-    }
-    ${
-      password
-        ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto;"> <b>Password: ${password}</b></p><br>`
-        : ""
-    }
-  ${
-    buttonUrl && buttonLabel
-      ? `<a href="${buttonUrl}" style="display: inline-block; margin: 48px 0; padding: 18px 48px; background-color: #01A982; color: #FFFFFF; font-size: 20px; font-weight: 700; text-decoration: none;">
+    ${userName
+    ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto;"> <b>User Name: ${userName}</b></p><br>`
+    : ""
+  }
+    ${password
+    ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto;"> <b>Password: ${password}</b></p><br>`
+    : ""
+  }
+  ${buttonUrl && buttonLabel
+    ? `<a href="${buttonUrl}" style="display: inline-block; margin: 48px 0; padding: 18px 48px; background-color: #01A982; color: #FFFFFF; font-size: 20px; font-weight: 700; text-decoration: none;">
         ${buttonLabel}
       </a>  <br>`
-      : ""
+    : ""
   }
 
-  ${
-    registerMore
-      ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;"> ${registerMore}</p><br>`
-      : ""
+  ${registerMore
+    ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;"> ${registerMore}</p><br>`
+    : ""
   }
-  ${
-    shareWorkshop
-      ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;"> ${shareWorkshop}</p><br>
-      <p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;">
-          <a style="text-decoration: none;" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fhackshack.hpedev.io%2Fworkshops&text=I%20enjoyed%20the%20HPE%20DEV%20Workshops-on-demand.%20Check%20it%20out!">
-            <img src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/Twitter.png" style="display: inline-block;">
-          </a>
-          <a style="text-decoration: none;" href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fhackshack.hpedev.io%2Fworkshops&text=I%20enjoyed%20the%20HPE%20DEV%20Workshops-on-demand.%20Check%20it%20out!">
-            <img src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/LinkedIn.png" style="display: inline-block;">
-          </a>
+  ${shareWorkshop
+    ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;"> ${shareWorkshop}</p><br>
+      <img src="${badgeImg}" style="width: 700px; margin-bottom: 50px;">
+      <p style="font-size:20px; max-width:720px; margin:0 auto;">
+      <a href="https://twitter.com/intent/tweet?text=I survived ${sessionName} Workshop-on-Demand!%0a&url=https://deploy-preview-190--musing-kalam-f76e20.netlify.app/workshop/${replayId}/finisher-badge%0a&hashtags=HPEDEV&via=HPE_DevCom"
+        style="text-decoration: none; display:flex; align-items: center;">
+        <img data-imagetype="External"
+          src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/Twitter.png"
+          style="display:inline-block; margin-right: 25px; width: 30px; height: 30px;">
+         Share your badge on Twitter
+      </a>
+      <br />
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://deploy-preview-190--musing-kalam-f76e20.netlify.app/workshop/${replayId}/finisher-badge"
+        style="text-decoration: none; display:flex; align-items: center;">
+        <img data-imagetype="External"
+          src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/LinkedIn.png"
+          style="display:inline-block; margin-right: 25px;width: 30px; height: 30px;">
+        Share your badge on LinkedIn
+      </a>
     </p>
     <br/>    <br/>
     `
-      : ""
+    : ""
+  }
+  ${shareSpecialWorkshop
+    ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;"> ${shareSpecialWorkshop}</p><br>
+      <img src="${badgeImg}" style="width: 700px; margin-bottom: 50px;">
+      <p style="font-size:20px; max-width:720px; margin:0 auto;">
+      <a href="https://twitter.com/intent/tweet?text=I survived ${sessionName} Workshop-on-Demand!%0a&url=https://deploy-preview-190--musing-kalam-f76e20.netlify.app/workshops/${specialBadgeId - 1}/special-badge%0a&hashtags=HPEDEV&via=HPE_DevCom"
+        style="text-decoration: none; display:flex; align-items:center;">
+        <img data-imagetype="External"
+          src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/Twitter.png"
+          style="display:inline-block; margin-right: 25px;width: 30px; height: 30px;">
+        Share your badge on Twitter
+      </a>
+      <br />
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://deploy-preview-190--musing-kalam-f76e20.netlify.app/workshops/${specialBadgeId - 1}/special-badge"
+        style="text-decoration: none; display:flex; align-items:center;">
+        <img data-imagetype="External"
+          src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/LinkedIn.png"
+          style="display:inline-block; margin-right: 25px;width: 30px; height: 30px;">
+        Share your badge on LinkedIn
+      </a>
+    </p>
+    <br/>    <br/>
+    `
+    : ""
   }
 
   <p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;">

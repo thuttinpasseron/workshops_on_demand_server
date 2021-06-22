@@ -29,10 +29,13 @@ const router = express.Router();
 router.get("/replays", (req, res) => {
   models.replays
     .findAll({
-      raw: true,
-      order: [["id", "ASC"]]
+      order: [["id", "ASC"]],
+      include: {
+        model: models.workshop, 
+        attributes:['notebook', 'sessionType', 'location', 'capacity', 'name', 'workshopImg', 'badgeImg']
+      }
     })
-    .then(entries => res.send(entries));
+    .then(entries => (res.send(entries)));
 });
 
 export default router;

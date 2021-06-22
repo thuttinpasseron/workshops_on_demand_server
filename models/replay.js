@@ -25,6 +25,8 @@
  *            type: string
  *          presenter:
  *            type: string
+ *          presenter2:
+ *            type: string
  *          role:
  *            type: string
  *          videoLink: 
@@ -63,6 +65,13 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
+  Replay.associate = (models) => {
+    Replay.belongsTo(models.workshop, {
+      foreignKey: {
+        field: 'workshopId',
+      },
+    });
+  };
   return Replay;
 };
 
