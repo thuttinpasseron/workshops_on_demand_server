@@ -15,7 +15,9 @@ module.exports = ({
   replayId,
   shareSpecialWorkshop,
   specialBadgeId,
-  sessionName
+  sessionName,
+  completedWorkshops,
+  badgeName
 }) => `
 <html>
 
@@ -65,7 +67,7 @@ module.exports = ({
     ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;"> ${shareWorkshop}</p><br>
       <img src="${badgeImg}" style="width: 700px; margin-bottom: 50px;">
       <p style="font-size:20px; max-width:720px; margin:0 auto;">
-      <a href="https://twitter.com/intent/tweet?text=I survived ${sessionName} Workshop-on-Demand!%0a&url=https://deploy-preview-190--musing-kalam-f76e20.netlify.app/workshop/${replayId}/finisher-badge%0a&hashtags=HPEDEV&via=HPE_DevCom"
+      <a href="https://twitter.com/intent/tweet?text=I survived ${sessionName} Workshop-on-Demand!%0a&url=https://hackshack.hpedev.io//workshop/${replayId}/finisher-badge%0a&hashtags=HPEDEV&via=HPE_DevCom"
         style="text-decoration: none; display:flex; align-items: center;">
         <img data-imagetype="External"
           src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/Twitter.png"
@@ -73,7 +75,7 @@ module.exports = ({
          Share your badge on Twitter
       </a>
       <br />
-      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://deploy-preview-190--musing-kalam-f76e20.netlify.app/workshop/${replayId}/finisher-badge"
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://hackshack.hpedev.io/workshop/${replayId}/finisher-badge"
         style="text-decoration: none; display:flex; align-items: center;">
         <img data-imagetype="External"
           src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/LinkedIn.png"
@@ -89,7 +91,7 @@ module.exports = ({
     ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;"> ${shareSpecialWorkshop}</p><br>
       <img src="${badgeImg}" style="width: 700px; margin-bottom: 50px;">
       <p style="font-size:20px; max-width:720px; margin:0 auto;">
-      <a href="https://twitter.com/intent/tweet?text=I survived ${sessionName} Workshop-on-Demand!%0a&url=https://deploy-preview-190--musing-kalam-f76e20.netlify.app/workshops/${specialBadgeId - 1}/special-badge%0a&hashtags=HPEDEV&via=HPE_DevCom"
+      <a href="https://twitter.com/intent/tweet?text=I expanded my skills, earning the ${badgeName} badge for having completed ${completedWorkshops} HPE DEV Workshops-on-Demand!%0a&url=https://hackshack.hpedev.io/workshops/${specialBadgeId - 1}/special-badge%0a&hashtags=HPEDEV&via=HPE_DevCom"
         style="text-decoration: none; display:flex; align-items:center;">
         <img data-imagetype="External"
           src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/Twitter.png"
@@ -97,7 +99,7 @@ module.exports = ({
         Share your badge on Twitter
       </a>
       <br />
-      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://deploy-preview-190--musing-kalam-f76e20.netlify.app/workshops/${specialBadgeId - 1}/special-badge"
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://hackshack.hpedev.io/workshops/${specialBadgeId - 1}/special-badge"
         style="text-decoration: none; display:flex; align-items:center;">
         <img data-imagetype="External"
           src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/LinkedIn.png"
