@@ -67,7 +67,7 @@ module.exports = ({
     ? `<p style="font-size: 20px; max-width: 720px; margin: 0 auto; text-align:left;"> ${shareWorkshop}</p><br>
       <img src="${badgeImg}" style="width: 700px; margin-bottom: 50px;">
       <p style="font-size:20px; max-width:720px; margin:0 auto;">
-      <a href="https://twitter.com/intent/tweet?text=I survived ${sessionName} Workshop-on-Demand!%0a&url=https://hackshack.hpedev.io//workshop/${replayId}/finisher-badge%0a&hashtags=HPEDEV&via=HPE_DevCom"
+      <a href="https://twitter.com/intent/tweet?text=I survived ${sessionName} Workshop-on-Demand!%0a&url=https://hackshack.hpedev.io/workshop/${replayId}/finisher-badge%0a&hashtags=HPEDEV&via=HPE_DevCom"
         style="text-decoration: none; display:flex; align-items: center;">
         <img data-imagetype="External"
           src="https://us-central1-grommet-designer.cloudfunctions.net/images/pramod-reddy-sareddy-hpe-com/Twitter.png"
