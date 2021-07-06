@@ -481,8 +481,6 @@ const checkSpecialBadges = () => {
                     content: createEmailBody({
                       heading: heading,
                       content: content,
-                      buttonLabel: 'Click here to provide feedback',
-                      buttonUrl: feedback_url,
                       registerMore: registerMore,
                       shareSpecialWorkshop: shareSpecialWorkshop,
                       badgeImg: badgeImg,
@@ -517,8 +515,6 @@ const checkSpecialBadges = () => {
                     content: createEmailBody({
                       heading: heading,
                       content: content,
-                      buttonLabel: 'Click here to provide feedback',
-                      buttonUrl: feedback_url,
                       registerMore: registerMore,
                       shareSpecialWorkshop: shareSpecialWorkshop,
                       badgeImg: badgeImg,
@@ -553,8 +549,6 @@ const checkSpecialBadges = () => {
                     content: createEmailBody({
                       heading: heading,
                       content: content,
-                      buttonLabel: 'Click here to provide feedback',
-                      buttonUrl: feedback_url,
                       registerMore: registerMore,
                       shareSpecialWorkshop: shareSpecialWorkshop,
                       badgeImg: badgeImg,
@@ -589,8 +583,6 @@ const checkSpecialBadges = () => {
                     content: createEmailBody({
                       heading: heading,
                       content: content,
-                      buttonLabel: 'Click here to provide feedback',
-                      buttonUrl: feedback_url,
                       registerMore: registerMore,
                       shareSpecialWorkshop: shareSpecialWorkshop,
                       badgeImg: badgeImg,
@@ -625,8 +617,6 @@ const checkSpecialBadges = () => {
                     content: createEmailBody({
                       heading: heading,
                       content: content,
-                      buttonLabel: 'Click here to provide feedback',
-                      buttonUrl: feedback_url,
                       registerMore: registerMore,
                       shareSpecialWorkshop: shareSpecialWorkshop,
                       badgeImg: badgeImg,
