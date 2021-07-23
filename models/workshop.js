@@ -32,6 +32,8 @@
  *            type: boolean
  *          ldap:
  *            type: boolean
+ *          beta:
+ *            type: boolean
  *          sessionId:
  *            type: integer
  *          sessionType:
@@ -93,6 +95,11 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: false,
       },
       ldap: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
+      beta: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false,
