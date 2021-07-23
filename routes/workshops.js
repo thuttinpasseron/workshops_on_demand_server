@@ -1,6 +1,8 @@
 import express from 'express';
 import models from '../models';
 const { authJwt } = require('../middleware');
+const Sequelize = require('sequelize');
+const op = Sequelize.Op;
 
 const router = express.Router();
 
@@ -119,6 +121,41 @@ router.get('/workshops/:id', [authJwt.verifyToken], (req, res) => {
     .then((entry) => {
       if (entry) res.status(200).send(entry);
       else res.status(400).send('Workshop Not Found');
+    })
+    .catch((error) => {
+      res.status(400).send({ error });
+    });
+});
+
+// Get workshops by Beta
+/**
+ * @swagger
+ * path:
+ *  /workshopsBeta:
+ *    get:
+ *      summary: Get all workshops not in beta phase.
+ *      tags: [Workshops]
+ *      responses:
+ *        "200":
+ *          description: A JSON array of workshop objects
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Workshop'
+ */
+// Get workshop that are not in beta
+router.get('/workshopsBeta', [authJwt.verifyToken],(req, res) => {
+  models.workshop
+    .findAll({
+      where: {
+        beta: {
+          [op.eq]: false,
+        },
+      },
+    })
+    .then((entries) => {
+      if (entries) res.status(200).send(entries);
+      else res.status(400).send('Workshops Not Found');
     })
     .catch((error) => {
       res.status(400).send({ error });

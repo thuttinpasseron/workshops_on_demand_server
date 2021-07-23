@@ -32,7 +32,6 @@ router.get("/special-badges", (req, res) => {
       order: [["id", "ASC"]]
     })
     .then(entries => {
-      console.log('entries: ', entries);
       (res.send(entries))});
 });
 
