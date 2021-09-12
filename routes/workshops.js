@@ -70,8 +70,8 @@ router.get('/workshops', [authJwt.verifyToken], (req, res) => {
           active: req.query.active,
         },
         include: {
-          model: models.replays, 
-          attributes:['avatar', 'presenter', 'role'],
+          model: models.replays,
+          attributes: ['avatar', 'presenter', 'role'],
         }
       })
       .then((entries) => res.send(entries));
@@ -80,12 +80,49 @@ router.get('/workshops', [authJwt.verifyToken], (req, res) => {
       .findAll({
         order: [['priority', 'ASC']],
         include: {
-          model: models.replays, 
-          attributes:['avatar', 'presenter', 'role'],
+          model: models.replays,
+          attributes: ['avatar', 'presenter', 'role'],
         }
       })
       .then((entries) => res.send(entries));
   }
+});
+
+// Get popular workshops
+/**
+ * @swagger
+ * path:
+ *  /popularWorkshops:
+ *    get:
+ *      summary: Returns a list of popular workshops.
+ *      tags: [Workshops]
+ *      responses:
+ *        "200":
+ *          description: A JSON array of workshop objects
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: '#/components/schemas/Workshop'
+ */
+router.get('/popularWorkshops', [authJwt.verifyToken], (req, res) => {
+  models.customer
+    .findAll({ include: [{ all: true, nested: true }] })
+    .reduce((accum, customer) => {
+      const { dataValues } = customer;
+      if (!accum[dataValues.sessionName]) {
+        accum[dataValues.sessionName] = 1;
+      } else {
+        accum[dataValues.sessionName] += 1;
+      }
+      return accum;
+    }, {})
+    .then(async (workshopsCount)=>{
+      const sortedPopular = Object.keys(workshopsCount).sort(function(a,b){return workshopsCount[b]-workshopsCount[a]}).slice(0, 4);
+      let workshop = await models.workshop.findAll({
+        where: { name: sortedPopular },
+      });
+      res.send(workshop)
+    })
 });
 
 /**
