@@ -32,7 +32,11 @@ router.get("/special-badges", (req, res) => {
       order: [["id", "ASC"]]
     })
     .then(entries => {
-      (res.send(entries))});
+      (res.send(entries))
+    })
+    .catch((error) => {
+      res.status(400).send({ error });
+    });
 });
 
 export default router;

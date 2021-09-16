@@ -118,13 +118,27 @@ router.get('/popularWorkshops', [authJwt.verifyToken], (req, res) => {
       }
       return accum;
     }, {})
-    .then(async (workshopsCount)=>{
-      const sortedPopular = Object.keys(workshopsCount).sort(function(a,b){return workshopsCount[b]-workshopsCount[a]}).slice(0, 4);
-      let workshop = await models.workshop.findAll({
-        where: { name: sortedPopular },
-      });
-      res.send(workshop)
+    .then(async (workshopsCount) => {
+      const sortedPopular = Object.keys(workshopsCount).sort(function (a, b) { return workshopsCount[b] - workshopsCount[a] }).slice(0, 4);
+      let workshop = await models.workshop
+        .findAll({
+          order: [['priority', 'ASC']],
+          where: {
+            name: sortedPopular,
+          },
+          include: {
+            model: models.replays,
+            attributes: ['avatar', 'presenter', 'role'],
+          }
+        })
+        .catch((error) => {
+          res.status(400).send({ error });
+        });
+      res.status(200).send(workshop)
     })
+    .catch((error) => {
+      res.status(400).send({ error });
+    });
 });
 
 /**
@@ -181,7 +195,7 @@ router.get('/workshops/:id', [authJwt.verifyToken], (req, res) => {
  *                $ref: '#/components/schemas/Workshop'
  */
 // Get workshop that are not in beta
-router.get('/workshopsBeta', [authJwt.verifyToken],(req, res) => {
+router.get('/workshopsBeta', [authJwt.verifyToken], (req, res) => {
   models.workshop
     .findAll({
       where: {
