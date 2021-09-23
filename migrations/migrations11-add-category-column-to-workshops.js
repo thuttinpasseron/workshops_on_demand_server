@@ -7,7 +7,7 @@ module.exports = {
         'workshops',
         'category',
         {
-          type: Sequelize.DataTypes.STRING,
+          type: Sequelize.DataTypes.ARRAY(Sequelize.TEXT),
         },
         { transaction }
       );

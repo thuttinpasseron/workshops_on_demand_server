@@ -61,54 +61,12 @@ router.post('/workshop', [authJwt.verifyToken, authJwt.isAdmin], (req, res) => {
  *                $ref: '#/components/schemas/Workshop'
  */
 router.get('/workshops', [authJwt.verifyToken], (req, res) => {
-  if (
-    typeof req.query.active != 'undefined' &&
-    (req.query.active || !req.query.active)
-  ) {
-    models.workshop
-      .findAll({
-        order: [['priority', 'ASC']],
-        where: {
-          active: req.query.active,
-        },
-        include: {
-          model: models.replays,
-          attributes: ['avatar', 'presenter', 'role'],
-        }
-      })
-      .then((entries) => res.send(entries));
-  } else {
-    models.workshop
-      .findAll({
-        order: [['priority', 'ASC']],
-        include: {
-          model: models.replays,
-          attributes: ['avatar', 'presenter', 'role'],
-        }
-      })
-      .then((entries) => res.send(entries));
-  }
-});
-
-// Get popular workshops
-/**
- * @swagger
- * path:
- *  /popularWorkshops:
- *    get:
- *      summary: Returns a list of popular workshops.
- *      tags: [Workshops]
- *      responses:
- *        "200":
- *          description: A JSON array of workshop objects
- *          content:
- *            application/json:
- *              schema:
- *                $ref: '#/components/schemas/Workshop'
- */
-router.get('/popularWorkshops', [authJwt.verifyToken], (req, res) => {
   models.customer
-    .findAll({ include: [{ all: true, nested: true }] })
+    .findAll({
+      attributes: ['email', 'sessionName'],
+      group: ['email', 'sessionName'],
+      logging: false
+    })
     .reduce((accum, customer) => {
       const { dataValues } = customer;
       if (!accum[dataValues.sessionName]) {
@@ -119,23 +77,55 @@ router.get('/popularWorkshops', [authJwt.verifyToken], (req, res) => {
       return accum;
     }, {})
     .then(async (workshopsCount) => {
-      const sortedPopular = Object.keys(workshopsCount).sort(function (a, b) { return workshopsCount[b] - workshopsCount[a] }).slice(0, 4);
-      let workshop = await models.workshop
-        .findAll({
-          order: [['priority', 'ASC']],
-          where: {
-            name: sortedPopular,
-          },
-          include: {
-            model: models.replays,
-            attributes: ['avatar', 'presenter', 'role'],
-          }
-        })
-        .catch((error) => {
-          res.status(400).send({ error });
-        });
-      res.status(200).send(workshop)
+      const sortedPopular = Object.keys(workshopsCount).sort(function (a, b) { return workshopsCount[b] - workshopsCount[a] }).slice(0, 10);
+      if (
+        typeof req.query.active != 'undefined' &&
+        (req.query.active || !req.query.active)
+      ) {
+        return await models.workshop
+          .findAll({
+            order: [['priority', 'ASC']],
+            include: {
+              model: models.replays,
+              attributes: ['avatar', 'presenter', 'role'],
+            }
+          })
+          .then((entries) => {
+            return entries.map(({ dataValues }) => {
+              if (sortedPopular.includes(dataValues.name)) {
+                return { ...dataValues, popular: true }
+              } else {
+                return { ...dataValues, popular: false }
+              }
+            })
+          })
+          .catch((error) => {
+            res.status(400).send({ error });
+          });
+      } else {
+        return await models.workshop
+          .findAll({
+            order: [['priority', 'ASC']],
+            include: {
+              model: models.replays,
+              attributes: ['avatar', 'presenter', 'role'],
+            }
+          })
+          .then((entries) => {
+            return entries.map(({ dataValues }) => {
+              if (sortedPopular.includes(dataValues.name)) {
+                return { ...dataValues, popular: true }
+              } else {
+                return { ...dataValues, popular: false }
+              }
+            })
+          })
+          .catch((error) => {
+            res.status(400).send({ error });
+          });
+      }
     })
+    .then((entries) => res.status(200).send(entries))
     .catch((error) => {
       res.status(400).send({ error });
     });
