@@ -109,9 +109,6 @@ router.get('/workshops', [authJwt.verifyToken], (req, res) => {
         return await models.workshop
           .findAll({
             order: [['priority', 'ASC']],
-            where: {
-              active: req.query.active,
-            },
             include: {
               model: models.replays,
               attributes: ['avatar', 'presenter', 'role'],
