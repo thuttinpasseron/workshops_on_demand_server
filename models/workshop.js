@@ -63,7 +63,9 @@
  *          compile:
  *            type: string
  *          category:
- *            type: string
+ *            type: array
+ *          alternateLocation:
+ *            type: array
  *        example:
  *           name: Grommet
  *           capacity: 20
