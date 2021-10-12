@@ -13,11 +13,11 @@ const session_type_coding_challenge = process.env.SESSION_TYPE_CODING_CHALLENGE;
 const router = express.Router();
 
 // end customer workshop trail in process.env.WORKSHOP_DURATION hours
-const getDates = () => {
+const getDates = (duration) => {
   const startDate = new Date();
   const endDate = new Date();
   endDate.setHours(
-    parseFloat(endDate.getHours()) + parseFloat(process.env.DURATION)
+    parseFloat(endDate.getHours()) + parseFloat(duration)
   );
   return { startDate, endDate };
 };
@@ -196,7 +196,7 @@ router.post('/customer', [authJwt.verifyToken], async (req, res) => {
         name: name,
         sessionName: req.body.title,
         hours: 4,
-        ...getDates(),
+        ...getDates(workshop.duration),
         createdAt: new Date(),
         updatedAt: new Date(),
       });

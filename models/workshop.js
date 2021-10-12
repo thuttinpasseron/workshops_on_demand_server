@@ -66,6 +66,8 @@
  *            type: array
  *          alternateLocation:
  *            type: array
+ *          duration:
+ *            type: integer
  *        example:
  *           name: Grommet
  *           capacity: 20
@@ -126,6 +128,7 @@ module.exports = (sequelize, DataTypes) => {
       replayId: DataTypes.INTEGER,
       category: DataTypes.ARRAY(DataTypes.STRING),
       alternateLocation: DataTypes.ARRAY(DataTypes.STRING),
+      duration: DataTypes.INTEGER,
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
     },
