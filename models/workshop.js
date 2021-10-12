@@ -32,6 +32,8 @@
  *            type: boolean
  *          ldap:
  *            type: boolean
+ *          beta:
+ *            type: boolean
  *          sessionId:
  *            type: integer
  *          sessionType:
@@ -60,6 +62,10 @@
  *            format: date-time
  *          compile:
  *            type: string
+ *          category:
+ *            type: array
+ *          alternateLocation:
+ *            type: array
  *        example:
  *           name: Grommet
  *           capacity: 20
@@ -97,6 +103,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: false,
       },
+      beta: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      },
       sessionId: DataTypes.INTEGER,
       sessionType: DataTypes.STRING,
       location: DataTypes.STRING,
@@ -113,6 +124,8 @@ module.exports = (sequelize, DataTypes) => {
       workshopImg: DataTypes.STRING,
       badgeImg: DataTypes.STRING,
       replayId: DataTypes.INTEGER,
+      category: DataTypes.ARRAY(DataTypes.STRING),
+      alternateLocation: DataTypes.ARRAY(DataTypes.STRING),
       createdAt: DataTypes.DATE,
       updatedAt: DataTypes.DATE,
     },

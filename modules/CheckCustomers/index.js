@@ -450,7 +450,7 @@ const checkSpecialBadges = () => {
             heading = `Thanks for participating in the HPE DEV Workshops-on-Demand!`;
             contentTemplate = (number) => `Way to go! Congratulations on finishing another HPE DEV Workshop-on-Demand. In recognition of your having finished  <b>${number} workshops</b>, 
               please find your commemorative badge below. Feel free to share your accomplishment with friends and colleagues by clicking on the social links below.`;
-            registerMore = `Continue to level up and collect more badges by registering for <a href="https://hackshack.hpedev.io/workshops">addtional workshops</a>.`;
+            registerMore = `Continue to level up and collect more badges by registering for <a href="https://hackshack.hpedev.io/workshops">additional workshops</a>.`;
             shareSpecialWorkshop = `Share Workshops-on-Demand with your colleagues!<br/>`;
             feedback_url = feedback_workshop_url;
           }
