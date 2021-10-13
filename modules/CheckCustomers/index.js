@@ -33,11 +33,11 @@ const getHoursLeft = (ends) => {
   return Math.round((endsDate.getTime() - today.getTime()) / oneHour);
 };
 
-const getDates = () => {
+const getDates = (duration) => {
   const startDate = new Date();
   const endDate = new Date();
   endDate.setHours(
-    parseFloat(endDate.getHours()) + parseFloat(process.env.DURATION)
+    parseFloat(endDate.getHours()) + parseFloat(duration)
   );
   return { startDate, endDate };
 };
@@ -105,6 +105,7 @@ const checkCustomer = () => {
           studentId =
             dataValues.studentId - 2 * process.env.NO_OF_STUDENT_ACCOUNTS;
         }
+
         // Send welcome email.
         if (!dataValues.lastEmailSent && studentId != null && studentId > 0) {
           console.log(
@@ -135,7 +136,7 @@ const checkCustomer = () => {
                 read the detailed instructions found in this <a href="https://developer.hpe.com/blog/boost-skills-with-free-on-demand-software-technology-workshops">blog post</a>. We also advise that you 
                 <a href="https://slack.hpedev.io/">join us on Slack</a> to take advantage of the dedicated <a href="${process.env.SLACK_CHANNEL_WORKSHOPS_ON_DEMAND}">#hpe-workshops-on-demand</a> 
                 channel being provided so you can reach out to our subject matter experts (SMEs) and obtain support.<br/><br/>
-                <b>NOTE:</b> Your workshop access will expire in ${dataValues.hours} hours.
+                <b>NOTE:</b> Your workshop access will expire in ${workshop.duration} hours.
                 Please make sure you save your workshop work before you lose the access to your Jupyter Notebook.
                 <br/><br/>`;
                 enjoyWorkshop = 'Enjoy the workshop!';
@@ -151,7 +152,7 @@ const checkCustomer = () => {
                 read the detailed instructions found in this <a href="https://developer.hpe.com/blog/hpe-dev-hack-shack-coding-challenges-are-you-ready-to-compete">blog post</a>. We also advise that you 
                 <a href="https://slack.hpedev.io/">join us on Slack</a> to take advantage of the dedicated <a href="${process.env.SLACK_CHANNEL_CHALLENGES}">#hpe-hackshack-challenges</a> 
                 channel being provided so you can reach out to our subject matter experts (SMEs) and obtain support.<br/><br/>
-                <b>NOTE:</b> Your challenge access will expire in ${dataValues.hours} hours.
+                <b>NOTE:</b> Your challenge access will expire in ${workshop.duration} hours.
                 Please make sure you save your challenge work before you lose the access to your Jupyter Notebook.
                 <br/><br/>`;
                 enjoyWorkshop = 'Enjoy the challenge!';
@@ -192,7 +193,7 @@ const checkCustomer = () => {
             subject = 'HPE DEV Workshops-on-Demand credentials';
             heading = 'Your HPE DEV Workshops-on-Demand credentials';
             content = `${dataValues.name}, <br/> <br/>The clock has started! Begin your HPE DEV Workshop-on-Demand, <b>${dataValues.sessionName}</b> workshop using the credentials below.
-             Remember, you have <b>4 hours</b> from now to finish your workshop. If you do not currently have a dedicated 4-hour period in which to complete it, you can re-register at a later time.<br/><br/> 
+             Remember, you have <b>${workshop.duration} hours</b> from now to finish your workshop. If you do not currently have a dedicated ${workshop.duration}-hour period in which to complete it, you can re-register at a later time.<br/><br/> 
             <b>NOTE:</b> You may have to click the Launch Server button once you log into your Jupyter student account.<br/><br/>
             Use below credentials to start the workshop:<br/><br/>
             <b>User Name: ${dataValues.student.username}</b><br/>
@@ -209,7 +210,7 @@ const checkCustomer = () => {
             subject = 'HPE DEV Challenge credentials';
             heading = 'Your HPE DEV Challenge credentials';
             content = `${dataValues.name}, <br/> <br/>The clock has started! Begin your Hack Shack <b>${dataValues.sessionName}</b> challenge using the credentials below.
-            Remember, you have <b>4 hours</b> from now to finish your challenge. If you do not currently have a dedicated 4-hour period in which to complete it, you can re-register at a later time.<br/><br/> 
+            Remember, you have <b>${workshop.duration} hours</b> from now to finish your challenge. If you do not currently have a dedicated ${workshop.duration}-hour period in which to complete it, you can re-register at a later time.<br/><br/> 
            <b>NOTE:</b> You may have to click the Launch Server button once you log into your Jupyter student account.<br/><br/>
            Use below credentials to start the challenge:<br/><br/>
            <b>User Name: ${dataValues.student.username}</b><br/>
@@ -237,7 +238,7 @@ const checkCustomer = () => {
             .then(() => {
               customer.update({
                 lastEmailSent: 'credentials',
-                ...getDates(),
+                ...getDates(workshop.duration),
               });
               console.log('sent credentials email');
             })

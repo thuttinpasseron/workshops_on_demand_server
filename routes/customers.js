@@ -12,7 +12,7 @@ const session_type_coding_challenge = process.env.SESSION_TYPE_CODING_CHALLENGE;
 
 const router = express.Router();
 
-// end customer workshop trail in process.env.WORKSHOP_DURATION hours
+// end customer workshop trail in DB workshops table hours
 const getDates = (duration) => {
   const startDate = new Date();
   const endDate = new Date();
